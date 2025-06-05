@@ -61,14 +61,36 @@ router.post('/login', async(req, res) => {
       });
     }
 
-    // TODO: Find user by email
-    // TODO: Compare password with hashed password
-    // TODO: Generate JWT token
+    // Find user by email
+    const user = await authQueries.getUserByEmail(email);
+    if (!user) {
+      return res.status(401).json({
+        error: 'Invalid email or password'
+      });
+    }
+
+    // Simple password comparison (plain text for demo)
+    if (password !== user.password) {
+      return res.status(401).json({
+        error: 'Invalid email or password'
+      });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: user.id, email: user.email },
+      JWT_SECRET,
+      { expiresIn: '24h' }
+    );
 
     res.json({
       message: 'Login successful',
-      // token: 'jwt_token here',
-      // user: { id, email, name }
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name
+      }
     });
 
   } catch (error) {
