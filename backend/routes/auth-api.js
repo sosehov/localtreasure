@@ -1,25 +1,48 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const authQueries = require('../db/queries/auth');
+
+// Simple secret for demo purposes
+const JWT_SECRET = 'demo-secret-key';
 
 router.post('/register', async(req, res) => {
   try {
     const { email, password, name } = req.body;
 
+    // Basic validation
     if (!email || !password || !name) {
       return res.status(400).json({
         error: 'Email, password, and name are required'
       });
     }
 
-    // TODO: Check if user already exists
-    // TODO: Hash password
-    // TODO: Save user to database
-    // TODO: Generate JWT token
+    // Check if user already exists
+    const existingUser = await authQueries.getUserByEmail(email);
+    if (existingUser) {
+      return res.status(4400).json({
+        error: 'User with this email already exists'
+      });
+    }
+
+    // Save user to database
+    const newUser = await authQueries.createUser(name, email, password);
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: newUser.id, email:newUser.email },
+      JWT_SECRET,
+      { expiresIn: '24' }
+    );
 
     res.status(201).json({
       message: 'User registered successfully',
-      // user: { id, email, name } // Don't send password
+      token,
+      user: {
+        id: newUser.id,
+        email: newUser.email,
+        name: newUser.name
+      }
     });
 
   } catch (error) {
