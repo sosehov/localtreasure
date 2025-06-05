@@ -53,3 +53,9 @@ router.post('/login', async(req, res) => {
     res.status(500).json({ error: 'Server error during login' });
   }
 });
+
+router.post('/logout', (req, res) => {
+  res.json({ message: 'Logout successful' });
+});
+
+module.exports = router;
