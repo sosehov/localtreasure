@@ -13,3 +13,13 @@ If you are developing a production application, we recommend using TypeScript wi
 
 
 please run npm install --legacy-peer-deps
+
+## Run The Development Server
+
+Start the server with
+
+```sh
+npm run dev
+```
+
+You can visit the running application at [http://localhost:5173](http://localhost:5173)
