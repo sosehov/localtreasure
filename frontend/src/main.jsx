@@ -5,6 +5,7 @@ import App from './App.jsx'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomeRoute from './routes/home/index.jsx';
 import ProfileRoute from './routes/profile/index.jsx';
+import MainLayout from './MainLayout.jsx';
 
 
 
@@ -12,12 +13,14 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
 
     <BrowserRouter>
-    <Routes>
-        <Route path= "/"
-        element={<HomeRoute/>} />
-        <Route path="/profile"
-        element={<ProfileRoute/>} />
-    </Routes>
+        <MainLayout>
+            <Routes>
+                <Route path= "/"
+                element={<HomeRoute/>} />
+                <Route path="/profile"
+                element={<ProfileRoute/>} />
+            </Routes>
+        </MainLayout>
     </BrowserRouter>
     
   </StrictMode>,
