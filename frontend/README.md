@@ -22,4 +22,4 @@ Start the server with
 npm run dev
 ```
 
-You can visit the running application at [http://localhost:5173](http://localhost:5173)
+You can visit the running application at [http://localhost:5174](http://localhost:5174)

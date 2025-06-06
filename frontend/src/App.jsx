@@ -2,6 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import React from 'react'
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import {
   IconArrowLeft,
@@ -9,6 +10,7 @@ import {
   IconUserBolt,
   IconList
 } from "@tabler/icons-react";
+
 
 function App() {
    
@@ -77,7 +79,6 @@ function App() {
         {/* End Sidebar */}
 
         {/* Add all other UI components here */}
-
              <p>tester</p>
       </div>
   )
