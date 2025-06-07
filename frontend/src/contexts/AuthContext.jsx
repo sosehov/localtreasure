@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
@@ -14,6 +15,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   // Check for existing token on app load
   useEffect(() => {
@@ -44,6 +46,7 @@ export const AuthProvider = ({ children }) => {
         setUser(data.user);
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
+        navigate('/'); // Redirect to home after login
         return { success: true };
       } else {
         return { success: false, error: data.error };
@@ -70,6 +73,7 @@ export const AuthProvider = ({ children }) => {
           setUser(data.user);
           localStorage.setItem('token', data.token);
           localStorage.setItem('user', JSON.stringify(data.user));
+          navigate('/');
           return { success: true };
         } else {
           return { success: false, error: data.error };
@@ -84,6 +88,7 @@ export const AuthProvider = ({ children }) => {
       setUser(ull);
       localStorage.removeItem('token');
       localStorage.removeItem('user');
+      navigate('/');
     };
 
     const value = {
