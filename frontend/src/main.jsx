@@ -1,7 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.jsx'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomeRoute from './routes/home/index.jsx';
 import ProfileRoute from './routes/profile/index.jsx';
@@ -12,20 +11,28 @@ import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AuthProvider>
-      <BrowserRouter>
-          <MainLayout>
-              <Routes>
-                  <Route path= "/" element={<HomeRoute/>} />
-                  <Route path="/auth" element={<AuthPage/>} />
-                  <Route path="/profile" element={
-                    <ProtectedRoute>
-                      <ProfileRoute/>
-                    </ProtectedRoute>
-                  } />
-              </Routes>
-          </MainLayout>
-      </BrowserRouter>
-    </AuthProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          {/* Route without layout for auth page */}
+          <Route path="/auth" element={<AuthPage/>} />
+          
+          {/* Routes with layout */}
+          <Route path="/" element={
+            <MainLayout>
+              <HomeRoute/>
+            </MainLayout>
+          } />
+          
+          <Route path="/profile" element={
+            <MainLayout>
+              <ProtectedRoute>
+                <ProfileRoute/>
+              </ProtectedRoute>
+            </MainLayout>
+          } />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   </StrictMode>,
 )
