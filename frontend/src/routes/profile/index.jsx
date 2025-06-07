@@ -1,6 +1,10 @@
+import Dialog from "../../components/Dialog";
+import ExpandableCardDemo from "../../components/ExpandableCardDemo"
 const ProfileRoute = ({}) => {
     return (
-<p>profile route</p>
+         <article>
+            <ExpandableCardDemo />
+    </article>
     )
 }
 
