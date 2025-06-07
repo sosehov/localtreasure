@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-//import SidebarComponent from '@/components/Sidebar';
+import SidebarComponent from '@/components/Sidebar';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext.jsx';
@@ -36,7 +36,7 @@ import { useAuth } from './contexts/AuthContext.jsx';
       </nav>
         
       <div className='flex flex-row'>
-        {/* <SidebarComponent/> */}
+        <SidebarComponent/>
         <main className="main-content">
           {children}
         </main>
