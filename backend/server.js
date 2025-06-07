@@ -4,9 +4,15 @@ require('dotenv').config();
 // Web server config
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 
 const PORT = process.env.PORT || 8080;
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:5173', // Frontend URL
+  credentials: true
+}));
 
 app.set('view engine', 'ejs');
 
@@ -16,6 +22,7 @@ app.set('view engine', 'ejs');
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use(express.json());
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
@@ -31,6 +38,7 @@ app.use('/api/users', userApiRoutes);
 app.use('/api/auth', authApiRoutes);
 app.use('/api/widgets', widgetApiRoutes);
 app.use('/users', usersRoutes);
+
 // Note: mount other resources here, using the same pattern above
 
 // Home page
