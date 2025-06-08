@@ -11,7 +11,6 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { put } from "@vercel/blob/client";
 
 import { useEffect, useState } from "react";
 import {
@@ -51,6 +50,8 @@ export function CreateSalesDialog() {
     fetchCategories();
   }, []);
 
+
+//photo handling here:
   const handlePhotoChange = (e) => {
     const file = e.target.files?.[0];
     if (file) setPhotoFile(file);
@@ -72,6 +73,7 @@ const handleUploadPhoto = async () => {
       method: "POST",
       body: formData,
     });
+    
 
     const data = await response.json();
 
@@ -95,12 +97,11 @@ const handleUploadPhoto = async () => {
     setSubmitting(true);
 
     console.log('creating..')
-    let photoUrlToUse = photoUrl;
 
 
    if (photoFile && !photoUrl) {
   const uploadedUrl = await handleUploadPhoto();
-  photoUrlToUse = uploadedUrl;
+  setPhotoUrl(uploadedUrl);
 }
 
 if (!selectedCategory) {
@@ -114,7 +115,7 @@ if (!selectedCategory) {
       price: parseFloat(price).toFixed(2),
       category_id: selectedCategory,
       description,
-      photo_url: photoUrlToUse,
+      photo_url: photoUrl,
       user_id: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
     };
 
@@ -124,7 +125,7 @@ if (!selectedCategory) {
             headers: {
             "Content-Type": "application/json",
             },
-            body: JSON.stringify(payload),
+            body: JSON.stringify(payload), //to pass as a string instead of an object
         });
 
         if (!res.ok) throw new Error("Failed to create sale");
