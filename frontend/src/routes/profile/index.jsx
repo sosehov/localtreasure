@@ -32,9 +32,9 @@ const ProfileRoute = ({}) => {
 
 
     return (
-         <article>
+         <div className="w-full">
             <ExpandableCardDemo sales={sales}/>
-    </article>
+    </div>
     )
 }
 
