@@ -8,5 +8,5 @@ CREATE TABLE sales (
   price_cents INTEGER NOT NULL,
   category_id INTEGER REFERENCES categories(id),
   is_sold BOOLEAN DEFAULT FALSE,
-  photo_url VARCHAR(255)
+  image_url VARCHAR(255)
 );

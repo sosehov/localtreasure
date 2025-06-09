@@ -1,4 +1,3 @@
--- Users table seeds here (Example)
 INSERT INTO users (name, email, address, bio, is_admin, contact_info ) 
 VALUES (
   'Alice Henderson',
