@@ -51,7 +51,7 @@ export function CreateSalesDialog() {
   }, []);
 
 
-//photo handling here:
+//photo handling
   const handlePhotoChange = (e) => {
     const file = e.target.files?.[0];
     if (file) setPhotoFile(file);
@@ -73,7 +73,6 @@ const handleUploadPhoto = async () => {
       method: "POST",
       body: formData,
     });
-    
 
     const data = await response.json();
 
@@ -97,12 +96,14 @@ const handleUploadPhoto = async () => {
     setSubmitting(true);
 
     console.log('creating..')
+    
+    let photoUrlToUse = photoUrl;
 
 
-   if (photoFile && !photoUrl) {
-  const uploadedUrl = await handleUploadPhoto();
-  setPhotoUrl(uploadedUrl);
-}
+  if (photoFile && !photoUrl) {
+    const uploadedUrl = await handleUploadPhoto();
+    photoUrlToUse = uploadedUrl;
+  }
 
 if (!selectedCategory) {
   alert("Please select a category.");
@@ -115,7 +116,7 @@ if (!selectedCategory) {
       price: parseFloat(price).toFixed(2),
       category_id: selectedCategory,
       description,
-      photo_url: photoUrl,
+      photo_url: photoUrlToUse,
       user_id: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
     };
 
@@ -125,7 +126,7 @@ if (!selectedCategory) {
             headers: {
             "Content-Type": "application/json",
             },
-            body: JSON.stringify(payload), //to pass as a string instead of an object
+            body: JSON.stringify(payload),
         });
 
         if (!res.ok) throw new Error("Failed to create sale");
@@ -179,7 +180,7 @@ if (!selectedCategory) {
             </div>
             <div className="grid gap-3 w-full">
               <Label htmlFor="picture">Photo</Label>
-              <Input id="picture" name="photo" type="file" onChange={handlePhotoChange} />
+              <Input id="picture" name="photo" type="file" accept="image/png, image/gif, image/jpeg" onChange={handlePhotoChange} />
             </div>
           </div>
 
@@ -194,7 +195,7 @@ if (!selectedCategory) {
               <Button variant="outline">Cancel</Button>
             </DialogClose>
             <Button type="submit" disabled={uploading} onClick={handleSubmit}>
-               {uploading || submitting ? "Saving..." : "Save changes"}
+               {uploading || submitting ? "Saving..." : "Create"}
             </Button>
           </DialogFooter>
         </DialogContent>

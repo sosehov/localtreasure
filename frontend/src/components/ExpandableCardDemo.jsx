@@ -26,13 +26,15 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { CreateSalesDialog } from "./CreateSalesDialog";
+import { EditSalesDialog } from "./EditSalesDialog";
 
 export function ExpandableCardDemo({sales}) {
   const [active, setActive] = useState(null);
+  const [sale, setSale] = useState(null);
   const id = useId();
   const ref = useRef(null);
-  const [formData, setFormData] = useState({title:"", artist:""})
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [userId, setUserId] = useState('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa')
 
   useEffect(() => {
     function onKeyDown(event) {
@@ -53,11 +55,33 @@ export function ExpandableCardDemo({sales}) {
 
   useOutsideClick(ref, () => setActive(null));
 
-  const handleEditDialog = (e, title, artist, description) => {
-    e.stopPropagation();
-    setFormData({title, artist, description})
+  const handleEditDialog = (e, editSale) => {
+      e.stopPropagation();
+    setSale(editSale)
     setDialogOpen(true)
   }
+
+const handleDeleteSale = async ( e, saleId) => {
+  e.stopPropagation();
+
+  try {
+    const res = await fetch("http://localhost:8080/api/users/deleteSale", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ saleId, 'user_id': userId }),
+    });
+
+    if (!res.ok) throw new Error("Failed to delete sale");
+    console.log("Sale deleted!");
+
+    // Refresh page or state
+    window.location.reload();
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   const renderSales = () => {
     if(sales === undefined || sales.length == 0 || sales === null){
@@ -100,7 +124,7 @@ export function ExpandableCardDemo({sales}) {
     <DropdownMenuLabel>Actions</DropdownMenuLabel>
     <DropdownMenuSeparator />
     <DropdownMenuItem onClick={(e)=>  handleEditDialog(e, sale)}>Edit</DropdownMenuItem>
-    <DropdownMenuItem onClick={(e)=> e.stopPropagation()}>Delete</DropdownMenuItem>
+    <DropdownMenuItem onClick={(e)=> handleDeleteSale(e, sale.id)}>Delete</DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>
               </div>
@@ -111,9 +135,38 @@ export function ExpandableCardDemo({sales}) {
     )}
   }
 
+  const handleStatusChange = async () => {
+
+    const payload = {
+      ...active,
+      is_sold:!active.is_sold
+    };
+
+    try {
+      const res = await fetch("http://localhost:8080/api/users/updateSale", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error("Failed to update sale");
+      console.log("Sale updated!");
+      window.location.reload();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   return (
     <>
     <CreateSalesDialog/>
+    <EditSalesDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        defaultValues={sale}
+      />
+
+   
       <AnimatePresence>
         {active && typeof active === "object" && (
           <motion.div
@@ -126,24 +179,22 @@ export function ExpandableCardDemo({sales}) {
       <AnimatePresence>
 
 
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen} className="bg-white">
+        {/* <Dialog open={dialogOpen} onOpenChange={setDialogOpen} className="bg-white">
       <form>
         <DialogContent className="sm:max-w-[425px] bg-white" >
           <DialogHeader>
             <DialogTitle>Edit listing</DialogTitle>
           </DialogHeader>
-          <div className="grid gap-4">
-            <div className="grid gap-3">
+          <div className="flex flex-row gap-4">
+            <div className="grid gap-3 w-full">
               <Label htmlFor="name-1">Name</Label>
-              <Input id="name-1" name="name" defaultValue={formData.title} />
+              <Input id="name-1" name="name"    value={title}
+                onChange={(e) => setTitle(e.target.value)}/>
             </div>
-            <div className="grid gap-3">
-              <Label htmlFor="username-1">Artist</Label>
-              <Input id="username-1" name="username" defaultValue={formData.artist} />
-            </div>
-                <div className="grid gap-3">
-              <Label htmlFor="username-1">description</Label>
-              <Textarea id="description" name="description" defaultValue={formData.description} />
+            <div className="grid gap-3 w-full">
+              <Label htmlFor="price-1">Price</Label>
+              <Input id="price-1" name="price" type="number" value={price}
+                onChange={(e) => setPrice(e.target.value)} />
             </div>
           </div>
           <DialogFooter>
@@ -154,7 +205,7 @@ export function ExpandableCardDemo({sales}) {
           </DialogFooter>
         </DialogContent>
       </form>
-    </Dialog>
+    </Dialog> */}
 
     
         {active && typeof active === "object" ? (
@@ -196,29 +247,38 @@ export function ExpandableCardDemo({sales}) {
 
               <div>
                 <div className="flex justify-between items-start p-4">
-                  <div className="">
+                  <div className="flex flex-col">
+                    <div className="flex flex-row gap-5">
                     <motion.h3
                       layoutId={`title-${active.title}-${id}`}
                       className="font-medium text-neutral-700 dark:text-neutral-200 text-base">
                       {active.title}
                     </motion.h3>
                     <motion.p
+                    layoutId={`title-${active.price}-${id}`}
+                    className="text-neutral-600 dark:text-neutral-400 text-base">
+                    ${active.price}
+                    </motion.p>
+                    </div>
+                    <div className="mt-5">
+                    <motion.p
                       layoutId={`description-${active.description}-${id}`}
                       className="text-neutral-600 dark:text-neutral-400 text-base">
                       {active.description}
                     </motion.p>
+                    </div>
+
                   </div>
 
-                  <motion.a
+                  <motion.button
                     layout
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    href={active.ctaLink}
-                    target="_blank"
+                    onClick={handleStatusChange}
                     className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white">
-                    {active.ctaText}
-                  </motion.a>
+                    {active.is_sold == false ? 'Mark as sold' : 'Sold' }
+                  </motion.button>
                 </div>
                 <div className="pt-4 relative px-4">
                   <motion.div
