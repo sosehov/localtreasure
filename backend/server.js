@@ -34,6 +34,7 @@ const userApiRoutes = require('./routes/users-api');
 const authApiRoutes = require('./routes/auth-api');
 const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
+const messagesRoutes = require('./routes/messages');
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -42,6 +43,7 @@ app.use('/api/users', userApiRoutes);
 app.use('/api/auth', authApiRoutes);
 app.use('/api/widgets', widgetApiRoutes);
 app.use('/users', usersRoutes);
+app.use('/messages', messagesRoutes);
 // Note: mount other resources here, using the same pattern above
 
 // Home page
@@ -52,14 +54,23 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-app.get('/messages', (req, res) => {
-  return res.json({hello: 'world'});
-});
+
+// change this to db later
+const users = [];
+let id = 1;
 
 io.on('connection', (socket) => {
-  console.log('Websocket connection active');
-  socket.on('message', data => {
-    io.emit('message', `${socket.id.substring}: ${data}`)
+  const name = socket.id;
+  users.push(name);
+
+  socket.emit('NEW_CONNECTION', { name, users });
+  socket.broadcast.emit('NEW_USER', { name });
+  console.log("someone has connected");
+
+  socket.on('SEND_MESSAGE', payload => {
+    console.log("message has been sent by client");
+    io.emit('NEW_MESSAGE', {id, ...payload});
+    id++;
   })
 });
 
