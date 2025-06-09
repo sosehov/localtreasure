@@ -13,7 +13,4 @@ CREATE TABLE events (
   -- location GEOGRAPHY()
   is_active BOOLEAN DEFAULT TRUE,
   category_id INT,
-
-  
-
-)
+);

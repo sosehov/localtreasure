@@ -9,4 +9,4 @@ CREATE TABLE sales (
   category_id INTEGER REFERENCES categories(id),
   is_sold BOOLEAN DEFAULT FALSE,
   photo_url VARCHAR(255),
-)
+);
