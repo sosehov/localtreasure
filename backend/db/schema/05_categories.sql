@@ -1,5 +1,0 @@
-DROP TABLE IF EXISTS widgets CASCADE;
-
-CREATE TABLE categories (
-  id SERIAL PRIMARY KEY REFERENCES sales(id) NOT NULL,
-);

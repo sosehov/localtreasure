@@ -5,8 +5,8 @@ CREATE TABLE sales (
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   title TEXT NOT NULL,
   description VARCHAR(255),
-  price_cents, INTEGER NOT NULL,
+  price_cents INTEGER NOT NULL,
   category_id INTEGER REFERENCES categories(id),
   is_sold BOOLEAN DEFAULT FALSE,
-  photo_url VARCHAR(255),
+  photo_url VARCHAR(255)
 );
