@@ -1,18 +1,27 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import React from 'react'
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import HomeRoute from './routes/home/index.jsx';
+import ProfileRoute from './routes/profile/index.jsx';
+import MainLayout from './MainLayout.jsx';
+import AuthPage from './components/AuthPage.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
+import './App.css';
 
-
-
-function App() {
-   
-
-
+export default function App() {
   return (
-   <div>app</div>
-  )
-}
+    <Routes>
+      {/* Auth route without layout */}
+      <Route path="/auth" element={<AuthPage />} />
 
-export default App
+      {/* Routes with layout */}
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<HomeRoute />} />
+        <Route path="/profile" element={
+          <ProtectedRoute>
+            <ProfileRoute/>
+          </ProtectedRoute>
+        } />
+      </Route>
+    </Routes>
+  );
+}

@@ -9,6 +9,10 @@ const cors = require('cors');
 const PORT = process.env.PORT || 8080;
 const app = express();
 
+app.use(cors({
+  origin: 'http://localhost:5173', // Frontend URL
+  credentials: true
+}));
 
 app.set('view engine', 'ejs');
 
@@ -20,6 +24,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use(express.json());
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
@@ -35,6 +40,7 @@ app.use('/api/users', userApiRoutes);
 app.use('/api/auth', authApiRoutes);
 app.use('/api/widgets', widgetApiRoutes);
 app.use('/users', usersRoutes);
+
 // Note: mount other resources here, using the same pattern above
 
 // Home page
