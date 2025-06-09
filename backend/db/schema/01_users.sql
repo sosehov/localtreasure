@@ -9,5 +9,5 @@ CREATE TABLE users (
   bio VARCHAR(255) NOT NULL,
   -- location GEOGRAPHY(POINT)
   is_admin BOOLEAN DEFAULT FALSE,
-  contact_info VARCHAR(255)
+  contact_info INTEGER
 );
