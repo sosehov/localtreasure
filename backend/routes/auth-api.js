@@ -20,7 +20,7 @@ router.post('/register', async(req, res) => {
     // Check if user already exists
     const existingUser = await authQueries.getUserByEmail(email);
     if (existingUser) {
-      return res.status(4400).json({
+      return res.status(400).json({
         error: 'User with this email already exists'
       });
     }
@@ -32,7 +32,7 @@ router.post('/register', async(req, res) => {
     const token = jwt.sign(
       { userId: newUser.id, email:newUser.email },
       JWT_SECRET,
-      { expiresIn: '24' }
+      { expiresIn: '24h' }
     );
 
     res.status(201).json({

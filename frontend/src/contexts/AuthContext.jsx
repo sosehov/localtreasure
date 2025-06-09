@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
@@ -14,6 +15,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   // Check for existing token on app load
   useEffect(() => {
@@ -29,7 +31,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async(email, password) => {
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch('http://localhost:8080/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,6 +46,7 @@ export const AuthProvider = ({ children }) => {
         setUser(data.user);
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
+        navigate('/'); // Redirect to home after login
         return { success: true };
       } else {
         return { success: false, error: data.error };
@@ -55,7 +58,7 @@ export const AuthProvider = ({ children }) => {
 
     const register = async(name, email, password) => {
       try {
-        const response = await fetch('/api/auth/register', {
+        const response = await fetch('http://localhost:8080/api/auth/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -70,6 +73,7 @@ export const AuthProvider = ({ children }) => {
           setUser(data.user);
           localStorage.setItem('token', data.token);
           localStorage.setItem('user', JSON.stringify(data.user));
+          navigate('/');
           return { success: true };
         } else {
           return { success: false, error: data.error };
@@ -81,9 +85,10 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
       setToken(null);
-      setUser(ull);
+      setUser(null);
       localStorage.removeItem('token');
       localStorage.removeItem('user');
+      navigate('/');
     };
 
     const value = {

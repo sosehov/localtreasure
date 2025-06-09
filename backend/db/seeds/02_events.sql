@@ -1,0 +1,2 @@
+INSERT INTO events (user_id, title, description, address, start_time, end_time, is_active, category_id)
+VALUES (1, 'Spring Cleaning Sale!', 'Useful items that will assist in things such as triming your lawn or clean your car!', '123 Mapletree lane', '10:00', '14:00', TRUE, 1);
