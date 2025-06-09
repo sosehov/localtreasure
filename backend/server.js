@@ -5,8 +5,19 @@ require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 
+// Webscoket
+const { createServer } = require('node:http');
+const { Server } = require('socket.io');
+
 const PORT = process.env.PORT || 8080;
 const app = express();
+const server = createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ['GET', 'POST']
+  }
+});
 
 app.set('view engine', 'ejs');
 
@@ -41,6 +52,17 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-app.listen(PORT, () => {
+app.get('/messages', (req, res) => {
+  return res.json({hello: 'world'});
+});
+
+io.on('connection', (socket) => {
+  console.log('Websocket connection active');
+  socket.on('message', data => {
+    io.emit('message', `${socket.id.substring}: ${data}`)
+  })
+});
+
+server.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });

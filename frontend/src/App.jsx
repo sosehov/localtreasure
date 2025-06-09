@@ -1,8 +1,11 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import React from 'react'
+import { io } from 'socket.io-client'
+const URL = 'http://localhost:8080';
+
+const socket = io(URL);
+
 
 
 
