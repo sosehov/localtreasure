@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const calendarQueries = require('../db/queries/calendar');
 
 // Get all events for a user
 router.get('/calendar', (req, res) => {
