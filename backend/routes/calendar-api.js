@@ -20,3 +20,4 @@ router.post('/calendar', (req, res) => {
     .then(data => res.json(data.rows[0]))
     .catch(err => res.status(500).json({ error: err.message }));
 });
+module.exports = router;
