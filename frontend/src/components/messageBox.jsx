@@ -28,22 +28,33 @@ const MessageBox = () => {
       console.log(payload);
       setUsers(prev => [...prev, payload.name]);
     }
-    // const newMessage = payload => {
-    //   console.log("message is here!");
-    //   console.log(payload);
-    //   setMessages(prev => [...prev, payload]);
-    // }
+    const newMessage = payload => {
+      console.log("message is here!");
+      console.log(payload);
+      setMessages(prev => [...prev, payload.message]);
+    }
 
     socket.on('NEW_CONNECTION', newConnection);
     socket.on('NEW_USER', newUser);
-    // socket.on('NEW_MESSAGE', newMessage);
+    socket.on('NEW_MESSAGE', newMessage);
 
   }, [])
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // form validation
+    const message = e.target[0].value;
+    console.log('message from form', message);
+    socketRef.current.emit('SEND_MESSAGE', { message });
+    e.target.reset();
+  }
+
   return (
     <div className = "message-box">
-      { messages }
-      <form action="/messages" method="POST">
+      <ul>
+        { messages }
+      </ul>
+      <form onSubmit={handleSubmit}>
         <input type="text"></input>
         <button type="submit">Send</button>
       </form>
