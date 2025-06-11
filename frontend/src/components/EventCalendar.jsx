@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { calendar } from '@/components/ui/calendar';
+import { Calendar } from '@/components/ui/calendar';
 
 const EventCalendar = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
