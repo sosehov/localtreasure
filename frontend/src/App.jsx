@@ -17,9 +17,9 @@ export default function App() {
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomeRoute />} />
         <Route path="/profile" element={
-        //   <ProtectedRoute>
+             <ProtectedRoute>
             <ProfileRoute/>
-        //   </ProtectedRoute>
+             </ProtectedRoute>
         } />
       </Route>
     </Routes>
