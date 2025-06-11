@@ -8,6 +8,7 @@ import AuthPage from './components/AuthPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import './App.css';
 import './index.css';
+import EventCalendar from './components/EventCalendar.jsx';
 
 export default function App() {
   return (
@@ -27,7 +28,7 @@ export default function App() {
 
         <Route path="/calendar" element={
           <ProtectedRoute>
-            <CalendarRoute />
+            <EventCalendar />
           </ProtectedRoute>
         } />
       </Route>
