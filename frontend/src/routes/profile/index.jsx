@@ -9,6 +9,7 @@ const ProfileRoute = ({}) => {
 
 
     useEffect(() => {
+        console.log("fetching sales")
         const fetchSales = async () => {
             try{
                 const response = await fetch(`http://localhost:8080/api/users/sales?user=1`)

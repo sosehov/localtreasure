@@ -117,7 +117,7 @@ if (!selectedCategory) {
       category_id: selectedCategory,
       description,
       photo_url: photoUrlToUse,
-      user_id: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+      user_id: 1,
     };
 
     try {
@@ -172,7 +172,7 @@ if (!selectedCategory) {
                 <SelectContent className="bg-white">
                   {categories.map((cat) => (
                     <SelectItem key={cat.id} value={cat.id}>
-                      {cat.title}
+                      {cat.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
