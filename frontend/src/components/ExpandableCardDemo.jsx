@@ -34,7 +34,7 @@ export function ExpandableCardDemo({sales}) {
   const id = useId();
   const ref = useRef(null);
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [userId, setUserId] = useState('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa')
+  const [userId, setUserId] = useState('1')
 
   useEffect(() => {
     function onKeyDown(event) {

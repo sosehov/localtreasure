@@ -6,7 +6,7 @@ import MainLayout from './MainLayout.jsx';
 import AuthPage from './components/AuthPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import './App.css';
-
+import './index.css';
 export default function App() {
   return (
     <Routes>
@@ -17,9 +17,9 @@ export default function App() {
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomeRoute />} />
         <Route path="/profile" element={
-          <ProtectedRoute>
+        //   <ProtectedRoute>
             <ProfileRoute/>
-          </ProtectedRoute>
+        //   </ProtectedRoute>
         } />
       </Route>
     </Routes>
