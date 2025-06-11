@@ -7,6 +7,9 @@ import AuthPage from './components/AuthPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import './App.css';
 
+import MessageBox from './components/messageBox.jsx';
+
+
 export default function App() {
   return (
     <Routes>
@@ -21,7 +24,8 @@ export default function App() {
             <ProfileRoute/>
           </ProtectedRoute>
         } />
-      </Route>
+      </Route> 
+      <Route path="/messages" element={<MessageBox />} />
     </Routes>
   );
 }

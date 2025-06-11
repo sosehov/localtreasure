@@ -17,6 +17,7 @@ app.use(cors({
   origin: 'http://localhost:5173', // Frontend URL
   credentials: true
 }));
+
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
@@ -69,6 +70,7 @@ const users = [];
 let id = 1;
 
 io.on('connection', (socket) => {
+  // console.log("io connection active");
   const name = socket.id;
   users.push(name);
 
@@ -76,12 +78,13 @@ io.on('connection', (socket) => {
   socket.broadcast.emit('NEW_USER', { name });
   console.log("someone has connected");
 
-  socket.on('SEND_MESSAGE', payload => {
-    console.log("message has been sent by client");
-    io.emit('NEW_MESSAGE', {id, ...payload});
-    id++;
-  })
+  // socket.on('SEND_MESSAGE', payload => {
+  //   console.log("message has been sent by client");
+  //   io.emit('NEW_MESSAGE', {id, ...payload});
+  //   id++;
+  // })
 });
+
 
 server.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
