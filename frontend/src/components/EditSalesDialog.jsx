@@ -35,10 +35,10 @@ export function EditSalesDialog({ open, onOpenChange, defaultValues }) {
   useEffect(() => {
     if (defaultValues) {
       setTitle(defaultValues.title || "");
-      setPrice(defaultValues.price || "");
+      setPrice(defaultValues.price_cents || "");
       setDescription(defaultValues.description || "");
       setSelectedCategory(defaultValues.category_id || "");
-      setPhotoUrl(defaultValues.photo_id || null);
+      setPhotoUrl(defaultValues.image_url || null);
       setPhotoFile(null); // Clear file input
     }
   }, [defaultValues]);
@@ -104,7 +104,7 @@ export function EditSalesDialog({ open, onOpenChange, defaultValues }) {
       price: parseFloat(price).toFixed(2),
       category_id: selectedCategory,
       description,
-      photo_url: photoUrlToUse,
+      photo_id: photoUrlToUse,
     };
 
     console.log(payload)
@@ -155,7 +155,7 @@ export function EditSalesDialog({ open, onOpenChange, defaultValues }) {
               <SelectContent className="bg-white">
                 {categories.map((cat) => (
                   <SelectItem key={cat.id} value={cat.id}>
-                    {cat.title}
+                    {cat.name}
                   </SelectItem>
                 ))}
               </SelectContent>
