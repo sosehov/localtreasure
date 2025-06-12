@@ -104,7 +104,7 @@ export function EditSalesDialog({ open, onOpenChange, defaultValues }) {
       price: parseFloat(price).toFixed(2),
       category_id: selectedCategory,
       description,
-      photo_id: photoUrlToUse,
+      image_url: photoUrlToUse,
     };
 
     console.log(payload)

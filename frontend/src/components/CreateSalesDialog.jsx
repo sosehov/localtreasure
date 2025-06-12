@@ -116,7 +116,7 @@ if (!selectedCategory) {
       price: parseFloat(price).toFixed(2),
       category_id: selectedCategory,
       description,
-      photo_url: photoUrlToUse,
+      image_url: photoUrlToUse,
       user_id: 1,
     };
 
