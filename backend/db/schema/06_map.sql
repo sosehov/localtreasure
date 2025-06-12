@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS map CASCADE;
+
+CREATE TABLE map (
+  
+)
