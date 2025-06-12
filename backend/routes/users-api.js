@@ -98,4 +98,14 @@ router.post('/updateSale', async  (req, res) => {
   }
 });
 
+router.get('/allSales', (req, res) => {
+  userQueries.getAllSales()
+    .then(sales => {
+      res.json({ sales });
+    })
+    .catch(err => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
 module.exports = router;
