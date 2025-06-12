@@ -137,10 +137,16 @@ const handleDeleteSale = async ( e, saleId) => {
 
   const handleStatusChange = async () => {
 
-    const payload = {
-      ...active,
-      is_sold:!active.is_sold
-    };
+const payload = {
+  id: active.id,
+  title: active.title,
+  description: active.description,
+  price: Number(active.price_cents),
+  category_id: Number(active.category_id),
+  image_url: active.image_url,
+  user_id: userId,
+  is_sold: !active.is_sold
+};
 
     try {
       const res = await fetch("http://localhost:8080/api/users/updateSale", {
@@ -151,9 +157,13 @@ const handleDeleteSale = async ( e, saleId) => {
 
       if (!res.ok) throw new Error("Failed to update sale");
       console.log("Sale updated!");
-      window.location.reload();
+window.location.reload()
+    setActive((prev) => ({
+      ...prev,
+      is_sold: !prev.is_sold,
+    }));
     } catch (err) {
-      console.error(err);
+      console.error(err);s
     }
   }
 

@@ -44,14 +44,14 @@ const deleteUserSale = ( {saleId, user_id} ) => {
 };
 
 
-const createUserSale = ({ title, description, price, category_id, photo_url, user_id }) => {
+const createUserSale = ({ title, description, price, category_id, image_url, user_id }) => {
 
     const saleId = uuidv4(); //creates random UUID
     
     const query = {
-        text: `INSERT INTO sales (id, title, description, price, category_id, is_sold, photo_id, user_id)
-               VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-        values: [saleId, title, description, price, category_id, false, photo_url, user_id]
+        text: `INSERT INTO sales ( title, description, price_cents, category_id, is_sold, image_url, user_id)
+               VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        values: [title, description, price, category_id, false, image_url, user_id]
     }
 
  return db.query(query)
@@ -65,18 +65,18 @@ const createUserSale = ({ title, description, price, category_id, photo_url, use
 };
 
 
-const updateUserSale = ({ saleId, title, description, price, category_id, photo_id, user_id, is_sold }) => {
+const updateUserSale = ({ saleId, title, description, price, category_id, image_url, user_id, is_sold }) => {
   const query = {
     text: `UPDATE sales
            SET title = $1,
                description = $2,
-               price = $3,
+               price_cents = $3,
                category_id = $4,
-               photo_id = $5,
+               image_url = $5,
                user_id = $6,
-               is_sold = $8
+                is_sold = $8 
            WHERE id = $7`,
-    values: [title, description, price, category_id, photo_id, user_id, saleId, is_sold]
+    values: [title, description, price, category_id, image_url, user_id, saleId, is_sold]
   };
 
   return db.query(query)
