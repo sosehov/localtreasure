@@ -28,7 +28,7 @@ import { Button } from "@/components/ui/button"
 import { CreateSalesDialog } from "./CreateSalesDialog";
 import { EditSalesDialog } from "./EditSalesDialog";
 
-export function ExpandableCardDemo({sales}) {
+export function ExpandableCardDemo({fetchSales, sales}) {
   const [active, setActive] = useState(null);
   const [sale, setSale] = useState(null);
   const id = useId();
@@ -77,7 +77,7 @@ const handleDeleteSale = async ( e, saleId) => {
     console.log("Sale deleted!");
 
     // Refresh page or state
-    window.location.reload();
+    fetchSales();
   } catch (err) {
     console.error(err);
   }
@@ -157,7 +157,7 @@ const payload = {
 
       if (!res.ok) throw new Error("Failed to update sale");
       console.log("Sale updated!");
-window.location.reload()
+    fetchSales()
     setActive((prev) => ({
       ...prev,
       is_sold: !prev.is_sold,
@@ -169,8 +169,9 @@ window.location.reload()
 
   return (
     <>
-    <CreateSalesDialog/>
+    <CreateSalesDialog fetchSales={fetchSales}/>
     <EditSalesDialog
+        fetchSales={fetchSales}
         open={dialogOpen}
         onOpenChange={setDialogOpen}
         defaultValues={sale}

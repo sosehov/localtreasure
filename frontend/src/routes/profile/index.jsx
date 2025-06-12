@@ -7,10 +7,7 @@ const ProfileRoute = ({}) => {
     const [sales, setSales] = useState([])
     const [loading, setLoading] = useState(true)
 
-
-    useEffect(() => {
-        console.log("fetching sales")
-        const fetchSales = async () => {
+    const fetchSales = async () => {
             try{
                 const response = await fetch(`http://localhost:8080/api/users/sales?user=1`)
                 if(!response.ok){
@@ -25,6 +22,9 @@ const ProfileRoute = ({}) => {
                 setLoading(false)
             }
         }
+
+    useEffect(() => {
+        console.log("fetching sales")
         
         fetchSales()
     },[userId])
@@ -34,7 +34,7 @@ const ProfileRoute = ({}) => {
 
     return (
          <div className="w-full">
-            <ExpandableCardDemo sales={sales}/>
+            <ExpandableCardDemo fetchSales={fetchSales} sales={sales}/>
     </div>
     )
 }
