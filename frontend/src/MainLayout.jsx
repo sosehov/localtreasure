@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import SidebarComponent from '@/components/Sidebar';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext.jsx';
 
  const MainLayout= ({children}) => {
@@ -20,7 +20,7 @@ import { useAuth } from './contexts/AuthContext.jsx';
           <Link to="/">Home</Link>
             
           {isAuthenticated ? (
-            <>
+              <>
               <Link to="/profile">Profile</Link>
               <div className="user-info">
                 <span>Welcome, {user?.name}!</span>
@@ -30,15 +30,15 @@ import { useAuth } from './contexts/AuthContext.jsx';
               </div>
             </>
           ) : (
-            <Link to="/auth">Login</Link>
-          )}
+              <Link to="/auth">Login</Link>
+            )}
         </div>
       </nav>
         
       <div className='flex flex-row'>
-        <SidebarComponent/>
+            <SidebarComponent/>
         <main className="main-content">
-          {children}
+          <Outlet/>
         </main>
       </div>
     </div>

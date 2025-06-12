@@ -6,15 +6,10 @@ const fs = require('fs');
 const chalk = require('chalk');
 const db = require('../db/connection');
 
-// PG connection setup
-// const connectionString = process.env.DATABASE_URL ||
-//   `postgresql://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?sslmode=disable`;
-// const client = new Client();
-
-// Loads the schema files from db/schema
+// Run all schema files in db/schema/
 const runSchemaFiles = async () => {
-  console.log(chalk.cyan(`-> Loading Schema Files ...`));
-  const schemaFilenames = fs.readdirSync('./db/schema');
+  console.log(chalk.cyan('-> Loading Schema Files ...'));
+  const schemaFilenames = fs.readdirSync('./db/schema').sort();
 
   for (const fn of schemaFilenames) {
     const sql = fs.readFileSync(`./db/schema/${fn}`, 'utf8');
@@ -23,11 +18,30 @@ const runSchemaFiles = async () => {
   }
 };
 
-const runSeedFiles = async () => {
-  console.log(chalk.cyan(`-> Loading Seeds ...`));
-  const schemaFilenames = fs.readdirSync('./db/seeds');
+// Run all migration files in db/migrations/
+const runMigrationFiles = async () => {
+  const dir = './db/migrations';
+  if (!fs.existsSync(dir)) {
+    console.log(chalk.yellow('-> No migrations directory found, skipping...'));
+    return;
+  }
 
-  for (const fn of schemaFilenames) {
+  console.log(chalk.cyan('-> Running Migration Files ...'));
+  const migrationFilenames = fs.readdirSync(dir).sort();
+
+  for (const fn of migrationFilenames) {
+    const sql = fs.readFileSync(`${dir}/${fn}`, 'utf8');
+    console.log(`\t-> Running ${chalk.magenta(fn)}`);
+    await db.query(sql);
+  }
+};
+
+// Run all seed files in db/seeds/
+const runSeedFiles = async () => {
+  console.log(chalk.cyan('-> Loading Seed Files ...'));
+  const seedFilenames = fs.readdirSync('./db/seeds').sort();
+
+  for (const fn of seedFilenames) {
     const sql = fs.readFileSync(`./db/seeds/${fn}`, 'utf8');
     console.log(`\t-> Running ${chalk.green(fn)}`);
     await db.query(sql);
@@ -40,11 +54,14 @@ const runResetDB = async () => {
       console.log(`-> Connecting to PG on ${process.env.DB_HOST} as ${process.env.DB_USER}...`);
 
     await runSchemaFiles();
+    await runMigrationFiles(); // 🆕 Migrations step
     await runSeedFiles();
+
+    console.log(chalk.green('✅ Database reset complete.'));
     process.exit();
   } catch (err) {
-    console.error(chalk.red(`Failed due to error: ${err}`));
-    process.exit();
+    console.error(chalk.red(`❌ Reset failed due to error: ${err}`));
+    process.exit(1);
   }
 };
 

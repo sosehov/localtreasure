@@ -34,7 +34,7 @@ export function ExpandableCardDemo({sales}) {
   const id = useId();
   const ref = useRef(null);
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [userId, setUserId] = useState('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa')
+  const [userId, setUserId] = useState('1')
 
   useEffect(() => {
     function onKeyDown(event) {
@@ -108,7 +108,7 @@ const handleDeleteSale = async ( e, saleId) => {
                 <img
                   width={100}
                   height={100}
-                  src={sale.photo_id}
+                  src={sale.image_url}
                   alt={sale.title}
                   className="h-60 w-full  rounded-lg object-cover object-top" />
               </motion.div>
@@ -240,7 +240,7 @@ const handleDeleteSale = async ( e, saleId) => {
                 <img
                   width={200}
                   height={200}
-                  src={active.photo_id}
+                  src={active.image_url}
                   alt={active.title}
                   className="w-full h-80 lg:h-80 sm:rounded-tr-lg sm:rounded-tl-lg object-cover object-top" />
               </motion.div>
@@ -255,9 +255,9 @@ const handleDeleteSale = async ( e, saleId) => {
                       {active.title}
                     </motion.h3>
                     <motion.p
-                    layoutId={`title-${active.price}-${id}`}
+                    layoutId={`title-${active.price_cents}-${id}`}
                     className="text-neutral-600 dark:text-neutral-400 text-base">
-                    ${active.price}
+                    ${active.price_cents}
                     </motion.p>
                     </div>
                     <div className="mt-5">

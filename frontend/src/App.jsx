@@ -2,10 +2,13 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import HomeRoute from './routes/home/index.jsx';
 import ProfileRoute from './routes/profile/index.jsx';
+import CalendarRoute from './routes/calendar/index.jsx'; // 🆕 Import Calendar
 import MainLayout from './MainLayout.jsx';
 import AuthPage from './components/AuthPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import './App.css';
+import './index.css';
+import EventCalendar from './components/EventCalendar.jsx';
 
 import MessageBox from './components/messageBox.jsx';
 
@@ -19,9 +22,16 @@ export default function App() {
       {/* Routes with layout */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomeRoute />} />
+        
         <Route path="/profile" element={
           <ProtectedRoute>
-            <ProfileRoute/>
+            <ProfileRoute />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/calendar" element={
+          <ProtectedRoute>
+            <EventCalendar />
           </ProtectedRoute>
         } />
       </Route> 

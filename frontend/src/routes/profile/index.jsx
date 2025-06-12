@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
-import Dialog from "../../components/Dialog";
 import ExpandableCardDemo from "../../components/ExpandableCardDemo"
 const ProfileRoute = ({}) => {
 
-    const [userId, setUserId] = useState('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa')
+
+    const [userId, setUserId] = useState('1')
     const [sales, setSales] = useState([])
     const [loading, setLoading] = useState(true)
 
 
     useEffect(() => {
+        console.log("fetching sales")
         const fetchSales = async () => {
             try{
-                const response = await fetch(`http://localhost:8080/api/users/sales?user=${userId}`)
+                const response = await fetch(`http://localhost:8080/api/users/sales?user=1`)
                 if(!response.ok){
                     throw new Error('Failed to fetch user sales')
                 }
