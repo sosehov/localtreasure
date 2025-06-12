@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar } from '@/components/ui/calendar'; // or your custom component
+import { Calendar } from '@/components/ui/calendar';
 
 const CalendarRoute = () => {
   return (
