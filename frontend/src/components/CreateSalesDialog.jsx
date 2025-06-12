@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-export function CreateSalesDialog() {
+export function CreateSalesDialog({fetchSales}) {
   const [photoFile, setPhotoFile] = useState(null);
   const [photoUrl, setPhotoUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -33,6 +33,7 @@ export function CreateSalesDialog() {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
 
+  const [open,setOpen] = useState(false);
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -135,15 +136,23 @@ if (!selectedCategory) {
         console.error(err);
     } finally {
         setSubmitting(false);
-        window.location.reload();
+       fetchSales()
+       setTitle("")
+       setDescription("")
+       setPrice("")
+       setPhotoFile(null)
+       setPhotoUrl("")
+       setSelectedCategory(null)
+       
+setOpen(false);
     }
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <form >
         <DialogTrigger asChild>
-          <Button variant="outline">Create</Button>
+          <Button onClick={() => setOpen(true)} variant="outline">Create</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[625px] bg-white">
           <DialogHeader>
