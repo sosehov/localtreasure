@@ -64,6 +64,10 @@ const createUserSale = ({ title, description, price, category_id, image_url, use
     });
 };
 
+const getAllSales = () => {
+  return db.query(`SELECT * FROM sales WHERE is_sold = FALSE ORDER BY id DESC;`)
+    .then(res => res.rows);
+};
 
 const updateUserSale = ({ saleId, title, description, price, category_id, image_url, user_id, is_sold }) => {
   const query = {
@@ -90,4 +94,4 @@ const updateUserSale = ({ saleId, title, description, price, category_id, image_
 };
 
 
-module.exports = { getUsers, getUserSales, createUserSale, getCategories, deleteUserSale, updateUserSale };
+module.exports = { getUsers, getUserSales, createUserSale, getCategories, deleteUserSale, updateUserSale, getAllSales };
