@@ -20,8 +20,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useAuth } from "../contexts/AuthContext"
 
 export function CreateSalesDialog({fetchSales}) {
+
+      const { user } = useAuth();
+    
   const [photoFile, setPhotoFile] = useState(null);
   const [photoUrl, setPhotoUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -118,7 +122,7 @@ if (!selectedCategory) {
       category_id: selectedCategory,
       description,
       image_url: photoUrlToUse,
-      user_id: 1,
+      user_id: user.id,
     };
 
     try {
