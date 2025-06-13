@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export function EditSalesDialog({ open, onOpenChange, defaultValues }) {
+export function EditSalesDialog({ open, onOpenChange, defaultValues, fetchSales }) {
   const [photoFile, setPhotoFile] = useState(null);
   const [photoUrl, setPhotoUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -104,13 +104,13 @@ export function EditSalesDialog({ open, onOpenChange, defaultValues }) {
       price: parseFloat(price).toFixed(2),
       category_id: selectedCategory,
       description,
-      photo_id: photoUrlToUse,
+      image_url: photoUrlToUse,
     };
 
     console.log(payload)
 
     try {
-      const res = await fetch("http://localhost:8080/api/users/updateSale", {
+      const res = await fetch("http://localhost:8080/api/sales/updateSale", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -119,7 +119,7 @@ export function EditSalesDialog({ open, onOpenChange, defaultValues }) {
       if (!res.ok) throw new Error("Failed to update sale");
       console.log("Sale updated!");
       onOpenChange(false);
-      window.location.reload();
+      fetchSales();
     } catch (err) {
       console.error(err);
     } finally {

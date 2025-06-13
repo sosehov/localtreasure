@@ -12,28 +12,28 @@ const SidebarComponent = ({}) => {
 
      const links = [
     {
-      label: "Listings",
+      label: "Messages",
       href: "#",
       icon: (
         <IconList className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
-      label: "Profile",
+      label: "Calendar",
       href: "#",
       icon: (
         <IconUserBolt className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
-      label: "Settings",
+      label: "Map",
       href: "#",
       icon: (
         <IconSettings className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
-      label: "Logout",
+      label: "Edit Profile",
       href: "#",
       icon: (
         <IconArrowLeft className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
@@ -58,7 +58,7 @@ const SidebarComponent = ({}) => {
                   <div>
                     <SidebarLink
                       link={{
-                        label: "Profile",
+                        label: "messages",
                         href: "#",
                         icon: (
                           <img

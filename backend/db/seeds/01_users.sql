@@ -1,4 +1,4 @@
-INSERT INTO users (name, email, address, password, bio, is_admin, contact_info)
+INSERT INTO users (name, email, address, password, bio, is_admin, contact_info, location)
 VALUES (
   'Alice Henderson',
   'AliceH@gmail.dom',
@@ -6,10 +6,11 @@ VALUES (
   'ilovetogarden123',
   'I am an avid gardener, tending to my flowerbeds and growing different kinds of vegatables! I also enjoy watching soap operas, Days of Our Lives is my favourite!',
   true,
-  '123-654-7890'
+  '123-654-7890',
+  ST_MakePoint(-80.3172, 43.0268)::GEOGRAPHY -- Oakland, ON approx
 );
 
-INSERT INTO users (name, email, address, password, bio, is_admin, contact_info)
+INSERT INTO users (name, email, address, password, bio, is_admin, contact_info, location)
 VALUES (
   'Michael Lee',
   'LeeM@gmail.com',
@@ -17,5 +18,6 @@ VALUES (
   'traveler5000',
   'I love to travel to different countries around the world! I also enjoy doing hikes',
   true,
-  '789-635-1471'
+  '789-635-1471',
+  ST_MakePoint(-123.1371, 49.2705)::GEOGRAPHY --Granville island Vancouver, BC roughly
 );

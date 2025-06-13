@@ -2,7 +2,6 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import HomeRoute from './routes/home/index.jsx';
 import ProfileRoute from './routes/profile/index.jsx';
-import CalendarRoute from './routes/calendar/index.jsx'; // 🆕 Import Calendar
 import MainLayout from './MainLayout.jsx';
 import AuthPage from './components/AuthPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';

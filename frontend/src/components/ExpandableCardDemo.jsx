@@ -27,14 +27,15 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { CreateSalesDialog } from "./CreateSalesDialog";
 import { EditSalesDialog } from "./EditSalesDialog";
+import { useAuth } from "../contexts/AuthContext";
 
-export function ExpandableCardDemo({sales}) {
+export function ExpandableCardDemo({fetchSales, sales}) {
   const [active, setActive] = useState(null);
   const [sale, setSale] = useState(null);
   const id = useId();
   const ref = useRef(null);
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [userId, setUserId] = useState('1')
+  const { user } = useAuth();
 
   useEffect(() => {
     function onKeyDown(event) {
@@ -65,19 +66,19 @@ const handleDeleteSale = async ( e, saleId) => {
   e.stopPropagation();
 
   try {
-    const res = await fetch("http://localhost:8080/api/users/deleteSale", {
+    const res = await fetch("http://localhost:8080/api/sales/deleteSale", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ saleId, 'user_id': userId }),
+      body: JSON.stringify({ saleId, 'user_id': user.id }),
     });
 
     if (!res.ok) throw new Error("Failed to delete sale");
     console.log("Sale deleted!");
 
     // Refresh page or state
-    window.location.reload();
+    fetchSales();
   } catch (err) {
     console.error(err);
   }
@@ -137,13 +138,19 @@ const handleDeleteSale = async ( e, saleId) => {
 
   const handleStatusChange = async () => {
 
-    const payload = {
-      ...active,
-      is_sold:!active.is_sold
-    };
+const payload = {
+  id: active.id,
+  title: active.title,
+  description: active.description,
+  price: Number(active.price_cents),
+  category_id: Number(active.category_id),
+  image_url: active.image_url,
+  user_id: user.id,
+  is_sold: !active.is_sold
+};
 
     try {
-      const res = await fetch("http://localhost:8080/api/users/updateSale", {
+      const res = await fetch("http://localhost:8080/api/sales/updateSale", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -151,16 +158,21 @@ const handleDeleteSale = async ( e, saleId) => {
 
       if (!res.ok) throw new Error("Failed to update sale");
       console.log("Sale updated!");
-      window.location.reload();
+    fetchSales()
+    setActive((prev) => ({
+      ...prev,
+      is_sold: !prev.is_sold,
+    }));
     } catch (err) {
-      console.error(err);
+      console.error(err);s
     }
   }
 
   return (
     <>
-    <CreateSalesDialog/>
+    <CreateSalesDialog fetchSales={fetchSales}/>
     <EditSalesDialog
+        fetchSales={fetchSales}
         open={dialogOpen}
         onOpenChange={setDialogOpen}
         defaultValues={sale}
