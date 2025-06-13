@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../connection');
+const db = require('../db/connection');
 const { authenticateUser } = require('../middleware/auth');
 
 // GET /api/events?date=YYYY-MM-DD
