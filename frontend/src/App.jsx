@@ -5,9 +5,10 @@ import ProfileRoute from './routes/profile/index.jsx';
 import MainLayout from './MainLayout.jsx';
 import AuthPage from './components/AuthPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import EventsRoute from './routes/events/index.jsx';
 import './App.css';
 import './index.css';
-import EventCalendar from './components/EventCalendar.jsx';
+
 
 export default function App() {
   return (
@@ -25,9 +26,9 @@ export default function App() {
           </ProtectedRoute>
         } />
 
-        <Route path="/calendar" element={
+        <Route path="/events" element={
           <ProtectedRoute>
-            <EventCalendar />
+            <EventsRoute />
           </ProtectedRoute>
         } />
       </Route>
