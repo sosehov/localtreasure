@@ -11,10 +11,4 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  server: {
-    proxy: {
-      // Proxy all requests starting with /api to your backend
-      '/api': 'http://localhost:8080',
-    },
-  },
 })
