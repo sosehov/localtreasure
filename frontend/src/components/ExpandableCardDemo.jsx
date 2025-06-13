@@ -27,6 +27,7 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { CreateSalesDialog } from "./CreateSalesDialog";
 import { EditSalesDialog } from "./EditSalesDialog";
+import { useAuth } from "../contexts/AuthContext";
 
 export function ExpandableCardDemo({fetchSales, sales}) {
   const [active, setActive] = useState(null);
@@ -34,7 +35,7 @@ export function ExpandableCardDemo({fetchSales, sales}) {
   const id = useId();
   const ref = useRef(null);
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [userId, setUserId] = useState('1')
+  const { user } = useAuth();
 
   useEffect(() => {
     function onKeyDown(event) {
@@ -70,7 +71,7 @@ const handleDeleteSale = async ( e, saleId) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ saleId, 'user_id': userId }),
+      body: JSON.stringify({ saleId, 'user_id': user.id }),
     });
 
     if (!res.ok) throw new Error("Failed to delete sale");
@@ -144,7 +145,7 @@ const payload = {
   price: Number(active.price_cents),
   category_id: Number(active.category_id),
   image_url: active.image_url,
-  user_id: userId,
+  user_id: user.id,
   is_sold: !active.is_sold
 };
 
