@@ -10,7 +10,7 @@ VALUES (
   ST_MakePoint(-80.3172, 43.0268)::GEOGRAPHY -- Oakland, ON approx
 );
 
-INSERT INTO users (name, email, address, password, bio, is_admin, contact_info)
+INSERT INTO users (name, email, address, password, bio, is_admin, contact_info, location)
 VALUES (
   'Michael Lee',
   'LeeM@gmail.com',
