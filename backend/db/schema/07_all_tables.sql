@@ -1,4 +1,4 @@
-CREATE EXTENTION IF NOT EXISTS postgis;
+CREATE EXTENSION IF NOT EXISTS postgis;
 DROP TABLE IF EXISTS categories CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS events CASCADE;
@@ -58,18 +58,18 @@ CREATE TABLE messaging (
 
 CREATE TABLE calender (
   id SERIAL PRIMARY KEY NOT NULL, 
-  event_id INT REFERENCES events(event_id),
-  sale_id INT REFERENCES sale(id),
-  user_id INT REFERENCES users(users_id),
+  event_id INTEGER REFERENCES events(event_id),
+  sale_id INTEGER REFERENCES sales(id),
+  user_id INTEGER REFERENCES users(id),
   start_time TIMESTAMP NOT NULL,
   end_time  TIMESTAMP,
-  title VARCHAR(255) NOT NULL,
-)
+  title VARCHAR(255) NOT NULL
+);
 
 CREATE TABLE map (
   id SERIAL PRIMARY KEY NOT NULL,
-  sale_id INT REFERENCES sales(id),
-  event_id INT REFERENCES events(event_id),
-  location GEOGRAPHY(POINT) NOT NULL,
-  address TEXT,
-)
+  sale_id INTEGER REFERENCES sales(id),
+  event_id INTEGER REFERENCES events(event_id),
+  -- location GEOGRAPHY(POINT) NOT NULL,
+  address TEXT
+);

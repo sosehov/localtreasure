@@ -45,7 +45,8 @@ const authApiRoutes = require('./routes/auth-api');
 const eventsApiRoutes = require('./routes/events-api.js');
 const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
-const saleRoutes = require('./routes/sales-api.js')const messagesRoutes = require('./routes/messages');
+const saleRoutes = require('./routes/sales-api.js')
+const messagesRoutes = require('./routes/messages');
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -55,7 +56,8 @@ app.use('/api/auth', authApiRoutes);
 app.use('/api/events', eventsApiRoutes);
 app.use('/api/widgets', widgetApiRoutes);
 app.use('/users', usersRoutes);
-app.use('/api/sales', saleRoutes);app.use('/messages', messagesRoutes);
+app.use('/api/sales', saleRoutes);
+app.use('/messages', messagesRoutes);
 // Note: mount other resources here, using the same pattern above
 
 // Home page
