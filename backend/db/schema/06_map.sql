@@ -6,4 +6,4 @@ CREATE TABLE map (
   event_id INTEGER REFERENCES events(event_id),
   -- location GEOGRAPHY(POINT) NOT NULL,
   address TEXT
-)
+);
