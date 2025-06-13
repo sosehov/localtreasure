@@ -1,2 +1,4 @@
 INSERT INTO sales (user_id, title, description, price_cents, category_id, is_sold, image_url)
-VALUES (1, 'Weed Wacker', 'Only used a few times, stil in great condition, getting a lawn mower instead!', 8000, 1, FALSE, 'http://image-url');
+VALUES 
+(1, 'Weed Wacker', 'Only used a few times, stil in great condition, getting a lawn mower instead!', 8000, 1, FALSE, 'http://image-url'),
+(2, 'Hiking Backpack', 'Lightly used hiking backpack, perfect for day trips or camping adventures.', 4500, 2, FALSE, 'http://image-url2');
