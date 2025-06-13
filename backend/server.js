@@ -9,6 +9,7 @@ const cors = require('cors');
 const PORT = process.env.PORT || 8080;
 const app = express();
 
+// CORS configuration
 app.use(cors({
   origin: 'http://localhost:5173', // Frontend URL
   credentials: true
@@ -16,43 +17,53 @@ app.use(cors({
 
 app.set('view engine', 'ejs');
 
-// Load the logger first so all (static) HTTP requests are logged to STDOUT
-// 'dev' = Concise output colored by response status for development use.
-//         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
+// Middleware
+
 app.use(morgan('dev'));
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
-app.use(express.json());
+
+// Import authentication middleware for protected routes
+const { authenticateUser } = require('./middleware/auth');
 
 // Separated Routes for each Resource
-// Note: Feel free to replace the example routes below with your own
 const userApiRoutes = require('./routes/users-api');
 const authApiRoutes = require('./routes/auth-api');
 const eventsApiRoutes = require('./routes/events-api.js');
 const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
 const saleRoutes = require('./routes/sales-api.js')
+
 // Mount all resource routes
-// Note: Feel free to replace the example routes below with your own
-// Note: Endpoints that return data (eg. JSON) usually start with `/api`
-app.use('/api/users', userApiRoutes);
-app.use('/api/auth', authApiRoutes);
-app.use('/api/events', eventsApiRoutes);
-app.use('/api/widgets', widgetApiRoutes);
+app.use('/api/auth', authApiRoutes); // Auth routes (public)
+app.use('/api/users', authenticateUser, userApiRoutes); // Protected
+app.use('/api/events', authenticateUser, eventsApiRoutes); // Protected
+app.use('/api/widgets', authenticateUser, widgetApiRoutes); // Protected
+app.use('/api/sales', authenticateUser, saleRoutes); // Protected
 app.use('/users', usersRoutes);
-app.use('/api/sales', saleRoutes);
-// Note: mount other resources here, using the same pattern above
 
 // Home page
-// Warning: avoid creating more routes in this file!
-// Separate them into separate routes files (see above).
-
 app.get('/', (req, res) => {
   res.render('index');
 });
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
+});
+
+// 404 handler
+app.use('*', (req, res) => {
+  res.status(404).json({ error: 'Route not found' });
+});
+
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`);
+  console.log(`Server listening on port ${PORT}`);
 });
