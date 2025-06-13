@@ -27,3 +27,12 @@ make custom hook
 enter, leave, send etc icons
 
 
+Plan for creating a room:
+when someone clicks on a seller, a room is created with the user and the seller?
+So that means ppl have access to a bunch of room?
+
+So on the db we want to have a rooms table with the sellers and buyer,
+and the messages need to have room ids.
+(for later: avoid duplicate rooms?)
+
+

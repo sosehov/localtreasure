@@ -43,10 +43,10 @@ const MessageBox = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // form validation
-    const message = e.target[0].value;
+    const message = e.target[0].value; // see if we can make this more specific
     console.log('message from form', message);
     socketRef.current.emit('SEND_MESSAGE', { message });
-    e.target.reset();
+    e.target.reset(); // resets whole form
   }
 
   return (
