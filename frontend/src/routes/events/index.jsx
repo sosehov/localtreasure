@@ -8,7 +8,6 @@ const EventsRoute = () => {
       <h1 className="text-2xl font-bold mb-6">My Events</h1>
       <div className="flex flex-col md:flex-row gap-6">
         <EventCalendar />
-        <UpcomingEvents />
       </div>
     </div>
   );
