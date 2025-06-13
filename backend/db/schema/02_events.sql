@@ -1,5 +1,3 @@
--- Don't forget to add postGIS query here!
-
 DROP TABLE IF EXISTS events CASCADE;
 
 CREATE TABLE events (
@@ -10,7 +8,7 @@ CREATE TABLE events (
   address VARCHAR(255),
   start_time TIME,
   end_time TIME,
-  -- location GEOGRAPHY()
+  location GEOGRAPHY(POINT),
   is_active BOOLEAN DEFAULT TRUE,
   category_id INTEGER REFERENCES categories(id)
 );
