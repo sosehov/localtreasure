@@ -9,7 +9,7 @@ const ProfileRoute = ({}) => {
 
     const fetchSales = async () => {
             try{
-                const response = await fetch(`http://localhost:8080/api/users/sales?user=1`)
+                const response = await fetch(`http://localhost:8080/api/sales/sales?user=1`)
                 if(!response.ok){
                     throw new Error('Failed to fetch user sales')
                 }

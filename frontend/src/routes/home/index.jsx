@@ -6,7 +6,7 @@ const HomeRoute = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/users/allSales")
+    fetch("http://localhost:8080/api/sales/allSales")
       .then((res) => res.json())
       .then((data) => {
         console.log("✅ Fetched sales:", data);

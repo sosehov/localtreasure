@@ -65,7 +65,7 @@ const handleDeleteSale = async ( e, saleId) => {
   e.stopPropagation();
 
   try {
-    const res = await fetch("http://localhost:8080/api/users/deleteSale", {
+    const res = await fetch("http://localhost:8080/api/sales/deleteSale", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -149,7 +149,7 @@ const payload = {
 };
 
     try {
-      const res = await fetch("http://localhost:8080/api/users/updateSale", {
+      const res = await fetch("http://localhost:8080/api/sales/updateSale", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

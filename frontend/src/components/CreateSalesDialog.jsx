@@ -122,7 +122,7 @@ if (!selectedCategory) {
     };
 
     try {
-        const res = await fetch("http://localhost:8080/api/users/createSale", {
+        const res = await fetch("http://localhost:8080/api/sales/createSale", {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
@@ -147,6 +147,7 @@ if (!selectedCategory) {
 setOpen(false);
     }
   };
+
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
