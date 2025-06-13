@@ -1,0 +1,74 @@
+DROP TABLE IF EXISTS categories CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS events CASCADE;
+DROP TABLE IF EXISTS sales CASCADE;
+DROP TABLE IF EXISTS messaging CASCADE;
+DROP TABLE IF EXISTS calender CASCADE;
+DROP TABLE IF EXISTS map CASCADE;
+
+
+CREATE TABLE categories (
+  id SERIAL PRIMARY KEY NOT NULL,
+  name VARCHAR(255),
+  description TEXT
+);
+
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  address VARCHAR(255) NOT NULL,
+  password TEXT NOT NULL,
+  bio VARCHAR(255) NOT NULL,
+  -- location GEOGRAPHY(POINT)
+  is_admin BOOLEAN DEFAULT FALSE,
+  contact_info VARCHAR(20)
+);
+
+CREATE TABLE events (
+  event_id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  title TEXT NOT NULL,
+  description TEXT,
+  address VARCHAR(255),
+  start_time TIME,
+  end_time TIME,
+  -- location GEOGRAPHY()
+  is_active BOOLEAN DEFAULT TRUE,
+  category_id INTEGER REFERENCES categories(id)
+);
+
+CREATE TABLE sales (
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  title TEXT NOT NULL,
+  description VARCHAR(255),
+  price_cents DECIMAL,
+  category_id INTEGER REFERENCES categories(id),
+  is_sold BOOLEAN DEFAULT FALSE,
+  image_url VARCHAR(255)
+);
+
+CREATE TABLE messaging (
+  msg_id SERIAL PRIMARY KEY NOT NULL,
+  sender_id INTEGER REFERENCES users(id),
+  receiver_id INTEGER REFERENCES users(id)
+);
+
+CREATE TABLE calender (
+  id SERIAL PRIMARY KEY NOT NULL, 
+  event_id INT REFERENCES events(event_id),
+  sale_id INT REFERENCES sale(id),
+  user_id INT REFERENCES users(users_id),
+  start_time TIMESTAMP NOT NULL,
+  end_time  TIMESTAMP,
+  title VARCHAR(255) NOT NULL,
+)
+
+CREATE TABLE map (
+  id SERIAL PRIMARY KEY NOT NULL,
+  sale_id INT REFERENCES sales(id),
+  event_id INT REFERENCES events(event_id),
+  location GEOGRAPHY(POINT) NOT NULL,
+  address TEXT,
+)
