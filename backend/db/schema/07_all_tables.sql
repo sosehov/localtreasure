@@ -21,7 +21,7 @@ CREATE TABLE users (
   address VARCHAR(255) NOT NULL,
   password TEXT NOT NULL,
   bio VARCHAR(255) NOT NULL,
-  -- location GEOGRAPHY(POINT)
+  location GEOGRAPHY(POINT),
   is_admin BOOLEAN DEFAULT FALSE,
   contact_info VARCHAR(20)
 );
@@ -34,7 +34,7 @@ CREATE TABLE events (
   address VARCHAR(255),
   start_time TIME,
   end_time TIME,
-  -- location GEOGRAPHY()
+  location GEOGRAPHY(POINT),
   is_active BOOLEAN DEFAULT TRUE,
   category_id INTEGER REFERENCES categories(id)
 );
@@ -70,6 +70,6 @@ CREATE TABLE map (
   id SERIAL PRIMARY KEY NOT NULL,
   sale_id INTEGER REFERENCES sales(id),
   event_id INTEGER REFERENCES events(event_id),
-  -- location GEOGRAPHY(POINT) NOT NULL,
+  location GEOGRAPHY(POINT) NOT NULL,
   address TEXT
 );

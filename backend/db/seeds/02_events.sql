@@ -9,7 +9,7 @@ VALUES (
   TRUE,
   1,
   ST_MakePoint(-80.3200, 43.0250)::GEOGRAPHY
-);
+),
 
 (
   2,
@@ -21,4 +21,4 @@ VALUES (
   TRUE,
   2,
   ST_MakePoint(-123.1359, 49.2702)::GEOGRAPHY -- granville island
-)
+);
