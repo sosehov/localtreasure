@@ -10,7 +10,7 @@ import './App.css';
 import './index.css';
 
 
-import MessageBox from './components/messageBox.jsx';
+import MessagePage from './components/MessagePage.jsx';
 
 
 export default function App() {
@@ -35,7 +35,7 @@ export default function App() {
           </ProtectedRoute>
         } />
       </Route> 
-      <Route path="/messages" element={<MessageBox />} />
+      <Route path="/messages" element={< MessagePage />} />
     </Routes>
   );
 }

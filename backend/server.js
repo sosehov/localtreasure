@@ -46,10 +46,8 @@ const eventsApiRoutes = require('./routes/events-api.js');
 const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
 const saleRoutes = require('./routes/sales-api.js')
-<<<<<<< HEAD
+
 const messagesRoutes = require('./routes/messages');
-=======
->>>>>>> e11b48b2ffa027a315c39f76128ad1917037489e
 
 // Mount all resource routes
 app.use('/api/auth', authApiRoutes); // Auth routes (public)
@@ -58,48 +56,18 @@ app.use('/api/events', authenticateUser, eventsApiRoutes); // Protected
 app.use('/api/widgets', authenticateUser, widgetApiRoutes); // Protected
 app.use('/api/sales', authenticateUser, saleRoutes); // Protected
 app.use('/users', usersRoutes);
-<<<<<<< HEAD
 app.use('/api/sales', saleRoutes);
 // app.use('/messages', messagesRoutes);
 // Note: mount other resources here, using the same pattern above
-=======
->>>>>>> e11b48b2ffa027a315c39f76128ad1917037489e
 
 // Home page
 app.get('/', (req, res) => {
   res.render('index');
 });
 
-<<<<<<< HEAD
-
-// change this to db later
-const users = [];
-let id = 1;
-
-io.on('connection', (socket) => {
-  const name = socket.id;
-  users.push(name);
-
-  socket.emit('NEW_CONNECTION', { name, users });
-  socket.broadcast.emit('NEW_USER', { name });
-  console.log("someone has connected");
-
-  socket.on('SEND_MESSAGE', payload => {
-    console.log("message has been sent by client");
-    io.emit('NEW_MESSAGE', {id, ...payload});
-    id++;
-  })
-  
-});
-
-
-server.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`);
-=======
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
->>>>>>> e11b48b2ffa027a315c39f76128ad1917037489e
 });
 
 // Error handling middleware
@@ -113,6 +81,33 @@ app.use('*', (req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
 
-app.listen(PORT, () => {
+
+// change this to db later
+console.log('users on backend:', req.user);
+const users = [];
+let id = 1;
+
+io.on('connection', (socket) => {
+  const name = socket.id;
+  users.push(name);
+
+  socket.emit('NEW_CONNECTION', { name, users });
+  socket.broadcast.emit('NEW_USER', { name });
+  console.log(name, "someone has connected");
+
+  socket.on('SEND_MESSAGE', payload => {
+    console.log("message has been sent by client");
+    io.emit('NEW_MESSAGE', {id, ...payload});
+    id++;
+  })
+
+  socket.on('disconnect', () => {
+    console.log(name, 'someone has disconnected');
+  });
+  
+});
+
+
+server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });

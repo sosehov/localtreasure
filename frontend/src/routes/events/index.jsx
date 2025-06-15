@@ -1,6 +1,6 @@
 import React from 'react';
 import EventCalendar from '../../components/EventCalendar';
-import UpcomingEvents from '../../components/upcomingEvents';
+import UpcomingEvents from '../../components/UpcomingEvents';
 
 const EventsRoute = () => {
   return (

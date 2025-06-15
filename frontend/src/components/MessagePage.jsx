@@ -1,15 +1,22 @@
 import { useState, useEffect, useRef } from 'react'
 import { io } from 'socket.io-client'
+import { useAuth } from "../../contexts/AuthContext";
+import MessageBox from './MessageBox';
+import MessageInputForm from './MessageInputForm';
 const URL = 'http://localhost:8080';
 
 
-const MessageBox = () => {
+const MessagePage = () => {
 
-  const socketRef = useRef(null)
+  // get user from JWT
+  const { user } = useAuth();
+
+
+  const socketRef = useRef(null);
   // all of this prob goes into a hook
-  // const socket = io(URL);
   const [name, setName] = useState(null);
   const [users, setUsers] = useState([]);
+  // fetch messages from db and set initial state of messages to that.
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -31,7 +38,11 @@ const MessageBox = () => {
     const newMessage = payload => {
       console.log("message is here!");
       console.log(payload);
-      setMessages(prev => [...prev, payload.message]);
+      // create message object with all the properties first
+      const message = {
+
+      };
+      setMessages(prev => [...prev, message]);
     }
 
     socket.on('NEW_CONNECTION', newConnection);
@@ -40,27 +51,12 @@ const MessageBox = () => {
 
   }, [])
 
-  const handleSubmit = (e) => {
-    console.log(e);
-    e.preventDefault();
-    // form validation
-    const message = e.target[0].value; // see if we can make this more specific
-    console.log('message from form', message);
-    socketRef.current.emit('SEND_MESSAGE', { message });
-    e.target.reset(); // resets whole form
-  }
-
   return (
     <div className = "message-box">
-      <ul>
-        { messages }
-      </ul>
-      <form onSubmit={handleSubmit}>
-        <input type="text"></input>
-        <button type="submit">Send</button>
-      </form>
+      < MessageBox messages={messages} sender={user}/>
+      < MessageInputForm user={user}/>
     </div>
   )
 };
 
-export default MessageBox;
+export default MessagePage;
