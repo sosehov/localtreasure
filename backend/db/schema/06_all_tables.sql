@@ -4,7 +4,6 @@ DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS events CASCADE;
 DROP TABLE IF EXISTS sales CASCADE;
 DROP TABLE IF EXISTS messaging CASCADE;
-DROP TABLE IF EXISTS calender CASCADE;
 DROP TABLE IF EXISTS map CASCADE;
 
 
@@ -54,16 +53,6 @@ CREATE TABLE messaging (
   msg_id SERIAL PRIMARY KEY NOT NULL,
   sender_id INTEGER REFERENCES users(id),
   receiver_id INTEGER REFERENCES users(id)
-);
-
-CREATE TABLE calender (
-  id SERIAL PRIMARY KEY NOT NULL,
-  event_id INTEGER REFERENCES events(event_id),
-  sale_id INTEGER REFERENCES sales(id),
-  user_id INTEGER REFERENCES users(id),
-  start_time TIMESTAMP NOT NULL,
-  end_time  TIMESTAMP,
-  title VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE map (
