@@ -56,7 +56,7 @@ router.get('/upcoming', async (req, res) => {
 // POST /api/events (create new event)
 router.post('/', authenticateUser, async (req, res) => {
   const { title, description, date, start_time, end_time, location } = req.body;
-  const userId = req.user.user_id;
+  const userId = req.user.userId;
 
   if (!title || !date) {
     return res.status(400).json({ error: 'Title and date are required' });
