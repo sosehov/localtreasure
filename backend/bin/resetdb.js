@@ -54,7 +54,7 @@ const runResetDB = async () => {
       console.log(`-> Connecting to PG on ${process.env.DB_HOST} as ${process.env.DB_USER}...`);
 
     await runSchemaFiles();
-    await runMigrationFiles(); // 🆕 Migrations step
+    await runMigrationFiles();
     await runSeedFiles();
 
     console.log(chalk.green('✅ Database reset complete.'));

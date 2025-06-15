@@ -8,4 +8,4 @@ CREATE TABLE calender (
   start_time TIMESTAMP NOT NULL,
   end_time  TIMESTAMP,
   title VARCHAR(255) NOT NULL
-);
+)

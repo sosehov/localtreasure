@@ -23,3 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 .vite/
+.env
+
+# Ignore environment variables
+.env
+
+# Ignore node modules
+node_modules/
