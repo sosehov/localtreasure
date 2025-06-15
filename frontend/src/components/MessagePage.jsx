@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { io } from 'socket.io-client'
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import MessageBox from './MessageBox';
 import MessageInputForm from './MessageInputForm';
 const URL = 'http://localhost:8080';
