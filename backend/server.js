@@ -57,7 +57,7 @@ app.use('/api/events', eventsApiRoutes);
 app.use('/api/widgets', widgetApiRoutes);
 app.use('/users', usersRoutes);
 app.use('/api/sales', saleRoutes);
-app.use('/messages', messagesRoutes);
+// app.use('/messages', messagesRoutes);
 // Note: mount other resources here, using the same pattern above
 
 // Home page

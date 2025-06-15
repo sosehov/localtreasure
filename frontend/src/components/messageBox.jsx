@@ -41,6 +41,7 @@ const MessageBox = () => {
   }, [])
 
   const handleSubmit = (e) => {
+    console.log(e);
     e.preventDefault();
     // form validation
     const message = e.target[0].value; // see if we can make this more specific
