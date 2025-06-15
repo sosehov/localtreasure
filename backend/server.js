@@ -46,7 +46,6 @@ const eventsApiRoutes = require('./routes/events-api.js');
 const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
 const saleRoutes = require('./routes/sales-api.js')
-
 const messagesRoutes = require('./routes/messages');
 
 // Mount all resource routes
@@ -58,7 +57,6 @@ app.use('/api/sales', authenticateUser, saleRoutes); // Protected
 app.use('/users', usersRoutes);
 app.use('/api/sales', saleRoutes);
 app.use('/api/messages', messagesRoutes);
-// Note: mount other resources here, using the same pattern above
 
 // Home page
 app.get('/', (req, res) => {
@@ -83,7 +81,6 @@ app.use('*', (req, res) => {
 
 
 // change this to db later
-console.log('users on backend:', req.user);
 const users = [];
 let id = 1;
 

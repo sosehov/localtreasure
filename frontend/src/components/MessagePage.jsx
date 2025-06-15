@@ -10,37 +10,33 @@ const MessagePage = () => {
 
   // get user from JWT
   const { user } = useAuth();
-
+  console.log('user object from jwt inside messagepage:', user);
 
   const socketRef = useRef(null);
-  // all of this prob goes into a hook
+  // all of this goes into a hook later
   const [name, setName] = useState(null);
   const [users, setUsers] = useState([]);
-  // fetch messages from db and set initial state of messages to that.
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-
     // get all the messages from db once when the page loads.
     const fetchMessages = async () => {
       try {
         // how do i send sener_id and reciever_id through here
-        const response = await fetch(`http://localhost:8080/api/messages`);
+        const response = await fetch(`http://localhost:8080/api/messages?sender_id=${user.id}&reciever_id=${2}`);
         const data = await response.json();
         setMessages(data);
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error("Error fetching messages:", error);
       }
     };
-  
-    fetchMessages();
-
+    
     // websocket stuff 
     console.log('MOUNTS <-------');
     socketRef.current = io(URL);
-
+    
     const socket = socketRef.current;
-
+    
     const newConnection = payload => {
       console.log(`${payload.name} has connected`);
       setName(payload.name);
@@ -48,7 +44,7 @@ const MessagePage = () => {
     }
     const newUser = payload => {
       console.log(`${payload.name} new has joined the chat`);
-      console.log(payload);
+      console.log('newuser payload:', payload);
       setUsers(prev => [...prev, payload.name]);
     }
     const newMessage = payload => {
@@ -56,21 +52,37 @@ const MessagePage = () => {
       console.log(payload);
       // create message object with all the properties first
       const message = {
-
+        sender_id: payload.user.id,
+        reciever_id: 2, // this needs to be changed to actual reciver id later
+        content: payload.message,
+        sendtime: new Date()
       };
       setMessages(prev => [...prev, message]);
+      
     }
 
+    
+    fetchMessages();
+    console.log('after fetch messages', messages);
     socket.on('NEW_CONNECTION', newConnection);
     socket.on('NEW_USER', newUser);
     socket.on('NEW_MESSAGE', newMessage);
-
+    
   }, [])
+  
+  const handleSubmit = (e, user) => {
+    e.preventDefault();
+    // add form validation
+    const message = e.target[0].value; // see if we can make this more specific
+    console.log('message from form', message);
+    socketRef.current.emit('SEND_MESSAGE', { message, user });
+    e.target.reset(); // resets whole form
+  };
 
   return (
     <div className = "message-box">
       < MessageBox messages={messages} sender={user}/>
-      < MessageInputForm user={user}/>
+      < MessageInputForm user={user} handleSubmit = {handleSubmit}/>
     </div>
   )
 };

@@ -53,7 +53,9 @@ CREATE TABLE sales (
 CREATE TABLE messaging (
   msg_id SERIAL PRIMARY KEY NOT NULL,
   sender_id INTEGER REFERENCES users(id),
-  receiver_id INTEGER REFERENCES users(id)
+  receiver_id INTEGER REFERENCES users(id),
+  content TEXT,
+  sendtime BIGINT
 );
 
 CREATE TABLE calender (
@@ -70,6 +72,6 @@ CREATE TABLE map (
   id SERIAL PRIMARY KEY NOT NULL,
   sale_id INTEGER REFERENCES sales(id),
   event_id INTEGER REFERENCES events(event_id),
-  location GEOGRAPHY(POINT) NOT NULL,
+  -- location GEOGRAPHY(POINT) NOT NULL,
   address TEXT
 );

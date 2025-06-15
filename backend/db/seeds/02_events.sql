@@ -9,9 +9,9 @@ VALUES (
   '2025-06-15 10:00:00',
   '2025-06-15 14:00:00',
   TRUE,
-  1,
-  ST_MakePoint(-80.3200, 43.0250)::GEOGRAPHY
-),
+  1
+  -- ST_MakePoint(-80.3200, 43.0250)::GEOGRAPHY
+);
 
 INSERT INTO events (user_id, title, description, address, start_time, end_time, is_active, category_id
 -- , location
@@ -24,6 +24,6 @@ VALUES (
   '09:00:00',
   '13:00:00',
   TRUE,
-  2,
-  ST_MakePoint(-123.1359, 49.2702)::GEOGRAPHY -- granville island
+  2
+  -- ST_MakePoint(-123.1359, 49.2702)::GEOGRAPHY -- granville island
 );
