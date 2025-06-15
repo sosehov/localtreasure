@@ -3,7 +3,7 @@ const router  = express.Router();
 const messageQueries = require('../db/queries/messages');
 
 router.get('/', (req, res) => {
-  messageQueries.getMessages()
+  messageQueries.getMessages(sender_id, reciever_id)
     .then(messages => {
       res.json( { messages });
     })

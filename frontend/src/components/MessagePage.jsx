@@ -20,6 +20,22 @@ const MessagePage = () => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
+
+    // get all the messages from db once when the page loads.
+    const fetchMessages = async () => {
+      try {
+        // how do i send sener_id and reciever_id through here
+        const response = await fetch(`http://localhost:8080/api/messages`);
+        const data = await response.json();
+        setMessages(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+  
+    fetchMessages();
+
+    // websocket stuff 
     console.log('MOUNTS <-------');
     socketRef.current = io(URL);
 
