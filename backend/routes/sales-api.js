@@ -15,14 +15,14 @@ router.get('/sales', (req, res) => {
 });
 
 router.post('/createSale', async  (req, res) => {
-  const { title, description, price, category_id, image_url, user_id } = req.body;
+  const { title, description, price, category_id, image_url, userId } = req.body;
 
-  if (!title || !price || !user_id) {
+  if (!title || !price || !userId) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
  try {
-    const result = await salesQueries.createUserSale({ title, description, price, category_id, image_url, user_id });
+    const result = await salesQueries.createUserSale({ title, description, price, category_id, image_url, userId });
     res.status(201).json({ message: 'Sale created', saleId: result.saleId });
   } catch (err) {
     res.status(500).json({ error: 'Database insert failed' });
@@ -30,15 +30,15 @@ router.post('/createSale', async  (req, res) => {
 });
 
 router.delete('/deleteSale', async (req, res) => {
-  const { saleId, user_id } = req.body;
-  console.log('DELETE request received:', { saleId, user_id }); 
+  const { saleId, userId } = req.body;
+  console.log('DELETE request received:', { saleId, userId });
 
-  if (!saleId || !user_id) {
+  if (!saleId || !userId) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
   try {
-    const result = await salesQueries.deleteUserSale({ saleId, user_id });
+    const result = await salesQueries.deleteUserSale({ saleId, userId });
 
     if (result.rowCount === 0) {
       return res.status(404).json({ error: 'Sale not found or not authorized' });
@@ -52,14 +52,14 @@ router.delete('/deleteSale', async (req, res) => {
 });
 
 router.post('/updateSale', async  (req, res) => {
-  const { id, title, description, price, category_id, image_url, user_id, is_sold } = req.body;
+  const { id, title, description, price, category_id, image_url, userId, is_sold } = req.body;
 
-  if (!title || !price || !user_id) {
+  if (!title || !price || !userId) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
  try {
-    const result = await salesQueries.updateUserSale({ saleId:id, title, description, price, category_id, image_url, user_id, is_sold });
+    const result = await salesQueries.updateUserSale({ saleId:id, title, description, price, category_id, image_url, userId, is_sold });
     res.status(201).json({ message: 'Sale updated', saleId: result });
   } catch (err) {
     res.status(500).json({ error: 'Database insert failed' });
