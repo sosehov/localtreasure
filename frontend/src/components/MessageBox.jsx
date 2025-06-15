@@ -1,7 +1,7 @@
 import MessageSpan from './MessageSpan';
 
 const MessageBox = (props) => {
-  // fetch message from db
+  // we have access to the sender under props.sender
   return (
     <ul>
       {props.messages.map(message => (
