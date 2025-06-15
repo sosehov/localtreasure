@@ -57,7 +57,7 @@ app.use('/api/widgets', authenticateUser, widgetApiRoutes); // Protected
 app.use('/api/sales', authenticateUser, saleRoutes); // Protected
 app.use('/users', usersRoutes);
 app.use('/api/sales', saleRoutes);
-// app.use('/messages', messagesRoutes);
+app.use('/api/messages', messagesRoutes);
 // Note: mount other resources here, using the same pattern above
 
 // Home page

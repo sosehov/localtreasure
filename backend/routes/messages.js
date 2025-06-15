@@ -1,8 +1,15 @@
 const express = require('express');
 const router  = express.Router();
+const messageQueries = require('../db/queries/messages');
 
 router.get('/', (req, res) => {
-  res.render('messages');
+  messageQueries.getMessages()
+    .then(messages => {
+      res.json( { messages });
+    })
+    .catch(err => {
+      console.log('error getting messages:', err);
+    });
 }); 
 
 module.exports = router;
