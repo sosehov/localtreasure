@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar } from '@/components/ui/calendar';
-import UpcomingEvents from './upcomingEvents';
 
 const EventCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -66,10 +65,6 @@ const EventCalendar = () => {
         </div>
       </div>
 
-      {/* Upcoming Events */}
-      <div className="w-full md:w-1/2">
-          <UpcomingEvents />
-      </div>
     </div>
   )
 }
