@@ -1,9 +1,9 @@
 const MessageSpan = (props) => {
-  // console.log("sender prop inside messagespan", props.sender);
+  console.log(props.message);
   // Identifies whether it is sender or receiver for styling 
   const chatRole = props.message.sender_id === props.sender.id ? "sender" : "receiver";
   return (
-    <li className={chatRole}>{props.message.text}</li>
+    <li className={chatRole}>{props.message.content}</li>
   )
 }
 

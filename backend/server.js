@@ -46,7 +46,7 @@ const eventsApiRoutes = require('./routes/events-api.js');
 const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
 const saleRoutes = require('./routes/sales-api.js')
-const messagesRoutes = require('./routes/messages');
+const messagesRoutes = require('./routes/messages.js');
 
 // Mount all resource routes
 app.use('/api/auth', authApiRoutes); // Auth routes (public)

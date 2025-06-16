@@ -10,7 +10,7 @@ const MessagePage = () => {
 
   // get user from JWT
   const { user } = useAuth();
-  console.log('user object from jwt inside messagepage:', user);
+  // console.log('user object from jwt inside messagepage:', user);
 
   const socketRef = useRef(null);
   // all of this goes into a hook later
@@ -22,10 +22,13 @@ const MessagePage = () => {
     // get all the messages from db once when the page loads.
     const fetchMessages = async () => {
       try {
-        // how do i send sener_id and reciever_id through here
-        const response = await fetch(`http://localhost:8080/api/messages?sender_id=${user.id}&reciever_id=${2}`);
+        const fetchURL = `http://localhost:8080/api/messages?senderId=1&receiverId=2`
+        const response = await fetch(fetchURL, {
+          method: "GET"
+      });
         const data = await response.json();
         setMessages(data);
+        console.log('data after fetch:', data);
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
@@ -58,12 +61,10 @@ const MessagePage = () => {
         sendtime: new Date()
       };
       setMessages(prev => [...prev, message]);
-      
     }
 
     
     fetchMessages();
-    console.log('after fetch messages', messages);
     socket.on('NEW_CONNECTION', newConnection);
     socket.on('NEW_USER', newUser);
     socket.on('NEW_MESSAGE', newMessage);

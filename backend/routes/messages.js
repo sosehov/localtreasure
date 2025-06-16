@@ -3,8 +3,8 @@ const router  = express.Router();
 const messageQueries = require('../db/queries/messages');
 
 router.get('/', (req, res) => {
-  console.log('user on backend inside messages route:', req.params.sender_id, req.params.reciever_id);
-  messageQueries.getMessages(req.params.sender_id, req.params.reciever_id)
+  console.log('user on backend inside messages route:', req.query.senderId, req.query.receiverId);
+  messageQueries.getMessages(req.query.senderId, req.query.receiverId)
     .then(messages => {
       res.json( { messages });
     })
