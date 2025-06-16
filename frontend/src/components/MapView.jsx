@@ -14,6 +14,18 @@ function MapView() {
 
 return (
   <div style={{ height: '500px', width: '100%' }}>
-    
+      <MapContainer
+      center={[43.65, -79.38]} // this should be Toronto,currently hardcoded coordinates
+      zoom={4}
+      scrollWheelZoom={false}
+      style={{height: '100%', width: '100%'}}
+      >
+        <TileLayer
+          attribution='&copy; OpenStreetMap contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+      </MapContainer>
   </div>
 )
+
+export default MapView;
