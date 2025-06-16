@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAuth } from "../contexts/AuthContext";
 
 export function EditSalesDialog({ open, onOpenChange, defaultValues, fetchSales }) {
   const [photoFile, setPhotoFile] = useState(null);
@@ -30,6 +31,9 @@ export function EditSalesDialog({ open, onOpenChange, defaultValues, fetchSales 
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+
+    const { user, token } = useAuth();
+  
 
   // Sync internal state when defaultValues change
   useEffect(() => {
@@ -46,7 +50,12 @@ export function EditSalesDialog({ open, onOpenChange, defaultValues, fetchSales 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/users/categories");
+        const response = await fetch("http://localhost:8080/api/users/categories", {
+            method:'GET',
+            headers:{
+                'Authorization': `Bearer ${token}`
+            }
+        });
         const data = await response.json();
         setCategories(data.categories);
       } catch (error) {
@@ -112,7 +121,7 @@ export function EditSalesDialog({ open, onOpenChange, defaultValues, fetchSales 
     try {
       const res = await fetch("http://localhost:8080/api/sales/updateSale", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(payload),
       });
 

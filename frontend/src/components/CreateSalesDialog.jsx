@@ -24,7 +24,7 @@ import { useAuth } from "../contexts/AuthContext"
 
 export function CreateSalesDialog({fetchSales}) {
 
-      const { user } = useAuth();
+      const { user, token } = useAuth();
     
   const [photoFile, setPhotoFile] = useState(null);
   const [photoUrl, setPhotoUrl] = useState(null);
@@ -41,7 +41,12 @@ export function CreateSalesDialog({fetchSales}) {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/users/categories`);
+        const response = await fetch(`http://localhost:8080/api/users/categories`,{
+            method:'GET',
+            headers:{
+                'Authorization': `Bearer ${token}`
+            }
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
         }
@@ -129,7 +134,7 @@ if (!selectedCategory) {
         const res = await fetch("http://localhost:8080/api/sales/createSale", {
             method: "POST",
             headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json",'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(payload),
         });

@@ -35,7 +35,7 @@ export function ExpandableCardDemo({fetchSales, sales}) {
   const id = useId();
   const ref = useRef(null);
   const [dialogOpen, setDialogOpen] = useState(false)
-  const { user } = useAuth();
+  const { user, token } = useAuth();
 
   useEffect(() => {
     function onKeyDown(event) {
@@ -70,6 +70,7 @@ const handleDeleteSale = async ( e, saleId) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({ saleId, 'user_id': user.id }),
     });
@@ -152,7 +153,7 @@ const payload = {
     try {
       const res = await fetch("http://localhost:8080/api/sales/updateSale", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(payload),
       });
 

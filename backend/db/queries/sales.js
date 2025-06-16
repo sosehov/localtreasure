@@ -41,7 +41,7 @@ const createUserSale = ({ title, description, price, category_id, image_url, use
 };
 
 const getAllSales = () => {
-  return db.query(`SELECT * FROM sales WHERE is_sold = FALSE ORDER BY id DESC;`)
+  return db.query(`SELECT sales.*, users.name FROM sales INNER JOIN users ON sales.user_id = users.id WHERE sales.is_sold = FALSE ORDER BY id DESC;`)
     .then(res => res.rows);
 };
 
