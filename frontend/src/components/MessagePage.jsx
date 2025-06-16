@@ -27,7 +27,7 @@ const MessagePage = () => {
           method: "GET"
       });
         const data = await response.json();
-        setMessages(data);
+        setMessages(data.messages);
         console.log('data after fetch:', data);
       } catch (error) {
         console.error("Error fetching messages:", error);
