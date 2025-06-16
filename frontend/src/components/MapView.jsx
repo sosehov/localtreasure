@@ -5,7 +5,7 @@ function MapView() {
   const [locations, setLocations] = useState([]) // will contain the coorindate numbers
 
   useEffect(() => {
-    fetch('')
+    fetch('/api/locations') //temporary route
     .then(res => res.json())
     .then(setLocations)
     .catch(err => console.error('error, did not fetch', err));
