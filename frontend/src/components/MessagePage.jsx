@@ -9,8 +9,12 @@ const URL = 'http://localhost:8080';
 const MessagePage = () => {
 
   // get user from JWT
-  const { user } = useAuth();
-  // console.log('user object from jwt inside messagepage:', user);
+  // const { user } = useAuth();
+  const user = {
+    id: 1,
+    name : 'Alice Henderson'
+  };
+  console.log('user object from jwt inside messagepage:', user);
 
   const socketRef = useRef(null);
   // all of this goes into a hook later
@@ -22,7 +26,7 @@ const MessagePage = () => {
     // get all the messages from db once when the page loads.
     const fetchMessages = async () => {
       try {
-        const fetchURL = `http://localhost:8080/api/messages?senderId=1&receiverId=2`
+        const fetchURL = `http://localhost:8080/api/messages?senderId=${user.id}&receiverId=2`
         const response = await fetch(fetchURL, {
           method: "GET"
       });
@@ -50,17 +54,12 @@ const MessagePage = () => {
       console.log('newuser payload:', payload);
       setUsers(prev => [...prev, payload.name]);
     }
-    const newMessage = payload => {
-      console.log("message is here!");
-      console.log(payload);
+    const newMessage = message => {
+      console.log("new message is here!");
+      console.log(message);
       // create message object with all the properties first
-      const message = {
-        sender_id: payload.user.id,
-        reciever_id: 2, // this needs to be changed to actual reciver id later
-        content: payload.message,
-        sendtime: new Date()
-      };
       setMessages(prev => [...prev, message]);
+      console.log('messages after new message:', messages);
     }
 
     
@@ -74,10 +73,25 @@ const MessagePage = () => {
   const handleSubmit = (e, user) => {
     e.preventDefault();
     // add form validation
-    const message = e.target[0].value; // see if we can make this more specific
-    console.log('message from form', message);
-    socketRef.current.emit('SEND_MESSAGE', { message, user });
+    const messageText = e.target[0].value; // see if we can make this more specific
+    // console.log('message from form', messageText);
+    const message = {
+      sender_id: user.id,
+      reciever_id: 2, // this needs to be changed to actual reciver id later
+      content: messageText,
+      sendtime: new Date()
+    };
+    socketRef.current.emit('SEND_MESSAGE', { message });
     e.target.reset(); // resets whole form
+
+    // add the message to db
+    // fetch(, {
+    //   method: 'POST',
+    //   body: JSON.stringify({ 
+    //     content: message,
+    //     timestamp:  
+    //   })
+    // })
   };
 
   return (
