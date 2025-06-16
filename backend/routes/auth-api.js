@@ -45,8 +45,8 @@ router.post('/register', async (req, res) => {
         name: newUser.name,
         isAdmin: newUser.is_admin || false
       },
-      JWT_SECRET,
-      { expiresIn: '24h' }
+        JWT_SECRET,
+        { expiresIn: '24h' }
     );
 
     res.status(201).json({
