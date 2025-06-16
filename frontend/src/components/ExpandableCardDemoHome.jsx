@@ -202,14 +202,16 @@ export function ExpandableCardDemoHome({sales}) {
 
 {/* To get the user id to message use active.user_id */}
                   <div className="pt-4 relative px-4">
-                     <button
-                    layout
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="px-4 py-3 mb-5 text-sm rounded-md font-bold bg-blue-500 text-white">
-                    Message {active.name}
-                  </button>
+                    <Link to='/messages' seller_id={active.user_id}>
+                      <button
+                        layout
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="px-4 py-3 mb-5 text-sm rounded-md font-bold bg-blue-500 text-white">
+                        Message {active.name}
+                      </button>
+                    </Link>
                 </div>
               </div>
             </motion.div>
