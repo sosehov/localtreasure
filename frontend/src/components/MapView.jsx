@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 function MapView() {
@@ -25,7 +25,7 @@ function MapView() {
         />
 
         {locations.map((pos) => {
-          const [lng, lat] = pos.locations.coordinates;
+          const [lng, lat] = pos.location.coordinates;
           return (
             <Marker key={pos.id} position={[lat, lng]}>
               <Popup>
