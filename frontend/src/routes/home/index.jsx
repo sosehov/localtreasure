@@ -1,13 +1,21 @@
 import React from 'react';
 import { useEffect, useState } from "react";
 import ExpandableCardDemoHome from '../../components/ExpandableCardDemoHome';
+import { useAuth } from '../../contexts/AuthContext';
 
 const HomeRoute = () => {
   const [sales, setSales] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const { token } = useAuth();
+
   useEffect(() => {
-    fetch("http://localhost:8080/api/sales/allSales")
+    fetch("http://localhost:8080/api/sales/allSales",{
+         method:'GET',
+                    headers:{
+                        'Authorization': `Bearer ${token}`
+                    }
+    })
       .then((res) => res.json())
       .then((data) => {
         console.log("✅ Fetched sales:", data);

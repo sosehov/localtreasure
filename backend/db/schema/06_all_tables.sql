@@ -4,7 +4,6 @@ DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS events CASCADE;
 DROP TABLE IF EXISTS sales CASCADE;
 DROP TABLE IF EXISTS messaging CASCADE;
-DROP TABLE IF EXISTS calender CASCADE;
 DROP TABLE IF EXISTS map CASCADE;
 
 
@@ -34,6 +33,7 @@ CREATE TABLE events (
   address VARCHAR(255),
   start_time TIME,
   end_time TIME,
+  date DATE NOT NULL DEFAULT CURRENT_DATE,
   location GEOGRAPHY(POINT),
   is_active BOOLEAN DEFAULT TRUE,
   category_id INTEGER REFERENCES categories(id)
@@ -56,16 +56,6 @@ CREATE TABLE messaging (
   receiver_id INTEGER REFERENCES users(id),
   content TEXT,
   sendtime BIGINT
-);
-
-CREATE TABLE calender (
-  id SERIAL PRIMARY KEY NOT NULL,
-  event_id INTEGER REFERENCES events(event_id),
-  sale_id INTEGER REFERENCES sales(id),
-  user_id INTEGER REFERENCES users(id),
-  start_time TIMESTAMP NOT NULL,
-  end_time  TIMESTAMP,
-  title VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE map (

@@ -31,14 +31,14 @@ router.post('/createSale', async  (req, res) => {
 
 router.delete('/deleteSale', async (req, res) => {
   const { saleId, user_id } = req.body;
-  console.log('DELETE request received:', { saleId, user_id }); 
+  console.log('DELETE request received:', { saleId, user_id });
 
   if (!saleId || !user_id) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
   try {
-    const result = await salesQueries.deleteUserSale({ saleId, user_id });
+    const result = await salesQueries.deleteUserSale({ saleId, user_id});
 
     if (result.rowCount === 0) {
       return res.status(404).json({ error: 'Sale not found or not authorized' });

@@ -56,7 +56,7 @@ router.get('/upcoming', async (req, res) => {
 // POST /api/events (create new event)
 router.post('/', authenticateUser, async (req, res) => {
   const { title, description, date, start_time, end_time, location } = req.body;
-  const userId = req.user.user_id;
+  const user_id = req.user.user_id;
 
   if (!title || !date) {
     return res.status(400).json({ error: 'Title and date are required' });
@@ -67,7 +67,7 @@ router.post('/', authenticateUser, async (req, res) => {
       `INSERT INTO events (user_id, title, description, date, start_time, end_time, location)
        VALUES ($1, $2, $3, $4, $5, $6, $7)
        RETURNING *`,
-      [userId, title, description, date, start_time, end_time, location]
+      [user_id, title, description, date, start_time, end_time, location]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
