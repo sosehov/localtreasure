@@ -11,3 +11,9 @@ function MapView() {
     .catch(err => console.error('error, did not fetch', err));
   }, []);
 }
+
+return (
+  <div style={{ height: '500px', width: '100%' }}>
+    
+  </div>
+)
