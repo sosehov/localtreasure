@@ -5,8 +5,9 @@ const db = require('../db');
 //--------------------------------------------------------------
 router.get('/', async (req, res) => {
   try {
+    //this will convert postgis point to GEOjson formate for easier use in leaflet
     const result = await db.query(`
-      SELECT id, sale_id, event_id, ST_AsGeoJSON(location):: json AS location, address 
+      SELECT id, sale_id, event_id, ST_AsGeoJSON(location):: json AS location, address
       FROM map;
       `);
       res.json(result.rows);
