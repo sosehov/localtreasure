@@ -8,6 +8,7 @@ import ProtectedRoute from './components/ProtectedRoute.jsx';
 import './App.css';
 import './index.css';
 import EventCalendar from './components/EventCalendar.jsx';
+import MapView from './components/MapView.jsx';
 
 export default function App() {
   return (
