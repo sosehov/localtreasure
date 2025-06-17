@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select"
 import { useAuth } from "../contexts/AuthContext"
 
-export function CreateSalesDialog({fetchSales}) {
+export function CreateSalesDialog({fetchSales,  open, onOpenChange}) {
 
       const { user, token } = useAuth();
     
@@ -37,7 +37,6 @@ export function CreateSalesDialog({fetchSales}) {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
 
-  const [open,setOpen] = useState(false);
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -153,17 +152,14 @@ if (!selectedCategory) {
        setPhotoUrl("")
        setSelectedCategory(null)
        
-setOpen(false);
+onOpenChange(false);
     }
   };
 
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <form >
-        <DialogTrigger asChild>
-          <Button onClick={() => setOpen(true)} variant="outline">Create</Button>
-        </DialogTrigger>
         <DialogContent className="sm:max-w-[625px] bg-white">
           <DialogHeader>
             <DialogTitle>Create listing</DialogTitle>
@@ -197,9 +193,9 @@ setOpen(false);
                 </SelectContent>
               </Select>
             </div>
-            <div className="grid gap-3 w-full">
+            <div className="grid gap-3 w-full z-40">
               <Label htmlFor="picture">Photo</Label>
-              <Input id="picture" name="photo" type="file" accept="image/png, image/gif, image/jpeg" onChange={handlePhotoChange} />
+              <Input className="z-40" id="picture" name="photo" type="file" accept="image/png, image/gif, image/jpeg" onChange={handlePhotoChange} />
             </div>
           </div>
 
