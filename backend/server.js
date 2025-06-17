@@ -54,9 +54,9 @@ app.use('/api/users', authenticateUser, userApiRoutes); // Protected
 app.use('/api/events', authenticateUser, eventsApiRoutes); // Protected
 app.use('/api/widgets', authenticateUser, widgetApiRoutes); // Protected
 app.use('/api/sales', authenticateUser, saleRoutes); // Protected
-app.use('/users', usersRoutes);
-app.use('/api/sales', saleRoutes);
-app.use('/api/messages', messagesRoutes);
+// app.use('/users', usersRoutes);
+// app.use('/api/sales', saleRoutes);
+app.use('/api/messages', authenticateUser, messagesRoutes);
 
 // Home page
 app.get('/', (req, res) => {
