@@ -1,8 +1,9 @@
 const express = require('express');
 const router  = express.Router();
 const messageQueries = require('../db/queries/messages');
+const { authenticateUser } = require('../middleware/auth');
 
-router.get('/', (req, res) => {
+router.get('/', authenticateUser, (req, res) => {
   console.log('user on backend inside messages route:', req.query.senderId, req.query.receiverId);
   messageQueries.getMessages(req.query.senderId, req.query.receiverId)
     .then(messages => {
@@ -13,7 +14,7 @@ router.get('/', (req, res) => {
     });
 }); 
 
-router.post('/', (req, res) => {
+router.post('/', authenticateUser, (req, res) => {
   console.log('req.body.message:', req.body.message);
   messageQueries.addMessage(req.body.message)
     .then(() =>
