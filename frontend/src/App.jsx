@@ -31,6 +31,10 @@ export default function App() {
             <EventsRoute />
           </ProtectedRoute>
         } />
+
+        <Route path="/favourites" element={
+          <Favourites /> // this need sto be moved to protected later
+        } />
       </Route>
     </Routes>
   );
