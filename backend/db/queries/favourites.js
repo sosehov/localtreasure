@@ -9,9 +9,9 @@ const getFavourites = (userId) => {
   });
 };
 
-const addFavourite = (item) => {
+const addFavourite = (userId, itemId) => {
   const query_str = 'INSERT INTO favourites(consumer_id, item_id) VALUES ($1, $2)';
-  const query_args = [item.userId, item.itemId];
+  const query_args = [userId, itemId];
   return db.query(query_str, query_args)
   .then(data => {
     return data.rows;

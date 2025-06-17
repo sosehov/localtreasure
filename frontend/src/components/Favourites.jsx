@@ -27,6 +27,22 @@ const Favourites = () => {
     
     fetchFavourites();
   }, []);
+
+  const addFavourite = (e, userId, itemId) => {
+    e.preventDefault();
+    fetch('http://localhost:8080/api/favourites', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ item : {
+            userId, 
+            itemId 
+          }
+        })
+      })
+      .then(res => console.log('favourites add status:', res))
+    };
   
   return (
     <ul>
