@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -12,19 +14,18 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 
-import { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
+
 import { useAuth } from "../contexts/AuthContext"
 
-export function CreateSalesDialog({fetchSales,  open, onOpenChange}) {
-
-      const { user, token } = useAuth();
+export function CreateSalesDialog({fetchSales, open, onOpenChange}) {
+  const { user, makeAuthenticatedRequest } = useAuth();
     
   const [photoFile, setPhotoFile] = useState(null);
   const [photoUrl, setPhotoUrl] = useState(null);
@@ -40,15 +41,8 @@ export function CreateSalesDialog({fetchSales,  open, onOpenChange}) {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/users/categories`,{
-            method:'GET',
-            headers:{
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        if (!response.ok) {
-          throw new Error("Failed to fetch categories");
-        }
+        const response = await makeAuthenticatedRequest("/api/users/categories");
+        if (!response.ok) throw new Error("Failed to fetch categories");
         const data = await response.json();
         setCategories(data.categories);
       } catch (error) {
@@ -57,10 +51,9 @@ export function CreateSalesDialog({fetchSales,  open, onOpenChange}) {
     };
 
     fetchCategories();
-  }, []);
+  }, [makeAuthenticatedRequest]);
 
-
-//photo handling
+  //photo handling
   const handlePhotoChange = (e) => {
     const file = e.target.files?.[0];
     if (file) setPhotoFile(file);
@@ -100,7 +93,6 @@ const handleUploadPhoto = async () => {
   }
 };
 
-
   const handleSubmit = async () => {
     setSubmitting(true);
 
@@ -119,7 +111,6 @@ if (!selectedCategory) {
   return;
 }
 
-
     const payload = {
     title,
       price: parseFloat(price).toFixed(2),
@@ -130,20 +121,17 @@ if (!selectedCategory) {
     };
 
     try {
-        const res = await fetch("http://localhost:8080/api/sales/createSale", {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(payload),
-        });
+      const res = await makeAuthenticatedRequest("/api/sales/createSale", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
 
         if (!res.ok) throw new Error("Failed to create sale");
         console.log("Sale created!");
     } catch (err) {
         console.error(err);
     } finally {
-        setSubmitting(false);
+       setSubmitting(false);
        fetchSales()
        setTitle("")
        setDescription("")
@@ -155,7 +143,6 @@ if (!selectedCategory) {
 onOpenChange(false);
     }
   };
-
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

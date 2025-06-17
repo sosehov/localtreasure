@@ -1,18 +1,26 @@
 const express = require('express');
 const router  = express.Router();
 const eventsQueries = require('../db/queries/events');
+const { authenticateUser } = require('../middleware/auth');
 
-
-router.get('/', (req, res) => {
-  eventsQueries.getUserEvents(req.query.user)
+// Public
+router.get('/allEvents', (req, res) => {
+  eventsQueries.getAllEvents()
     .then(events => {
       res.json({ events });
     })
     .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
+      res.status(500).json({ error: err.message });
     });
+});
+
+// Protected
+router.use(authenticateUser);
+
+router.get('/', (req, res) => {
+  eventsQueries.getUserEvents(req.query.user)
+    .then(events => res.json({ events }))
+    .catch(err => res.status(500).json({ error: err.message }));
 });
 
 router.post('/createEvent', async  (req, res) => {
@@ -29,16 +37,5 @@ router.post('/createEvent', async  (req, res) => {
     res.status(500).json({ error: 'Database insert failed' });
   }
 });
-
-router.get('/allEvents', (req, res) => {
-  eventsQueries.getAllEvents()
-    .then(events => {
-      res.json({ events });
-    })
-    .catch(err => {
-      res.status(500).json({ error: err.message });
-    });
-});
-
 
 module.exports = router;
