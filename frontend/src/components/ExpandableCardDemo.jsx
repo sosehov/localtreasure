@@ -1,4 +1,5 @@
-import  { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+
 import { AnimatePresence } from "motion/react";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { format, setHours, setMinutes, setSeconds } from "date-fns";
@@ -12,8 +13,9 @@ import {
 import { IconDots } from "@tabler/icons-react";
 import { CreateSalesDialog } from "./CreateSalesDialog";
 import { EditSalesDialog } from "./EditSalesDialog";
-import { useAuth } from "../contexts/AuthContext";
 import { CreateEventsDialog } from "./CreateEventsDialog";
+
+import { useAuth } from "../contexts/AuthContext";
 
 export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
   const [active, setActive] = useState(null);
@@ -21,7 +23,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
   const id = useId();
   const ref = useRef(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const { user, token } = useAuth();
+  const { user, makeAuthenticatedRequest } = useAuth();
 
   const [showSalesDialog, setShowSalesDialog] = useState(false);
   const [showEventsDialog, setShowEventsDialog] = useState(false);
@@ -53,20 +55,18 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
 
   const handleDeleteSale = async (e, saleId) => {
     e.stopPropagation();
-
+  
     try {
-      const res = await fetch("http://localhost:8080/api/sales/deleteSale", {
+      const res = await makeAuthenticatedRequest("/api/sales/deleteSale", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ saleId, user_id: user.id }),
       });
 
       if (!res.ok) throw new Error("Failed to delete sale");
       console.log("Sale deleted!");
-
       // Refresh page or state
       fetchSales();
     } catch (err) {
@@ -192,15 +192,14 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
     };
 
     try {
-      const res = await fetch("http://localhost:8080/api/sales/updateSale", {
+      const res = await makeAuthenticatedRequest("/api/sales/updateSale", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
       });
-
+  
       if (!res.ok) throw new Error("Failed to update sale");
       console.log("Sale updated!");
       fetchSales();
@@ -210,7 +209,6 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
       }));
     } catch (err) {
       console.error(err);
-      s;
     }
   };
 

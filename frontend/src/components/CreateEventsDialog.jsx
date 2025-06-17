@@ -34,7 +34,7 @@ import {
 } from "@/components/ui/popover";
 
 export function CreateEventsDialog({ fetchSales,  open, onOpenChange }) {
-  const { user, token } = useAuth();
+  const { user, makeAuthenticatedRequest } = useAuth();
 
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -50,15 +50,8 @@ export function CreateEventsDialog({ fetchSales,  open, onOpenChange }) {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:8080/api/users/categories`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
+        const response = await makeAuthenticatedRequest(`/api/users/categories`);
+        
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
         }
@@ -95,12 +88,8 @@ export function CreateEventsDialog({ fetchSales,  open, onOpenChange }) {
     };
 
     try {
-      const res = await fetch("http://localhost:8080/api/user-events/createEvent", {
+      const res = await makeAuthenticatedRequest(`/api/user-events/createEvent`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify(payload),
       });
 

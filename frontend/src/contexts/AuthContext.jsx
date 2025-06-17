@@ -147,7 +147,6 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      // Optional: Call server logout endpoint
       if (token) {
         await fetch(`${API_BASE_URL}/auth/logout`, {
           method: 'POST',
