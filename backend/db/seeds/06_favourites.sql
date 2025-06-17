@@ -1,2 +1,2 @@
-INSERT INTO favourites (user_id, sale_id)
+INSERT INTO favourites (consumer_id, sale_id)
 VALUES (1, 2), (2, 1);
