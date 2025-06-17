@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from "../contexts/AuthContext";
 import { Calendar } from '@/components/ui/calendar';
 
 const EventCalendar = () => {
+  const { makeAuthenticatedRequest } = useAuth();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [events, setEvents] = useState([]);
   const [highlightedDates, setHighlightedDates] = useState([]);
@@ -11,25 +13,31 @@ const EventCalendar = () => {
 
     const dateStr = selectedDate.toISOString().split("T")[0];
 
-    fetch(`/api/events?date=${dateStr}`)
-      .then((res) => res.json())
-      .then((data) => setEvents(data))
-      .catch((err) => console.error("Failed to fetch events:", err));
-  }, [selectedDate]);
+    makeAuthenticatedRequest(`/api/events?date=${dateStr}`)
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch events');
+        return res.json();
+      })
+      .then(data => setEvents(data))
+      .catch(err => console.error("Failed to fetch events:", err));
+  }, [selectedDate, makeAuthenticatedRequest]);
 
   useEffect(() => {
     const year = selectedDate.getFullYear();
     const month = selectedDate.getMonth() + 1; // JS months are 0-based
-  
-    fetch(`/api/events/month?year=${year}&month=${month}`)
-      .then(res => res.json())
+
+    makeAuthenticatedRequest(`/api/events/month?year=${year}&month=${month}`)
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch monthly events');
+        return res.json();
+      })
       .then(data => {
-        const dates = data.map(event => new Date(event.date)); // assuming event.date = '2025-06-20'
+        const dates = data.map(event => new Date(event.date));
         setHighlightedDates(dates);
       })
       .catch(err => console.error("Failed to fetch monthly events", err));
-  }, [selectedDate]);  
-
+  }, [selectedDate, makeAuthenticatedRequest]);
+  
   return (
     <div className="flex flex-col md:flex-row gap-6 max-w-4xl mx-auto">
       {/* Calendar */}

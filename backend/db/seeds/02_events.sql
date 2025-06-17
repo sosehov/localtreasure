@@ -6,9 +6,9 @@ VALUES (
   'Spring Cleaning Sale!',
   'Useful items that will assist in things such as trimming your lawn or cleaning your car!',
   '123 Mapletree Lane',
-  '2025-06-15 10:00:00',
-  '2025-06-15 14:00:00',
-  DEFAULT,
+  '10:00:00',
+  '14:00:00',
+  '2025-06-15',
   TRUE,
   1
   -- ST_MakePoint(-80.3200, 43.0250)::GEOGRAPHY
@@ -24,7 +24,7 @@ VALUES (
   'Granville Island Park, Vancouver, BC',
   '09:00:00',
   '13:00:00',
-  DEFAULT,
+  '2025-06-16',
   TRUE,
   2
   -- ST_MakePoint(-123.1359, 49.2702)::GEOGRAPHY -- granville island
