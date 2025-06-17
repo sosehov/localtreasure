@@ -97,7 +97,7 @@ const MessagePage = () => {
       sender_id: user.id,
       reciever_id: 2, // this needs to be changed to actual reciver id later
       content: messageText,
-      sendtime: `${new Date()}`
+      sendtime: `${new Date().toISOString()}`
     };
     socketRef.current.emit('SEND_MESSAGE', message);
     e.target.reset(); // resets whole form
