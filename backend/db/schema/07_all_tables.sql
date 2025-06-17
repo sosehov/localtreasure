@@ -63,3 +63,9 @@ CREATE TABLE map (
   location GEOGRAPHY(POINT) NOT NULL,
   address TEXT
 );
+
+CREATE TABLE favourites  (
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  sale_id INTEGER REFERENCES sales(id) ON DELETE CASCADE
+);
