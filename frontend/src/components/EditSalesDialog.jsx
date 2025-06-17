@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -18,9 +19,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import { useAuth } from "../contexts/AuthContext";
 
 export function EditSalesDialog({ open, onOpenChange, defaultValues, fetchSales }) {
+  const { user, makeAuthenticatedRequest } = useAuth();
+
   const [photoFile, setPhotoFile] = useState(null);
   const [photoUrl, setPhotoUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -31,9 +35,6 @@ export function EditSalesDialog({ open, onOpenChange, defaultValues, fetchSales 
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-
-    const { user, token } = useAuth();
-  
 
   // Sync internal state when defaultValues change
   useEffect(() => {
@@ -50,20 +51,17 @@ export function EditSalesDialog({ open, onOpenChange, defaultValues, fetchSales 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/users/categories", {
-            method:'GET',
-            headers:{
-                'Authorization': `Bearer ${token}`
-            }
-        });
+        const response = await makeAuthenticatedRequest("/api/users/categories");
+        if (!response.ok) throw new Error("Failed to fetch categories");
         const data = await response.json();
         setCategories(data.categories);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
     };
+
     fetchCategories();
-  }, []);
+  }, [makeAuthenticatedRequest]);
 
   const handlePhotoChange = (e) => {
     const file = e.target.files?.[0];
@@ -75,6 +73,7 @@ export function EditSalesDialog({ open, onOpenChange, defaultValues, fetchSales 
 
     setUploading(true);
     const url = "https://api.cloudinary.com/v1_1/dmpuzi0ux/upload";
+
     const formData = new FormData();
     formData.append("file", photoFile);
     formData.append("upload_preset", "final-project");
@@ -119,18 +118,18 @@ export function EditSalesDialog({ open, onOpenChange, defaultValues, fetchSales 
     console.log(payload)
 
     try {
-      const res = await fetch("http://localhost:8080/api/sales/updateSale", {
+      const res = await makeAuthenticatedRequest("/api/sales/updateSale", {
         method: "POST",
-        headers: { "Content-Type": "application/json", 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(payload),
       });
 
       if (!res.ok) throw new Error("Failed to update sale");
       console.log("Sale updated!");
+
       onOpenChange(false);
       fetchSales();
     } catch (err) {
-      console.error(err);
+      console.error("Error updating sale:", err);
     } finally {
       setSubmitting(false);
     }
