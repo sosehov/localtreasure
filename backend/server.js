@@ -35,7 +35,7 @@ const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
 const saleRoutes = require('./routes/sales-api.js')
 const userEventsRoutes = require('./routes/user-events-api.js')
-const favouritesRoutes = require('./routes/favourites.js')
+const favouritesRoutes = require('./routes/favourites-api.js')
 
 
 // Mount all resource routes
