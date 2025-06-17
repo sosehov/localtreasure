@@ -38,6 +38,11 @@ const MessagePage = () => {
       }
     };
     
+    fetchMessages();
+  }, []);
+
+  useEffect(() => {
+    
     // websocket stuff 
     console.log('MOUNTS <-------');
     socketRef.current = io(URL);
@@ -54,21 +59,34 @@ const MessagePage = () => {
       console.log('newuser payload:', payload);
       setUsers(prev => [...prev, payload.name]);
     }
-    const newMessage = message => {
-      console.log("new message is here!");
-      console.log(message);
-      // create message object with all the properties first
-      setMessages(prev => [...prev, message]);
-      console.log('messages after new message:', messages);
-    }
 
-    
-    fetchMessages();
+    const newMessage = message => {
+
+      console.log('new message is here:', message);
+      setMessages(prev => {
+        console.log('message prev:', prev);
+        return [ ...prev, message];
+      });
+
+      // add new message to db, can 
+      fetch('http://localhost:8080/api/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message })
+      })
+      .then(res => console.log('message write status:', res))
+    };
+
     socket.on('NEW_CONNECTION', newConnection);
     socket.on('NEW_USER', newUser);
     socket.on('NEW_MESSAGE', newMessage);
     
-  }, [])
+    return () => {
+      socket.off('NEW_MESSAGE', newMessage);
+    };  
+  }, []);
   
   const handleSubmit = (e, user) => {
     e.preventDefault();
@@ -79,19 +97,10 @@ const MessagePage = () => {
       sender_id: user.id,
       reciever_id: 2, // this needs to be changed to actual reciver id later
       content: messageText,
-      sendtime: new Date()
+      sendtime: `${new Date()}`
     };
-    socketRef.current.emit('SEND_MESSAGE', { message });
+    socketRef.current.emit('SEND_MESSAGE', message);
     e.target.reset(); // resets whole form
-
-    // add the message to db
-    // fetch(, {
-    //   method: 'POST',
-    //   body: JSON.stringify({ 
-    //     content: message,
-    //     timestamp:  
-    //   })
-    // })
   };
 
   return (

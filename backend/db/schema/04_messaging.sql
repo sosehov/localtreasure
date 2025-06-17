@@ -5,5 +5,5 @@ CREATE TABLE messaging (
   sender_id INTEGER REFERENCES users(id),
   receiver_id INTEGER REFERENCES users(id),
   content TEXT,
-  sendtime BIGINT
+  sendtime TEXT
 );

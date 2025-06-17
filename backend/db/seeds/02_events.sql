@@ -1,4 +1,4 @@
-INSERT INTO events (user_id, title, description, address, start_time, end_time, is_active, category_id
+INSERT INTO events (user_id, title, description, address, start_time, end_time, date, is_active, category_id
 -- , location
 )
 VALUES (
@@ -14,7 +14,7 @@ VALUES (
   -- ST_MakePoint(-80.3200, 43.0250)::GEOGRAPHY
 );
 
-INSERT INTO events (user_id, title, description, address, start_time, end_time, is_active, category_id
+INSERT INTO events (user_id, title, description, address, start_time, end_time, date, is_active, category_id
 -- , location
 )
 VALUES (

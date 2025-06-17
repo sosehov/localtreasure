@@ -1,5 +1,6 @@
 // load .env data into process.env
 require('dotenv').config();
+// const messageQueries = require('./db/queries/messages');
 
 // Web server config
 const express = require('express');
@@ -82,7 +83,6 @@ app.use('*', (req, res) => {
 
 // change this to db later
 const users = [];
-let id = 1;
 
 io.on('connection', (socket) => {
   const name = socket.id;
@@ -92,10 +92,16 @@ io.on('connection', (socket) => {
   socket.broadcast.emit('NEW_USER', { name });
   console.log(name, "someone has connected");
 
-  socket.on('SEND_MESSAGE', payload => {
-    console.log("message has been sent by client");
-    io.emit('NEW_MESSAGE', {id, ...payload});
-    id++;
+  socket.on('SEND_MESSAGE', message => {
+    console.log("message has been sent by client", message);
+    io.emit('NEW_MESSAGE', message);
+    // messageQueries.addMessage(message)
+    //   .then(() =>
+    //     console.log('message written to db')
+    //   )
+    //   .catch(err => {
+    //     console.log('error writing message:', err);
+    //   });
   })
 
   socket.on('disconnect', () => {

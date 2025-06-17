@@ -13,4 +13,15 @@ router.get('/', (req, res) => {
     });
 }); 
 
+router.post('/', (req, res) => {
+  console.log('req.body.message:', req.body.message);
+  messageQueries.addMessage(req.body.message)
+    .then(() =>
+      res.status()
+    )
+    .catch(err => {
+      console.log('error writing message:', err);
+    });
+}); 
+
 module.exports = router;
