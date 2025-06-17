@@ -6,6 +6,7 @@ import MainLayout from './MainLayout.jsx';
 import AuthPage from './components/AuthPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import EventsRoute from './routes/events/index.jsx';
+import FavouriteRoute from './routes/favourites/index.jsx';
 import './App.css';
 import './index.css';
 
@@ -33,7 +34,7 @@ export default function App() {
         } />
 
         <Route path="/favourites" element={
-          <Favourites /> // this need sto be moved to protected later
+          <FavouriteRoute /> // this needs to be moved to protected later
         } />
       </Route>
     </Routes>
