@@ -1,7 +1,7 @@
 const db = require('../connection');
 
 const getFavourites = (userId) => {
-  const query_str = 'SELECT * FROM sales RIGHT JOIN favourites ON sales(id) = item_id WHERE (consumer_id = $1)';
+  const query_str = 'SELECT sales.* FROM sales JOIN favourites ON sales.id = favourites.sale_id WHERE favourites.consumer_id = $1';
   const query_args = [userId];
   return db.query(query_str, query_args)
   .then(data => {

@@ -18,7 +18,7 @@ const Favourites = () => {
           method: "GET"
       });
         const data = await response.json();
-        setFavouriteItems(data);
+        setFavouriteItems(data.items);
         console.log('favourites after fetch:', data);
       } catch (error) {
         console.error("Error fetching favourites:", error);
@@ -31,7 +31,7 @@ const Favourites = () => {
   return (
     <ul>
       {favouriteItems.map(item => (
-        <span>Use same listing component as the Front page here</span>
+        <span key={item.id}>{item.title}</span>
       ))}  
     </ul>
   )

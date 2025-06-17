@@ -34,10 +34,8 @@ export default function App() {
           </ProtectedRoute>
         } />
 
-        <Route path="/favourites" element={
-          <Favourites /> // this needs to be moved to protected later
-        } />
       </Route>
+      <Route path="/favourites" element={<Favourites />} />
     </Routes>
   );
 }
