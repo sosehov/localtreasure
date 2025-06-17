@@ -12,13 +12,12 @@ export function HomePageEvents({ events, setActive}) {
         <div className="grid grid-cols-6 w-[90vw]">
           {events.map((event, index) => (
             <div
-              layoutId={`card-${event.title}-${id}-events-${index}`}
               key={`${event.title}-events-${index}`}
               onClick={() => setActive(event)}
               className="p-4 flex flex-col w-full  hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer"
             >
               <div className="flex gap-4 flex-col  w-full">
-                <div layoutId={`event-image-${event.title}-${id}-${index}`}>
+                <div >
                   <img
                     width={100}
                     height={100}
@@ -31,7 +30,6 @@ export function HomePageEvents({ events, setActive}) {
                 </div>
                 <div className="flex   flex-row justify-between ">
                   <h3
-                    layoutId={`event-title-${event.title}-${id}-${index}`}
                     className="font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left text-base"
                   >
                     {event.title}
