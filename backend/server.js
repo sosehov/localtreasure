@@ -1,6 +1,5 @@
 // load .env data into process.env
 require('dotenv').config();
-// const messageQueries = require('./db/queries/messages');
 
 // Web server config
 const express = require('express');
@@ -95,13 +94,6 @@ io.on('connection', (socket) => {
   socket.on('SEND_MESSAGE', message => {
     console.log("message has been sent by client", message);
     io.emit('NEW_MESSAGE', message);
-    // messageQueries.addMessage(message)
-    //   .then(() =>
-    //     console.log('message written to db')
-    //   )
-    //   .catch(err => {
-    //     console.log('error writing message:', err);
-    //   });
   })
 
   socket.on('disconnect', () => {
