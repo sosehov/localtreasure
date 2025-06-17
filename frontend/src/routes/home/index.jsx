@@ -1,20 +1,20 @@
-import React from 'react';
 import { useEffect, useState } from "react";
-import ExpandableCardDemoHome from '../../components/ExpandableCardDemoHome';
-import { useAuth } from '../../contexts/AuthContext';
+import ExpandableCardDemoHome from "../../components/ExpandableCardDemoHome";
+import { useAuth } from "../../contexts/AuthContext";
 
 const HomeRoute = () => {
   const [sales, setSales] = useState([]);
+  const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const { token } = useAuth();
 
-  useEffect(() => {
-    fetch("http://localhost:8080/api/sales/allSales",{
-         method:'GET',
-                    headers:{
-                        'Authorization': `Bearer ${token}`
-                    }
+  const fetchSales = () => {
+    fetch("http://localhost:8080/api/sales/allSales", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((res) => res.json())
       .then((data) => {
@@ -31,21 +31,46 @@ const HomeRoute = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }
+
+  const fetchEvents = () => {
+    fetch("http://localhost:8080/api/user-events/allEvents", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("✅ Fetched events:", data);
+        if (Array.isArray(data.events)) {
+          setEvents(data.events);
+        } else {
+          console.warn("⚠️ Unexpected events format:", data);
+        }
+      })
+      .catch((err) => {
+        console.error("❌ Failed to load events:", err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
+
+  useEffect(() => {
+    fetchSales()
+    fetchEvents()
+  }, [token]);
 
   console.log("📦 sales state:", sales);
 
   return (
-    <div className="home-page">
-      <h1 className='mt-4 ml-4'>Latest Listings</h1>
-
+    <div className="home-page pt-6">
       {loading && <p>Loading...</p>}
 
       {!loading && sales.length === 0 && <p>No listings found.</p>}
 
-      {!loading && sales.length > 0 && (
-        <ExpandableCardDemoHome sales={sales}/>
-      )}
+      {!loading && sales.length > 0 && <ExpandableCardDemoHome sales={sales} events={events} />}
     </div>
   );
 };

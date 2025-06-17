@@ -32,4 +32,10 @@ const createUserEvent = ({ user_id, title, description, date, start_time, end_ti
     });
 };
 
-module.exports = { getUserEvents, createUserEvent };
+
+const getAllEvents = () => {
+  return db.query(`SELECT events.*, users.name FROM events INNER JOIN users ON events.user_id = users.id WHERE events.date >= CURRENT_DATE ORDER BY id DESC;`)
+    .then(res => res.rows);
+};
+
+module.exports = { getUserEvents, createUserEvent, getAllEvents};

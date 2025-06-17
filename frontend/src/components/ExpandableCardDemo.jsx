@@ -1,30 +1,15 @@
-import React, { useEffect, useId, useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import  { useEffect, useId, useRef, useState } from "react";
+import { AnimatePresence } from "motion/react";
 import { useOutsideClick } from "@/hooks/use-outside-click";
-import { Textarea } from "@/components/ui/textarea";
 import { format, setHours, setMinutes, setSeconds } from "date-fns";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { IconDots } from "@tabler/icons-react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
 import { CreateSalesDialog } from "./CreateSalesDialog";
 import { EditSalesDialog } from "./EditSalesDialog";
 import { useAuth } from "../contexts/AuthContext";
@@ -472,7 +457,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
         ) : null}
       </AnimatePresence>
 
-      <div>
+      <div >
         <p className="ml-4 text-lg font-bold">Listings</p>
         <ul className="max-w-[100%] mx-auto w-full grid grid-cols-1 md:grid-cols-4 items-start gap-4">
           {renderSales()}

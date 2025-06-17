@@ -30,4 +30,15 @@ router.post('/createEvent', async  (req, res) => {
   }
 });
 
+router.get('/allEvents', (req, res) => {
+  eventsQueries.getAllEvents()
+    .then(events => {
+      res.json({ events });
+    })
+    .catch(err => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
+
 module.exports = router;
