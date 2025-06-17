@@ -3,10 +3,8 @@ import ExpandableCardDemo from "../../components/ExpandableCardDemo"
 import { useAuth } from "../../contexts/AuthContext";
 const ProfileRoute = ({}) => {
 
-
     const { user, token } = useAuth();
     
-
     const [sales, setSales] = useState([])
     const [events, setEvents] = useState([])
     const [loading, setLoading] = useState(true)
