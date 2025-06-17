@@ -9,13 +9,9 @@ const URL = 'http://localhost:8080';
 const MessagePage = () => {
 
   // get user from JWT
-  const { makeAuthenticatedRequest } = useAuth();
-  const { user } = useAuth();
+  const { makeAuthenticatedRequest, user } = useAuth();
+  // const { user } = useAuth();
 
-  // const user = {
-  //   id: 1,
-  //   name : 'Alice Henderson'
-  // };
   console.log('user object from jwt inside messagepage:', user);
 
   const socketRef = useRef(null);
@@ -24,24 +20,14 @@ const MessagePage = () => {
   const [users, setUsers] = useState([]);
   const [messages, setMessages] = useState([]);
 
-  // useEffect(() => {
-  //   makeAuthenticatedRequest('/api/messages')
-  //     .then(res => {
-  //       if (!res.ok) throw new Error('Failed to fetch messages');
-  //       return res.json();
-  //     })
-  //     .then(data => setUpcomingEvents(data))
-  //     .catch(err => console.error("Failed to fetch messages", err));
-  // }, [makeAuthenticatedRequest]);
-
   useEffect(() => {
     // get all the messages from db once when the page loads.
     const fetchMessages = async () => {
       try {
-        const fetchURL = `http://localhost:8080/api/messages?senderId=${user.id}&receiverId=2`
+        const fetchURL = `api/messages?senderId=${user.id}&receiverId=2`
         const response = await makeAuthenticatedRequest(fetchURL, {
           method: "GET"
-      });
+        });
         const data = await response.json();
         setMessages(data.messages);
         console.log('data after fetch:', data);
@@ -51,7 +37,7 @@ const MessagePage = () => {
     };
     
     fetchMessages();
-  }, []);
+  }, [makeAuthenticatedRequest]);
 
   useEffect(() => {
     
@@ -81,11 +67,8 @@ const MessagePage = () => {
       });
 
       // add new message to db, can 
-      makeAuthenticatedRequest('http://localhost:8080/api/messages', {
+      makeAuthenticatedRequest('/api/messages', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
         body: JSON.stringify({ message })
       })
       .then(res => console.log('message write status:', res))
