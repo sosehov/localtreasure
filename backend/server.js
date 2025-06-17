@@ -35,6 +35,7 @@ const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
 const saleRoutes = require('./routes/sales-api.js')
 const userEventsRoutes = require('./routes/user-events-api.js')
+const favouritesRoutes = require('./routes/favourites.js')
 
 
 // Mount all resource routes
@@ -45,6 +46,7 @@ app.use('/api/widgets', authenticateUser, widgetApiRoutes); // Protected
 app.use('/api/sales', authenticateUser, saleRoutes); // Protected
 app.use('/api/user-events', authenticateUser, userEventsRoutes); // Protected
 app.use('/users', usersRoutes);
+app.use('/api/favourites', favouritesRoutes);
 
 // Home page
 app.get('/', (req, res) => {
