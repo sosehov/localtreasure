@@ -37,12 +37,12 @@ const userEventsRoutes = require('./routes/user-events-api.js')
 
 
 // Mount all resource routes
-app.use('/api/auth', authApiRoutes); // Auth routes (public)
+app.use('/api/auth', authApiRoutes);
 app.use('/api/users', authenticateUser, userApiRoutes); // Protected
-app.use('/api/events', eventsApiRoutes); // Protected
+app.use('/api/events', eventsApiRoutes);
 app.use('/api/widgets', authenticateUser, widgetApiRoutes); // Protected
-app.use('/api/sales', saleRoutes); // Protected
-app.use('/api/user-events', userEventsRoutes); // Protected
+app.use('/api/sales', saleRoutes);
+app.use('/api/user-events', userEventsRoutes);
 app.use('/users', usersRoutes);
 
 // Home page
