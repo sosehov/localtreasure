@@ -1,7 +1,7 @@
 const db = require('../connection');
 
 const getRooms = (sender_id) => {
-  const query_str = 'SELECT * FROM rooms WHERE (sender_id = $1) OR (receiver_id = $1) ORDER BY createtime';
+  const query_str = 'SELECT * FROM rooms WHERE (sender_id = $1) OR (receiver_id = $1) ORDER BY create_time';
   const query_args = [sender_id];
   return db.query(query_str, query_args)
   .then(data => {
@@ -10,9 +10,9 @@ const getRooms = (sender_id) => {
 };
 
 const createRoom = (sender_id, receiver_id) => {
-  const createTime = new Date().toISOString();
-  const query_str = 'INSERT INTO rooms(sender_id, receiver_id, createtime) VALUES ($1, $2, $3)';
-  const query_args = [sender_id, receiver_id, createTime];
+  const create_time = new Date().toISOString();
+  const query_str = 'INSERT INTO rooms(sender_id, receiver_id, create_time) VALUES ($1, $2, $3)';
+  const query_args = [sender_id, receiver_id, create_time];
   return db.query(query_str, query_args)
   .then(data => {
     return data.rows;
