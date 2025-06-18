@@ -33,10 +33,8 @@ VALUES (
   'I am an avid gardener, tending to my flowerbeds and growing different kinds of vegatables! I also enjoy watching soap operas, Days of Our Lives is my favourite!',
   true,
   '123-654-7890'
-);
-
-INSERT INTO users (name, email, address, password, bio, is_admin, contact_info)
-VALUES (
+),
+(
   'Michael Lee',
   'LeeM@gmail.com',
   '123 granville island, 14 Avenue BC V6K 2P5',
@@ -44,5 +42,14 @@ VALUES (
   'I love to travel to different countries around the world! I also enjoy doing hikes',
   true,
   '789-635-1471'
+),
+(
+  'David Sutton',
+  'SuttonD@gmail.com',
+  '123 granville island, 14 Avenue BC V6K 2P5',
+  'RandomDude',
+  'I love to stay home and sleep.',
+  false,
+  '789-635-1472'
 );
 
