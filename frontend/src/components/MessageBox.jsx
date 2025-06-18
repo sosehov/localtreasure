@@ -1,7 +1,7 @@
 import MessageSpan from './MessageSpan';
 
 const MessageBox = (props) => {
-  console.log('messages state inside messagebox:', props.messages);
+  // console.log('messages state inside messagebox:', props.messages);
   return (
     <ul>
       {Object.values(props.messages).map(message => (

@@ -79,6 +79,7 @@ export const AuthProvider = ({ children }) => {
       ...options.headers,
     };
 
+    
     if (token) {
       headers.Authorization = `Bearer ${token}`;
     }

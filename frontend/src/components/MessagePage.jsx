@@ -9,10 +9,10 @@ const URL = 'http://localhost:8080';
 const MessagePage = () => {
 
   // get user from JWT
-  const { makeAuthenticatedRequest, user } = useAuth();
+  const { token, makeAuthenticatedRequest, user } = useAuth();
   // const { user } = useAuth();
 
-  console.log('user object from jwt inside messagepage:', user);
+  // console.log('user object from jwt inside messagepage:', user);
 
   const socketRef = useRef(null);
   // all of this goes into a hook later
@@ -21,6 +21,7 @@ const MessagePage = () => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
+    if (!user || !token) return;
     // get all the messages from db once when the page loads.
     const fetchMessages = async () => {
       try {
@@ -37,10 +38,7 @@ const MessagePage = () => {
     };
     
     fetchMessages();
-  }, [makeAuthenticatedRequest]);
 
-  useEffect(() => {
-    
     // websocket stuff 
     console.log('MOUNTS <-------');
     socketRef.current = io(URL);
@@ -59,10 +57,11 @@ const MessagePage = () => {
     }
 
     const newMessage = message => {
+      if (!user || !token) return;
 
       console.log('new message is here:', message);
       setMessages(prev => {
-        console.log('message prev:', prev);
+        // console.log('message prev:', prev);
         return [ ...prev, message];
       });
 
@@ -81,7 +80,7 @@ const MessagePage = () => {
     return () => {
       socket.off('NEW_MESSAGE', newMessage);
     };  
-  }, []);
+  }, [token, user, makeAuthenticatedRequest]);
   
   const handleSubmit = (e, user) => {
     e.preventDefault();
