@@ -10,7 +10,7 @@ import './App.css';
 import './index.css';
 
 
-import MessagePage from './components/MessagePage.jsx';
+import MessagePage from './components/MessageRoom.jsx';
 import MessageRooms from './components/MessageRooms.jsx';
 
 
@@ -36,8 +36,8 @@ export default function App() {
           </ProtectedRoute>
         } />
       </Route> 
-      <Route path="/messages" element={< MessagePage />} />
-      <Route path="/messageRooms" element={< MessageRooms />} />
+      {/* <Route path="/messages" element={< MessagePage />} /> */}
+      <Route path="/messages" element={< MessageRooms />} />
     </Routes>
   );
 }

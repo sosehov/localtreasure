@@ -1,3 +1,5 @@
+import '../App.css';
+
 const MessageSpan = (props) => {
   // console.log('message span:', props.message);
   // Identifies whether it is sender or receiver for styling 
