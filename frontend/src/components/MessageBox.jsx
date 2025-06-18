@@ -1,11 +1,11 @@
 import MessageSpan from './MessageSpan';
 
 const MessageBox = (props) => {
-  // we have access to the sender under props.sender
+  // console.log('messages state inside messagebox:', props.messages);
   return (
     <ul>
-      {props.messages.map(message => (
-        < MessageSpan message={message}/>
+      {Object.values(props.messages).map(message => (
+        < MessageSpan key={message.msg_id} message={message} sender={props.sender}/>
       ))}  
     </ul>
   )

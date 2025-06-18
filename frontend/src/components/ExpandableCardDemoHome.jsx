@@ -2,6 +2,7 @@ import{ useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { format, setHours, setMinutes, setSeconds } from "date-fns";
+import { Link } from "react-router";
 
 import HomePageEvents from "./HomePageEvents";
 import HomePageSales from "./HomePageSales";
@@ -199,15 +200,17 @@ export function ExpandableCardDemoHome({sales, events}) {
                               : active.content}
                           </div>
 {/* To get the user id to message use active.user_id */}
-                  <div className="pt-4 relative px-4 w-full text-center">
-                     <button
-                    layout
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="px-4 py-3 mb-5 text-sm rounded-md font-bold bg-blue-500 text-white">
-                    Message {active.name}
-                  </button>
+                  <div className="pt-4 relative px-4">
+                    <Link to='/messages' seller_id={active.user_id}>
+                      <button
+                        layout
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="px-4 py-3 mb-5 text-sm rounded-md font-bold bg-blue-500 text-white">
+                        Message {active.name}
+                      </button>
+                    </Link>
                 </div>
                         </div>
                       </div>

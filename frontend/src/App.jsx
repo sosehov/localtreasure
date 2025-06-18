@@ -10,6 +10,9 @@ import './App.css';
 import './index.css';
 
 
+import MessagePage from './components/MessagePage.jsx';
+
+
 export default function App() {
   return (
     <Routes>
@@ -31,7 +34,8 @@ export default function App() {
             <EventsRoute />
           </ProtectedRoute>
         } />
-      </Route>
+      </Route> 
+      <Route path="/messages" element={< MessagePage />} />
     </Routes>
   );
 }

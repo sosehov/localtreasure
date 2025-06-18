@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 
+
 import { AnimatePresence } from "motion/react";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { format, setHours, setMinutes, setSeconds } from "date-fns";
@@ -143,6 +144,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
               className="p-4 flex flex-col w-full  hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer"
             >
               <div className="flex gap-4 flex-col  w-full">
+
                 <div >
                   <img
                     width={100}

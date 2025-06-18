@@ -6,6 +6,10 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 
+// Webscoket
+const { createServer } = require('node:http');
+const { Server } = require('socket.io');
+
 const PORT = process.env.PORT || 8080;
 const app = express();
 
@@ -14,6 +18,14 @@ app.use(cors({
   origin: 'http://localhost:5173', // Frontend URL
   credentials: true
 }));
+
+const server = createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ['GET', 'POST']
+  }
+});
 
 app.set('view engine', 'ejs');
 
@@ -33,6 +45,7 @@ const eventsApiRoutes = require('./routes/events-api.js');
 const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
 const saleRoutes = require('./routes/sales-api.js')
+const messagesRoutes = require('./routes/messages-api.js');
 const userEventsRoutes = require('./routes/user-events-api.js')
 
 
@@ -41,9 +54,13 @@ app.use('/api/auth', authApiRoutes);
 app.use('/api/users', authenticateUser, userApiRoutes); // Protected
 app.use('/api/events', eventsApiRoutes);
 app.use('/api/widgets', authenticateUser, widgetApiRoutes); // Protected
-app.use('/api/sales', saleRoutes);
-app.use('/api/user-events', userEventsRoutes);
+
+app.use('/api/sales', saleRoutes); // Protected
+app.use('/api/user-events', userEventsRoutes); // Protected
 app.use('/users', usersRoutes);
+// app.use('/api/sales', saleRoutes);
+app.use('/api/messages', messagesRoutes);
+
 
 // Home page
 app.get('/', (req, res) => {
@@ -66,6 +83,30 @@ app.use('*', (req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
 
-app.listen(PORT, () => {
+
+// change this to db later
+const users = [];
+
+io.on('connection', (socket) => {
+  const name = socket.id;
+  users.push(name);
+
+  socket.emit('NEW_CONNECTION', { name, users });
+  socket.broadcast.emit('NEW_USER', { name });
+  console.log(name, "someone has connected");
+
+  socket.on('SEND_MESSAGE', message => {
+    console.log("message has been sent by client", message);
+    io.emit('NEW_MESSAGE', message);
+  })
+
+  socket.on('disconnect', () => {
+    console.log(name, 'someone has disconnected');
+  });
+  
+});
+
+
+server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
