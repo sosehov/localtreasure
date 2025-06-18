@@ -58,7 +58,6 @@ app.use('/api/widgets', authenticateUser, widgetApiRoutes); // Protected
 app.use('/api/sales', saleRoutes); // Protected
 app.use('/api/user-events', userEventsRoutes); // Protected
 app.use('/users', usersRoutes);
-// app.use('/api/sales', saleRoutes);
 app.use('/api/messages', messagesRoutes);
 
 

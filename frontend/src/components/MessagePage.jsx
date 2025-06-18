@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from 'react'
-import { io } from 'socket.io-client'
+import { useState, useEffect, useRef } from 'react';
+import { io } from 'socket.io-client';
 import { useAuth } from "../contexts/AuthContext";
+import { useSearchParams } from 'react-router-dom';
 import MessageBox from './MessageBox';
 import MessageInputForm from './MessageInputForm';
-import { useSearchParams } from 'react-router-dom';
 const URL = 'http://localhost:8080';
 
 
