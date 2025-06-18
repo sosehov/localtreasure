@@ -83,13 +83,12 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
         <div className="grid grid-cols-6 w-[90vw]">
           {sales.map((sale, index) => (
             <div
-              layoutId={`card-${sale.title}-${id}-sales`}
               key={`${sale.title}-sales`}
               onClick={() => setActive(sale)}
               className="p-4 flex flex-col w-full  hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer"
             >
               <div className="flex gap-4 flex-col  w-full">
-                <div layoutId={`sales-image-${sale.title}-${id}`}>
+                <div >
                   <img
                     width={100}
                     height={100}
@@ -100,7 +99,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
                 </div>
                 <div className="flex   flex-row justify-between ">
                   <h3
-                    layoutId={`sales-title-${sale.title}-${id}`}
+                 
                     className="font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left text-base"
                   >
                     {sale.title}
@@ -139,14 +138,14 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
         <div className="grid grid-cols-6 w-[90vw]">
           {events.map((event, index) => (
             <div
-              layoutId={`card-${event.title}-${id}-events-${index}`}
+             
               key={`${event.title}-events-${index}`}
               onClick={() => setActive(event)}
               className="p-4 flex flex-col w-full  hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer"
             >
               <div className="flex gap-4 flex-col  w-full">
-                {/* <div layoutId={`event-image-${event.title}-${id}-${index}`}> */}
-                <div>
+
+                <div >
                   <img
                     width={100}
                     height={100}
@@ -159,7 +158,6 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
                 </div>
                 <div className="flex   flex-row justify-between ">
                   <h3
-                    layoutId={`event-title-${event.title}-${id}-${index}`}
                     className="font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left text-base"
                   >
                     {event.title}
@@ -326,11 +324,10 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
               <CloseIcon />
             </button>
             <div
-              layoutId={`card-${active.title}-${id}`}
               ref={ref}
               className="w-full max-w-[500px]  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
             >
-              <div layoutId={`image-${active.title}-${id}`}>
+              <div >
                 <img
                   width={200}
                   height={200}
@@ -349,7 +346,6 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
                   <div className="flex flex-col">
                     <div className="flex flex-row gap-5">
                       <h3
-                        layoutId={`title-${active.title}`}
                         className="font-medium text-neutral-700 dark:text-neutral-200 text-base"
                       >
                         {active.title}
@@ -357,7 +353,6 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
 
                       {active.price_cents ? (
                         <p
-                          layoutId={`title-${active.price_cents}-${id}`}
                           className="text-neutral-600 dark:text-neutral-400 text-base"
                         >
                           ${active.price_cents}
@@ -370,7 +365,6 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
                     <div className="mt-5">
                       {active.date ? (
                         <span
-                          layoutId={`description-${active.date}-${id}`}
                           className="text-neutral-600 dark:text-neutral-400 text-base"
                         >
                           On {format(new Date(active.date), "MMMM d, yyyy")}
@@ -380,7 +374,6 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
                       )}
                       {active.start_time ? (
                         <span
-                          layoutId={`description-${active.start_time}-${id}`}
                           className="text-neutral-600 dark:text-neutral-400 text-base"
                         >
                           &nbsp; From {formatTime(active.start_time)} -
@@ -390,7 +383,6 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
                       )}
                       {active.end_time ? (
                         <span
-                          layoutId={`description-${active.end_time}-${id}`}
                           className="text-neutral-600 dark:text-neutral-400 text-base"
                         >
                           &nbsp; To {formatTime(active.end_time)}
@@ -403,7 +395,6 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
                     <div className="flex flex-row gap-5">
                       {active.address ? (
                         <span
-                          layoutId={`description-${active.address}-${id}`}
                           className="text-neutral-600 dark:text-neutral-400 text-base"
                         >
                           At {active.address}
@@ -415,7 +406,6 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
 
                     <div className="mt-5">
                       <p
-                        layoutId={`description-${active.description}-${id}`}
                         className="text-neutral-600 dark:text-neutral-400 text-base"
                       >
                         {active.description}
