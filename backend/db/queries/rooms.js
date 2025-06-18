@@ -10,8 +10,9 @@ const getRooms = (sender_id) => {
 };
 
 const createRoom = (sender_id, receiver_id) => {
-  const query_str = 'INSERT INTO messaging(sender_id, receiver_id, content, sendtime) VALUES ($1, $2, $3, $4)';
-  const query_args = [message.sender_id, message.receiver_id, message.content, message.sendtime];
+  const createTime = new Date().toISOString();
+  const query_str = 'INSERT INTO rooms(sender_id, receiver_id, createtime) VALUES ($1, $2, $3)';
+  const query_args = [sender_id, receiver_id, createTime];
   return db.query(query_str, query_args)
   .then(data => {
     return data.rows;
@@ -19,11 +20,11 @@ const createRoom = (sender_id, receiver_id) => {
 }
 
 const roomExists = (sender_id, receiver_id) => {
-  const query_str = 'INSERT INTO messaging(sender_id, receiver_id, content, sendtime) VALUES ($1, $2, $3, $4)';
-  const query_args = [message.sender_id, message.receiver_id, message.content, message.sendtime];
+  const query_str = 'SELECT * FROM rooms WHERE (sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1)';
+  const query_args = [sender_id, receiver_id];
   return db.query(query_str, query_args)
   .then(data => {
-    return data.rows;
+    return data.rows.length > 0;
   });
 }
 
