@@ -17,8 +17,9 @@ L.Marker.prototype.options.icon = DefaultIcon;
 
 function MapView() {
   const [locations, setLocations] = useState([]); // will contain the coorindate numbers
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(null);
+  // IMPLEMENT AFTER
 
   useEffect(() => {
     fetch('/api/locations') //temporary route
