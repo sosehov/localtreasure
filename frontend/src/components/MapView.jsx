@@ -9,7 +9,7 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 let DefaultIcon = L.icon({ // custom icon
   iconUrl: icon,  // path to marker image file
   shadowUrl: iconShadow, // path to shadow image
-  iconSize: [25,41], // size of the icons
+  iconSize: [25, 41], // size of the icons
   iconAnchor: [12, 41] // actual map location
 });
 
@@ -45,13 +45,13 @@ function MapView() {
         {locations.map((location) => {
           const coordinates = location.coordinates;
           const position = [coordinates[1], coordinates[0]];
-          
+
           return (
-            <Marker key={pos.id} position={[lat, lng]}>
+            <Marker key={location.id} position={position}>
               <Popup>
                 <div>
                   <strong>Address:</strong><br />
-                  {pos.address}
+                  {location.address}
                 </div>
               </Popup>
             </Marker>
