@@ -27,7 +27,25 @@ const MessageRooms = () => {
   useEffect(() => {
     // dont run if user or token hasn't loaded in yet
     if (!user || !token) return;
+
+    // get all the messages from db once when the page loads.
+    const fetchMessages = async () => {
+      try {
+        const fetchURL = `api/messages?senderId=${user.id}&receiverId=${seller_id}`
+        const response = await makeAuthenticatedRequest(fetchURL, {
+          method: "GET"
+        });
+        const data = await response.json();
+        setMessages(data.messages);
+        console.log('data after fetch:', data);
+      } catch (error) {
+        console.error("Error fetching messages:", error);
+      }
+    };
     
+    fetchMessages();
+
+    // websocket mounts
     socketRef.current = io(URL);
     const socket = socketRef.current;
 
