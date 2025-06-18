@@ -42,8 +42,10 @@ function MapView() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {locations.map((pos) => {
-          const [lng, lat] = pos.location.coordinates;
+        {locations.map((location) => {
+          const coordinates = location.coordinates;
+          const position = [coordinates[1], coordinates[0]];
+          
           return (
             <Marker key={pos.id} position={[lat, lng]}>
               <Popup>
