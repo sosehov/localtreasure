@@ -280,7 +280,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
         <CreateEventsDialog
           open={showEventsDialog}
           onOpenChange={setShowEventsDialog}
-          fetchSales={fetchSales}
+          fetchEvents={fetchEvents}
         />
       )}
 

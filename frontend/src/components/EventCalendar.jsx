@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from "../contexts/AuthContext";
 import { Calendar } from '@/components/ui/calendar';
+import { parse, format } from "date-fns";
 
 const EventCalendar = () => {
   const { makeAuthenticatedRequest } = useAuth();
@@ -23,16 +24,20 @@ const EventCalendar = () => {
   }, [selectedDate, makeAuthenticatedRequest]);
 
   useEffect(() => {
+    if (!selectedDate) return;
+  
     const year = selectedDate.getFullYear();
-    const month = selectedDate.getMonth() + 1; // JS months are 0-based
-
+    const month = selectedDate.getMonth() + 1;
+  
     makeAuthenticatedRequest(`/api/events/month?year=${year}&month=${month}`)
       .then(res => {
         if (!res.ok) throw new Error('Failed to fetch monthly events');
         return res.json();
       })
       .then(data => {
-        const dates = data.map(event => new Date(event.date));
+        const dates = data
+          .map(event => new Date(event.date))
+          .filter(date => !isNaN(date));
         setHighlightedDates(dates);
       })
       .catch(err => console.error("Failed to fetch monthly events", err));
@@ -62,12 +67,16 @@ const EventCalendar = () => {
             <p className="text-muted-foreground mt-2">No events.</p>
           ) : (
             <ul className="list-disc list-inside mt-2">
-              {events.map((event) => (
-                <li key={event.event_id}>
-                  <strong>{event.title}</strong> – {" "}
-                  {event.start_time} to {event.end_time}
-                </li>
-              ))}
+              {events.map((event) => {
+                const parsedStart = parse(event.start_time, "HH:mm:ss", new Date());
+                const parsedEnd = parse(event.end_time, "HH:mm:ss", new Date());
+                return (
+                  <li key={event.event_id}>
+                    <strong>{event.title}</strong> –{" "}
+                    {format(parsedStart, "h:mm a")} to {format(parsedEnd, "h:mm a")}
+                  </li>
+                );
+              })}
             </ul>
           )}
         </div>
