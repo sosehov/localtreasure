@@ -201,7 +201,7 @@ export function ExpandableCardDemoHome({sales, events}) {
                           </div>
 {/* To get the user id to message use active.user_id */}
                   <div className="pt-4 relative px-4">
-                    <Link to='/messages' seller_id={active.user_id}>
+                    <Link to={`/messages?seller_id=${active.user_id}`}>
                       <button
                         layout
                         initial={{ opacity: 0 }}

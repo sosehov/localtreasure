@@ -3,6 +3,7 @@ import { io } from 'socket.io-client'
 import { useAuth } from "../contexts/AuthContext";
 import MessageBox from './MessageBox';
 import MessageInputForm from './MessageInputForm';
+import { useSearchParams } from 'react-router-dom';
 const URL = 'http://localhost:8080';
 
 
@@ -10,9 +11,13 @@ const MessagePage = () => {
 
   // get user from JWT
   const { token, makeAuthenticatedRequest, user } = useAuth();
-  // const { user } = useAuth();
 
   // console.log('user object from jwt inside messagepage:', user);
+
+  // get seller_id
+  const [searchParams] = useSearchParams();
+  const seller_id = searchParams.get('seller_id');
+  console.log('seller_id:', seller_id);
 
   const socketRef = useRef(null);
   // all of this goes into a hook later
@@ -21,11 +26,13 @@ const MessagePage = () => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
+    // dont run if user or token hasn't loaded in yet
     if (!user || !token) return;
+
     // get all the messages from db once when the page loads.
     const fetchMessages = async () => {
       try {
-        const fetchURL = `api/messages?senderId=${user.id}&receiverId=2`
+        const fetchURL = `api/messages?senderId=${user.id}&receiverId=${seller_id}`
         const response = await makeAuthenticatedRequest(fetchURL, {
           method: "GET"
         });
@@ -89,7 +96,7 @@ const MessagePage = () => {
     // console.log('message from form', messageText);
     const message = {
       sender_id: user.id,
-      reciever_id: 2, // this needs to be changed to actual reciver id later
+      reciever_id: seller_id,
       content: messageText,
       sendtime: `${new Date().toISOString()}`
     };
