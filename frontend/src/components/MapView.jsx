@@ -27,12 +27,14 @@ function MapView() {
       .catch(err => console.error('error, did not fetch', err));
   }, []);
 
+  // add error handling once tested
+
   return (
     <div style={{ height: '500px', width: '100%' }}>
       <MapContainer
         center={[43.65, -79.38]} // this should be Toronto,currently hardcoded coordinates
-        zoom={4}
-        scrollWheelZoom={false}
+        zoom={12}
+        scrollWheelZoom={true}
         style={{ height: '100%', width: '100%' }}
       >
         <TileLayer
