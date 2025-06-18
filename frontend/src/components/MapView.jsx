@@ -6,8 +6,19 @@ import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
+let DefaultIcon = L.icon({ // custom icon
+  iconUrl: icon,  // path to marker image file
+  shadowUrl: iconShadow, // path to shadow image
+  iconSize: [25,41], // size of the icons
+  iconAnchor: [12, 41] // actual map location
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
+
 function MapView() {
   const [locations, setLocations] = useState([]); // will contain the coorindate numbers
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetch('/api/locations') //temporary route
