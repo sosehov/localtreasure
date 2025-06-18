@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS events CASCADE;
 DROP TABLE IF EXISTS sales CASCADE;
 DROP TABLE IF EXISTS messaging CASCADE;
 DROP TABLE IF EXISTS map CASCADE;
+DROP TABLE IF EXISTS rooms CASCADE;
 
 
 CREATE TABLE categories (
@@ -64,4 +65,11 @@ CREATE TABLE map (
   event_id INTEGER REFERENCES events(event_id),
   -- location GEOGRAPHY(POINT) NOT NULL,
   address TEXT
+);
+
+CREATE TABLE rooms (
+  id SERIAL PRIMARY KEY NOT NULL,
+  sender_id INTEGER REFERENCES users(id),
+  receiver_id INTEGER REFERENCES users(id),
+  create_time TIMESTAMP
 );

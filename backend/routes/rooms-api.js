@@ -14,7 +14,7 @@ router.get('/', authenticateUser, (req, res) => {
 }); 
 
 router.post('/', authenticateUser, (req, res) => {
-  if(!roomQueries.roomExists()) {
+  if(!roomQueries.roomExists(req.query.senderId, req.query.senderId)) {
     roomQueries.createRoom(req.query.senderId, req.query.senderId)
       .then(() =>
         res.status()

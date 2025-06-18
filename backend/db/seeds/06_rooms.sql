@@ -1,4 +1,4 @@
-INSERT INTO messaging (sender_id, receiver_id, create_time)
+INSERT INTO rooms (sender_id, receiver_id, create_time)
 VALUES (
   1,
   2,
@@ -8,7 +8,7 @@ VALUES (
   1, 
   3, 
   '2025-06-17T16:30:00.000Z'
-);
+),
 (
   3, 
   2,  
