@@ -14,8 +14,8 @@ const MessageRoom = () => {
   const { token, makeAuthenticatedRequest, user } = useAuth();
   // get reciever from url
   const [searchParams] = useSearchParams();
-  const seller_id = searchParams.get('seller_id') ? searchParams.get('seller_id') : 2;
-  console.log('seller_id:', seller_id);
+  const reciever_id = searchParams.get('reciever_id') ? searchParams.get('reciever_id') : 2;
+  console.log('reciever_id:', reciever_id);
 
   const socketRef = useRef(null);
 
@@ -30,7 +30,7 @@ const MessageRoom = () => {
     // get all the messages from db once when the page loads.
     const fetchMessages = async () => {
       try {
-        const fetchURL = `api/messages?senderId=${user.id}&receiverId=${seller_id}`
+        const fetchURL = `api/messages?senderId=${user.id}&receiverId=${reciever_id}`
         const response = await makeAuthenticatedRequest(fetchURL, {
           method: "GET"
         });
@@ -93,7 +93,7 @@ const MessageRoom = () => {
     // console.log('message from form', messageText);
     const message = {
       sender_id: user.id,
-      reciever_id: seller_id,
+      reciever_id: reciever_id,
       content: messageText,
       sendtime: `${new Date().toISOString()}`
     };
