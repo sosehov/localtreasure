@@ -11,6 +11,7 @@ import './index.css';
 
 
 import MessagePage from './components/MessagePage.jsx';
+import MessageRooms from './components/MessageRooms.jsx';
 
 
 export default function App() {
@@ -36,6 +37,7 @@ export default function App() {
         } />
       </Route> 
       <Route path="/messages" element={< MessagePage />} />
+      <Route path="/messageRooms" element={< MessageRooms />} />
     </Routes>
   );
 }
