@@ -19,14 +19,13 @@ export function HomePageSales({ sales, setActive}) {
               
             <motion.div
             
-              layoutId={`card-${sale.title}-${id}`}
               
               key={sale.title}
               
               onClick={() => setActive(sale)}
               className="p-4 flex flex-col w-full  hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer">
               <div className="flex gap-4 flex-col  w-full">
-                <motion.div layoutId={`image-${sale.title}-${id}`}>
+                <motion.div >
                   <img
                     width={100}
                     height={100}
@@ -36,7 +35,6 @@ export function HomePageSales({ sales, setActive}) {
                 </motion.div>
                 <div className="flex   flex-row justify-between ">
                   <motion.h3
-                    layoutId={`title-${sale.title}-${id}`}
                     className="font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left text-base">
                     {sale.title}
                   </motion.h3>

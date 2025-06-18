@@ -84,11 +84,10 @@ export function ExpandableCardDemoHome({sales, events}) {
                       <CloseIcon />
                     </button>
                     <div
-                      layoutId={`card-${active.title}-${id}`}
                       ref={ref}
                       className="w-full max-w-[500px]  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
                     >
-                      <div layoutId={`image-${active.title}-${id}`}>
+                      <div >
                         <img
                           width={200}
                           height={200}
@@ -107,7 +106,6 @@ export function ExpandableCardDemoHome({sales, events}) {
                           <div className="flex flex-col">
                             <div className="flex flex-row gap-5">
                               <h3
-                                layoutId={`title-${active.title}`}
                                 className="font-medium text-neutral-700 dark:text-neutral-200 text-base"
                               >
                                 {active.title}
@@ -115,7 +113,6 @@ export function ExpandableCardDemoHome({sales, events}) {
         
                               {active.price_cents ? (
                                 <p
-                                  layoutId={`title-${active.price_cents}-${id}`}
                                   className="text-neutral-600 dark:text-neutral-400 text-base"
                                 >
                                   ${active.price_cents}
@@ -128,7 +125,6 @@ export function ExpandableCardDemoHome({sales, events}) {
                             <div className="mt-5">
                               {active.date ? (
                                 <span
-                                  layoutId={`description-${active.date}-${id}`}
                                   className="text-neutral-600 dark:text-neutral-400 text-base"
                                 >
                                   On {format(new Date(active.date), "MMMM d, yyyy")}
@@ -138,7 +134,6 @@ export function ExpandableCardDemoHome({sales, events}) {
                               )}
                               {active.start_time ? (
                                 <span
-                                  layoutId={`description-${active.start_time}-${id}`}
                                   className="text-neutral-600 dark:text-neutral-400 text-base"
                                 >
                                   &nbsp; From {formatTime(active.start_time)} -
@@ -148,7 +143,6 @@ export function ExpandableCardDemoHome({sales, events}) {
                               )}
                               {active.end_time ? (
                                 <span
-                                  layoutId={`description-${active.end_time}-${id}`}
                                   className="text-neutral-600 dark:text-neutral-400 text-base"
                                 >
                                   &nbsp; To {formatTime(active.end_time)}
@@ -161,7 +155,6 @@ export function ExpandableCardDemoHome({sales, events}) {
                             <div className="flex flex-row gap-5">
                               {active.address ? (
                                 <span
-                                  layoutId={`description-${active.address}-${id}`}
                                   className="text-neutral-600 dark:text-neutral-400 text-base"
                                 >
                                   At {active.address}
@@ -173,7 +166,6 @@ export function ExpandableCardDemoHome({sales, events}) {
         
                             <div className="mt-5">
                               <p
-                                layoutId={`description-${active.description}-${id}`}
                                 className="text-neutral-600 dark:text-neutral-400 text-base"
                               >
                                 {active.description}
