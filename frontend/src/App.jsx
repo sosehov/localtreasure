@@ -41,6 +41,7 @@ export default function App() {
         } />
       </Route> 
       <Route path="/messages" element={< MessagePage />} />
+      <Route path="/map" element={<MapView /> } />
     </Routes>
   );
 }
