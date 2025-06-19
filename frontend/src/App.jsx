@@ -14,7 +14,7 @@ import MapView from './components/MapView.jsx';
 
 
 
-import MessageRooms from './components/messages/MessageRoom.jsx';
+import MessageRooms from './components/messages/MessageRooms.jsx';
 import MessageRoom from './components/messages/MessageRoom.jsx';
 
 

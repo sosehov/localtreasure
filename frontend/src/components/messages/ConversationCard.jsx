@@ -50,7 +50,7 @@ const ConversationCard = (props) => {
         ) : (
           <p>Loading conversation...</p>
         )}
-        < DeleteButton room={room}/>
+        < DeleteButton room={props.room}/>
       </li>
     </div>
   )
