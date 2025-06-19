@@ -27,6 +27,23 @@ const MessageRoom = () => {
     // dont run if user or token hasn't loaded in yet
     if (!user || !token) return;
 
+    // check if a room already exists for these people, otherwise make one
+    const createRoomConditional = async () => {
+      try {
+        const fetchURL = `api/messageRooms?senderId=${user.id}&receiverId=${reciever_id}`
+        const response = await makeAuthenticatedRequest(fetchURL, {
+          method: "POST"
+        })
+        .then((res) => {
+          console.log(res);
+        })
+      } catch (error) {
+        console.error("Error creating room:", error);
+      }
+    };
+
+    createRoomConditional();
+
     // get all the messages from db once when the page loads.
     const fetchMessages = async () => {
       try {
@@ -83,6 +100,7 @@ const MessageRoom = () => {
     return () => {
       socket.off('NEW_MESSAGE', sentMessage);
     };  
+
   },[token, user, makeAuthenticatedRequest]);
 
 

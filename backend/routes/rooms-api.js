@@ -23,9 +23,10 @@ router.post('/', authenticateUser, (req, res) => {
         console.log('error creating room:', err);
       });
   } else {
-    console.log('room already exists');
+    res.send({'room' : 'room already exists'});
   }
 }); 
+
 
 module.exports = router;
 
