@@ -5,10 +5,14 @@ import { useState, useEffect } from 'react';
 
 const ConversationCard = (props) => {
 
+  // get user for authenticated req
   const { token, makeAuthenticatedRequest, user } = useAuth();
+
+  // state
   const [receiver, setReceiver] = useState(null);
 
   const getReceiverId = (room) => {
+    // if the reciever id is not equal to user id then it is the reciver id, otherwise the sender_id is
     const receiver_id = user.id === room.sender_id ? room.receiver_id : room.sender_id;
     console.log('room sender:', user.id, ', room receiver:', receiver_id);
     return receiver_id;
@@ -16,7 +20,7 @@ const ConversationCard = (props) => {
   
   const receiverId = getReceiverId(props.room);
 
-
+  // fetch receivers name
   useEffect(() => {
     const fetchReceiver = async () => {
       try {

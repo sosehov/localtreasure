@@ -36,16 +36,11 @@ const MessageRooms = () => {
   }, [ user, token, makeAuthenticatedRequest]);
 
 
-  // each room in db with a sender and reciever id, if user ever message someone, an entry gets created in db for the room
-  // then here we pull all the rooms for this user have reciever id ready
-  // if the reciever id is not equal to user id then it is the reciver id, otherwise the sender_id is
-  
-
   return (
     <div>
     {rooms.length > 0 && user.name ? (
       <>
-        <p>{user.name}</p>
+        <p>{user.name}'s Messages</p>
         <ul>
           {rooms.map((room) => (
             <li key={room.id}>
