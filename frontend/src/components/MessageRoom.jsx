@@ -14,8 +14,8 @@ const MessageRoom = () => {
   const { token, makeAuthenticatedRequest, user } = useAuth();
   // get reciever from url
   const [searchParams] = useSearchParams();
-  const reciever_id = searchParams.get('reciever_id') ? searchParams.get('reciever_id') : 2;
-  console.log('reciever_id:', reciever_id);
+  const reciever_id = searchParams.get('reciever_id');
+  // console.log('reciever_id:', reciever_id);
 
   const socketRef = useRef(null);
 
@@ -36,7 +36,7 @@ const MessageRoom = () => {
         });
         const data = await response.json();
         setMessages(data.messages);
-        console.log('data after fetch:', data);
+        console.log('messages after fetch:', data.messages);
       } catch (error) {
         console.error("Error fetching messages:", error);
       }

@@ -14,7 +14,7 @@ const ConversationCard = (props) => {
   const getReceiverId = (room) => {
     // if the reciever id is not equal to user id then it is the reciver id, otherwise the sender_id is
     const receiver_id = user.id === room.sender_id ? room.receiver_id : room.sender_id;
-    console.log('room sender:', user.id, ', room receiver:', receiver_id);
+    // console.log('room sender:', user.id, ', room receiver:', receiver_id);
     return receiver_id;
   };
   
