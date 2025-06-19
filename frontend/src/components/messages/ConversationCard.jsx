@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { useState, useEffect } from 'react';
 
 
@@ -44,11 +44,14 @@ const ConversationCard = (props) => {
 
   return (
     <div>
-      {receiver ? (
-        <Link to={`/message?reciever_id=${receiverId}`}> {receiver.name} </Link>
-      ) : (
-        <p>Loading conversation...</p>
-      )}
+      <li key={props.room.id}>
+        {receiver ? (
+          <Link to={`/message?reciever_id=${receiverId}`}> {receiver.name} </Link>
+        ) : (
+          <p>Loading conversation...</p>
+        )}
+        <button>Close</button>
+      </li>
     </div>
   )
 };

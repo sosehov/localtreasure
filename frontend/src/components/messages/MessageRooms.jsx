@@ -43,9 +43,7 @@ const MessageRooms = () => {
         <p>{user.name}'s Messages</p>
         <ul>
           {rooms.map((room) => (
-            <li key={room.id}>
-              <ConversationCard room={room} />
-            </li>
+            <ConversationCard room={room} />
           ))}
         </ul>
       </>
