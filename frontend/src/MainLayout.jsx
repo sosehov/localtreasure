@@ -8,7 +8,7 @@ import { useAuth } from './contexts/AuthContext.jsx';
   const { user, logout, isAuthenticated } = useAuth();
 
   return(
-    <div className="main-layout">
+    <div className="main-layout w-[full]">
       <nav className="navbar">
         <div className="nav-brand">
           <Link to="/">

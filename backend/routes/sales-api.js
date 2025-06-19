@@ -1,9 +1,12 @@
 const express = require('express');
 const router  = express.Router();
 const salesQueries = require('../db/queries/sales');
+const { authenticateUser } = require('../middleware/auth');
 
-router.get('/sales', (req, res) => {
-  salesQueries.getUserSales(req.query.user)
+router.get('/sales', authenticateUser, (req, res) => {
+  const user_id = req.user.user_id;
+
+  salesQueries.getUserSales(user_id)
     .then(sales => {
       res.json({ sales });
     })
@@ -14,10 +17,11 @@ router.get('/sales', (req, res) => {
     });
 });
 
-router.post('/createSale', async  (req, res) => {
-  const { title, description, price, category_id, image_url, user_id } = req.body;
+router.post('/createSale', authenticateUser, async  (req, res) => {
+  const { title, description, price, category_id, image_url } = req.body;
+  const user_id = req.user.user_id;
 
-  if (!title || !price || !user_id) {
+  if (!title || !price) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
@@ -29,16 +33,18 @@ router.post('/createSale', async  (req, res) => {
   }
 });
 
-router.delete('/deleteSale', async (req, res) => {
-  const { saleId, user_id } = req.body;
-  console.log('DELETE request received:', { saleId, user_id }); 
+router.delete('/deleteSale', authenticateUser, async (req, res) => {
+  const { saleId } = req.body;
+  const user_id = req.user.user_id;
 
-  if (!saleId || !user_id) {
+  console.log('DELETE request received:', { saleId, user_id });
+
+  if (!saleId) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
   try {
-    const result = await salesQueries.deleteUserSale({ saleId, user_id });
+    const result = await salesQueries.deleteUserSale({ saleId, user_id});
 
     if (result.rowCount === 0) {
       return res.status(404).json({ error: 'Sale not found or not authorized' });
@@ -51,15 +57,16 @@ router.delete('/deleteSale', async (req, res) => {
   }
 });
 
-router.post('/updateSale', async  (req, res) => {
-  const { id, title, description, price, category_id, image_url, user_id, is_sold } = req.body;
+router.post('/updateSale', authenticateUser, async  (req, res) => {
+  const { id, title, description, price, category_id, image_url, is_sold } = req.body;
+  const user_id = req.user.user_id;
 
-  if (!title || !price || !user_id) {
+  if (!title || !price) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
  try {
-    const result = await salesQueries.updateUserSale({ saleId:id, title, description, price, category_id, image_url, user_id, is_sold });
+    const result = await salesQueries.updateUserSale({ saleId: id, title, description, price, category_id, image_url, user_id, is_sold });
     res.status(201).json({ message: 'Sale updated', saleId: result });
   } catch (err) {
     res.status(500).json({ error: 'Database insert failed' });

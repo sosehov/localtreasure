@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from "../contexts/AuthContext";
 
 const UpcomingEvents = () => {
+  const { makeAuthenticatedRequest } = useAuth();
   const [upcomingEvents, setUpcomingEvents] = useState([]);
 
   useEffect(() => {
-    fetch('/api/events/upcoming')
-      .then(res => res.json())
+    makeAuthenticatedRequest('/api/events/upcoming')
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch upcoming events');
+        return res.json();
+      })
       .then(data => setUpcomingEvents(data))
       .catch(err => console.error("Failed to fetch upcoming events", err));
-  }, []);
+  }, [makeAuthenticatedRequest]);
 
   return (
     <div className="bg-white shadow-md rounded-md p-6">

@@ -40,13 +40,13 @@ router.post('/register', async (req, res) => {
     // Generate JWT token
     const token = jwt.sign(
       {
-        userId: newUser.id,
+        user_id: newUser.id,
         email: newUser.email,
         name: newUser.name,
         isAdmin: newUser.is_admin || false
       },
-      JWT_SECRET,
-      { expiresIn: '24h' }
+        JWT_SECRET,
+        { expiresIn: '24h' }
     );
 
     res.status(201).json({
@@ -94,7 +94,7 @@ router.post('/login', async (req, res) => {
     // Generate JWT token
     const token = jwt.sign(
       {
-        userId: user.id,
+        user_id: user.id,
         email: user.email,
         name: user.name,
         isAdmin: user.is_admin || false
@@ -125,7 +125,7 @@ router.get('/verify', require('../middleware/auth').authenticateUser, (req, res)
   res.json({
     message: 'Token is valid',
     user: {
-      id: req.user.userId,
+      id: req.user.user_id,
       email: req.user.email,
       name: req.user.name,
       isAdmin: req.user.isAdmin || false
