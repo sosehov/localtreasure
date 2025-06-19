@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select";
 import { useAuth } from "../contexts/AuthContext";
 
-import { format } from "date-fns";
+import { format,isBefore, startOfDay } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -33,7 +33,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function CreateEventsDialog({ fetchSales,  open, onOpenChange }) {
+export function CreateEventsDialog({ fetchEvents,  open, onOpenChange }) {
   const { user, makeAuthenticatedRequest } = useAuth();
 
   const [categories, setCategories] = useState([]);
@@ -44,7 +44,7 @@ export function CreateEventsDialog({ fetchSales,  open, onOpenChange }) {
   const [address, setAddress] = useState("");
   const [description, setDescription] = useState("");
   const [startTime, setStartTime] = useState("10:30");
-  const [endTime, setEndTime] = useState("10:30");
+  const [endTime, setEndTime] = useState("22:30");
   const [date, setDate] = useState("");
 
   useEffect(() => {
@@ -100,7 +100,7 @@ export function CreateEventsDialog({ fetchSales,  open, onOpenChange }) {
     } finally {
       setSubmitting(false);
 
-      fetchSales();
+      fetchEvents();
       setTitle("");
       setDescription("");
       setStartTime(null);
@@ -147,7 +147,7 @@ export function CreateEventsDialog({ fetchSales,  open, onOpenChange }) {
   <PopoverContent
     className="w-auto p-0 bg-white"
   >
-    <Calendar mode="single" selected={date} onSelect={setDate} />
+    <Calendar mode="single" selected={date} onSelect={setDate}  disabled={(date) => isBefore(startOfDay(date), startOfDay(new Date()))}/>
   </PopoverContent>
 </Popover>
             </div>
@@ -162,7 +162,6 @@ export function CreateEventsDialog({ fetchSales,  open, onOpenChange }) {
                 type="time"
                 id="start-time-picker"
                 step="60"
-                defaultValue="10:30"
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
                 className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
@@ -177,7 +176,6 @@ export function CreateEventsDialog({ fetchSales,  open, onOpenChange }) {
                 type="time"
                 id="end-time-picker"
                 step="60"
-                defaultValue="10:30"
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
                 className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"

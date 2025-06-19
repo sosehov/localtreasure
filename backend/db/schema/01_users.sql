@@ -7,7 +7,7 @@ CREATE TABLE users (
   address VARCHAR(255) NOT NULL,
   password TEXT NOT NULL,
   bio VARCHAR(255) NOT NULL,
-  location GEOGRAPHY(POINT),
+  location GEOGRAPHY(POINT, 4326),
   is_admin BOOLEAN DEFAULT FALSE,
   contact_info VARCHAR(20)
 );
