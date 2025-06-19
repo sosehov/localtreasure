@@ -18,4 +18,14 @@ VALUES (
   true,
   '789-635-1471',
   ST_MakePoint(-123.1371, 49.2705)::GEOGRAPHY --Granville island Vancouver, BC roughly
+),
+(
+  'David Sutton',
+  'SuttonD@gmail.com',
+  '123 granville island, 14 Avenue BC V6K 2P5',
+  'RandomDude',
+  'I love to do nothing',
+  false,
+  '789-635-1461',
+  ST_MakePoint(-123.1371, 49.2705)::GEOGRAPHY --Granville island Vancouver, BC roughly
 );
