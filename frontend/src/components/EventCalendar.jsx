@@ -8,6 +8,7 @@ const EventCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [events, setEvents] = useState([]);
   const [highlightedDates, setHighlightedDates] = useState([]);
+  const [month, setMonth] = useState(new Date());
 
   useEffect(() => {
     if (!selectedDate) return;
@@ -50,7 +51,18 @@ const EventCalendar = () => {
         <Calendar
           mode="single"
           selected={selectedDate}
-          onSelect={setSelectedDate}
+          onSelect={(date, selectedDayModifiers) => {
+            if (date) {
+              setSelectedDate(date);
+            }
+        
+            if (selectedDayModifiers?.outside && date) {
+              // Navigate to the month of the clicked outside day
+              setMonth(new Date(date));
+            }
+          }}
+          month={month}
+          onMonthChange={setMonth}
           modifiers={{
             hasEvent: highlightedDates
           }}
@@ -81,7 +93,6 @@ const EventCalendar = () => {
           )}
         </div>
       </div>
-
     </div>
   )
 }
