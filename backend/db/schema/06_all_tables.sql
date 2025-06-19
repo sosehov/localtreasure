@@ -34,7 +34,7 @@ CREATE TABLE events (
   start_time TIME,
   end_time TIME,
   date DATE NOT NULL DEFAULT CURRENT_DATE,
-  -- location GEOGRAPHY(POINT),
+  location GEOGRAPHY(POINT),
   is_active BOOLEAN DEFAULT TRUE,
   category_id INTEGER REFERENCES categories(id)
 );
@@ -62,6 +62,6 @@ CREATE TABLE map (
   id SERIAL PRIMARY KEY NOT NULL,
   sale_id INTEGER REFERENCES sales(id),
   event_id INTEGER REFERENCES events(event_id),
-  -- location GEOGRAPHY(POINT) NOT NULL,
+  location GEOGRAPHY(POINT) NOT NULL,
   address TEXT
 );
