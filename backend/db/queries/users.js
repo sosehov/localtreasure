@@ -18,6 +18,15 @@ const getCategories = () => {
     });
 };
 
+const getUserById = (user_id) => {
+  const query_str = 'SELECT * FROM users WHERE id=$1';
+  const query_args = [user_id];
+  return db.query(query_str, query_args)
+    .then(data => {
+      return data.rows;
+    });
+};
 
 
-module.exports = { getUsers, getCategories};
+
+module.exports = { getUsers, getCategories, getUserById};

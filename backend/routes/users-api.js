@@ -33,4 +33,16 @@ router.get('/categories', (req, res) => {
     });
 });
 
+router.get('/:uid', (req, res) => {
+  userQueries.getUserById(req.params.uid)
+    .then(user => {
+      res.json({ user });
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+});
+
 module.exports = router;
