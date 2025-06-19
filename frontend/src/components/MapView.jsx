@@ -44,6 +44,9 @@ function MapView() {
         />
 
         {locations.map((location) => {
+          if (!location || !location.coordinates || !Array.isArray(location.coordinates) || location.coordinates.length < 2)
+            return null;
+          
           const coordinates = location.coordinates;
           const position = [coordinates[1], coordinates[0]];
 
