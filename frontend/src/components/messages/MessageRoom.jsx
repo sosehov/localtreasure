@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 import { useState, useEffect, useRef } from 'react';
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { useSearchParams } from 'react-router-dom';
 
 import MessageBox from './MessageBox';
