@@ -23,7 +23,7 @@ router.post('/', authenticateUser, (req, res) => {
         console.log('error creating room:', err);
       });
   } else {
-    console.log('room already exists');
+    res.send({'room' : 'room already exists'});
   }
 }); 
 
@@ -36,6 +36,7 @@ router.post('/delete/:rid', authenticateUser, (req, res) => {
       console.log('error deleting room:', err);
     });
 }); 
+
 
 module.exports = router;
 
