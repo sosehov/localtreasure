@@ -33,7 +33,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function CreateEventsDialog({ fetchSales }) {
+export function CreateEventsDialog({ fetchSales,  open, onOpenChange }) {
   const { user, token } = useAuth();
 
   const [categories, setCategories] = useState([]);
@@ -47,7 +47,6 @@ export function CreateEventsDialog({ fetchSales }) {
   const [endTime, setEndTime] = useState("10:30");
   const [date, setDate] = useState("");
 
-  const [open, setOpen] = useState(false);
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -83,19 +82,20 @@ export function CreateEventsDialog({ fetchSales }) {
       return;
     }
 
+
     const payload = {
       user_id: user.id,
       title,
       description,
       address,
-      startTime,
-      endTime,
+      start_time:startTime,
+      end_time:endTime,
       date,
       category_id: selectedCategory,
     };
 
     try {
-      const res = await fetch("http://localhost:8080/api/events/createEvent", {
+      const res = await fetch("http://localhost:8080/api/user-events/createEvent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -119,18 +119,14 @@ export function CreateEventsDialog({ fetchSales }) {
       setDate(null);
       setSelectedCategory(null);
 
-      setOpen(false);
+      onOpenChange(false);
     }
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <form>
-        <DialogTrigger asChild>
-          <div onClick={() => setOpen(true)} variant="outline">
-            Create Event
-          </div>
-        </DialogTrigger>
+       
         <DialogContent className="sm:max-w-[625px] bg-white">
           <DialogHeader>
             <DialogTitle>Create Events</DialogTitle>
@@ -161,7 +157,6 @@ export function CreateEventsDialog({ fetchSales }) {
 
   <PopoverContent
     className="w-auto p-0 bg-white"
-    onInteractOutside={(e) => e.preventDefault()} // 👈 Prevent dialog from closing
   >
     <Calendar mode="single" selected={date} onSelect={setDate} />
   </PopoverContent>
@@ -216,6 +211,19 @@ export function CreateEventsDialog({ fetchSales }) {
                   ))}
                 </SelectContent>
               </Select>
+            </div>
+            
+          </div>
+
+          <div className="flex flex-row gap-4">
+            <div className="grid gap-3 w-full">
+              <Label htmlFor="address-1">Address</Label>
+              <Input
+                id="address-1"
+                name="address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
             </div>
             
           </div>

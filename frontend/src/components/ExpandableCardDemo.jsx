@@ -38,6 +38,9 @@ export function ExpandableCardDemo({fetchSales, sales}) {
   const [dialogOpen, setDialogOpen] = useState(false)
   const { user, token } = useAuth();
 
+  const [showSalesDialog, setShowSalesDialog] = useState(false);
+    const [showEventsDialog, setShowEventsDialog] = useState(false);    
+
   useEffect(() => {
     function onKeyDown(event) {
       if (event.key === "Escape") {
@@ -176,30 +179,59 @@ const payload = {
 
 
     <DropdownMenu>
-  <DropdownMenuTrigger onClick={(e)=> e.stopPropagation()}><div className="flex py-2 px-10 rounded-md bg-blue-500 text-white align-end">Create</div></DropdownMenuTrigger>
+  <DropdownMenuTrigger asChild>
+    <div
+      onClick={(e) => e.stopPropagation()}
+      className="flex py-2 px-10 rounded-md bg-blue-500 text-white align-end"
+    >
+      Create
+    </div>
+  </DropdownMenuTrigger>
+
   <DropdownMenuContent className="bg-white border-gray-300">
     <DropdownMenuItem
-  onSelect={(e) => {
-    e.preventDefault(); // Prevent default selection behavior
-    e.stopPropagation(); // Stop the dropdown from closing
-    setTimeout(() => {
-      setOpen(true); // Manually open your dialog (needs state handling)
-    }, 0);
-  }}
-><CreateSalesDialog fetchSales={fetchSales}/></DropdownMenuItem>
-<DropdownMenuSeparator className="bg-gray-300"/>
+      onSelect={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setShowSalesDialog(true);
+      }}
+    >
+      Create Sale
+    </DropdownMenuItem>
+
+    <DropdownMenuSeparator className="bg-gray-300" />
+
     <DropdownMenuItem
-  onSelect={(e) => {
-    e.preventDefault(); 
-    e.stopPropagation(); 
-    setTimeout(() => {
-      setOpen(true); 
-    }, 0);
-  }}
-><CreateEventsDialog fetchSales={fetchSales}/></DropdownMenuItem>
+      onSelect={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setShowEventsDialog(true);
+      }}
+    >
+      Create Event
+    </DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>
+
+
 </div>
+
+{/* Render dialogs OUTSIDE the dropdown */}
+{showSalesDialog && (
+  <CreateSalesDialog
+    open={showSalesDialog}
+    onOpenChange={setShowSalesDialog}
+    fetchSales={fetchSales}
+  />
+)}
+
+{showEventsDialog && (
+  <CreateEventsDialog
+    open={showEventsDialog}
+    onOpenChange={setShowEventsDialog}
+    fetchSales={fetchSales}
+  />
+)}
 
     <EditSalesDialog
         fetchSales={fetchSales}

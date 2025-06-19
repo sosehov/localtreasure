@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select"
 import { useAuth } from "../contexts/AuthContext"
 
-export function CreateSalesDialog({fetchSales}) {
+export function CreateSalesDialog({fetchSales,  open, onOpenChange}) {
 
       const { user, token } = useAuth();
     
@@ -37,7 +37,6 @@ export function CreateSalesDialog({fetchSales}) {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
 
-  const [open,setOpen] = useState(false);
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -153,17 +152,14 @@ if (!selectedCategory) {
        setPhotoUrl("")
        setSelectedCategory(null)
        
-setOpen(false);
+onOpenChange(false);
     }
   };
 
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <form >
-        <DialogTrigger asChild>
-          <div onClick={() => setOpen(true)} variant="outline">Create Sale</div>
-        </DialogTrigger>
         <DialogContent className="sm:max-w-[625px] bg-white">
           <DialogHeader>
             <DialogTitle>Create listing</DialogTitle>
