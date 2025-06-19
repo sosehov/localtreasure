@@ -128,6 +128,7 @@ export function EditSalesDialog({ open, onOpenChange, defaultValues, fetchSales 
       if (!res.ok) throw new Error("Failed to update sale");
       console.log("Sale updated!");
       onOpenChange(false);
+      console.log("Calling fetchSales for user:", user?.id);
       fetchSales();
     } catch (err) {
       console.error(err);

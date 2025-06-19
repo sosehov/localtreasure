@@ -162,7 +162,7 @@ setOpen(false);
     <Dialog open={open} onOpenChange={setOpen}>
       <form >
         <DialogTrigger asChild>
-          <Button onClick={() => setOpen(true)} variant="outline">Create</Button>
+          <div onClick={() => setOpen(true)} variant="outline">Create Sale</div>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[625px] bg-white">
           <DialogHeader>

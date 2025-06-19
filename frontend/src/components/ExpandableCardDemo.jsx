@@ -28,6 +28,7 @@ import { Button } from "@/components/ui/button"
 import { CreateSalesDialog } from "./CreateSalesDialog";
 import { EditSalesDialog } from "./EditSalesDialog";
 import { useAuth } from "../contexts/AuthContext";
+import { CreateEventsDialog } from "./CreateEventsDialog";
 
 export function ExpandableCardDemo({fetchSales, sales}) {
   const [active, setActive] = useState(null);
@@ -171,7 +172,19 @@ const payload = {
 
   return (
     <>
-    <CreateSalesDialog fetchSales={fetchSales}/>
+    
+
+    <DropdownMenu>
+  <DropdownMenuTrigger onClick={(e)=> e.stopPropagation()}><IconDots className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200"/></DropdownMenuTrigger>
+  <DropdownMenuContent className="bg-white">
+    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem onClick={(e) => e.preventDefault()}><CreateSalesDialog fetchSales={fetchSales}/></DropdownMenuItem>
+    <DropdownMenuItem onClick={(e) => e.preventDefault()}><CreateEventsDialog fetchSales={fetchSales}/></DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+
+
     <EditSalesDialog
         fetchSales={fetchSales}
         open={dialogOpen}
