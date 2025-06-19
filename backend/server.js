@@ -42,7 +42,7 @@ const { authenticateUser } = require('./middleware/auth');
 const userApiRoutes = require('./routes/users-api');
 const authApiRoutes = require('./routes/auth-api');
 const eventsApiRoutes = require('./routes/events-api.js');
-const usersRoutes = require('./routes/users');
+//const usersRoutes = require('./routes/users');
 const saleRoutes = require('./routes/sales-api.js')
 const locationsRoute = require('./routes/locations-api.js');
 const messagesRoutes = require('./routes/messages-api.js');
@@ -85,7 +85,7 @@ app.use('*', (req, res) => {
 const userSocketMap = {};
 // helper function
 const getUserFromSocket = (socket_id) => {
-  return Object.keys(userSocketMap).filter((key) => userSocketMap.key === socket_id)
+  return Object.keys(userSocketMap).filter((key) => userSocketMap[key] === socket_id)
 };
 
 io.on('connection', (socket) => {
