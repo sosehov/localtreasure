@@ -3,6 +3,18 @@ const router  = express.Router();
 const eventsQueries = require('../db/queries/events');
 
 
+router.get('/', (req, res) => {
+  eventsQueries.getUserEvents(req.query.user)
+    .then(events => {
+      res.json({ events });
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+});
+
 router.post('/createEvent', async  (req, res) => {
   const { user_id, title, description, date, start_time, end_time, address, category_id } = req.body;
 

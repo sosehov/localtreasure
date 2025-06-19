@@ -1,6 +1,19 @@
 const db = require('../connection');
 
 
+const getUserEvents = (userId) => {
+    const query = {
+        text: 'SELECT * FROM events where user_id = $1;',
+        values: [userId]
+    }
+
+  return db.query(query)
+    .then(data => {
+      return data.rows;
+    });
+};
+
+
 const createUserEvent = ({ user_id, title, description, date, start_time, end_time, address, category_id }) => {
     
     const query = {
@@ -19,4 +32,4 @@ const createUserEvent = ({ user_id, title, description, date, start_time, end_ti
     });
 };
 
-module.exports = { createUserEvent };
+module.exports = { getUserEvents, createUserEvent };
