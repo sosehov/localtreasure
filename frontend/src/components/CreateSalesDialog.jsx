@@ -197,9 +197,9 @@ setOpen(false);
                 </SelectContent>
               </Select>
             </div>
-            <div className="grid gap-3 w-full">
+            <div className="grid gap-3 w-full z-40">
               <Label htmlFor="picture">Photo</Label>
-              <Input id="picture" name="photo" type="file" accept="image/png, image/gif, image/jpeg" onChange={handlePhotoChange} />
+              <Input className="z-40" id="picture" name="photo" type="file" accept="image/png, image/gif, image/jpeg" onChange={handlePhotoChange} />
             </div>
           </div>
 

@@ -37,7 +37,7 @@ const HomeRoute = () => {
 
   return (
     <div className="home-page">
-      <h1>Latest Listings</h1>
+      <h1 className='mt-4 ml-4'>Latest Listings</h1>
 
       {loading && <p>Loading...</p>}
 

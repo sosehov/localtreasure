@@ -124,8 +124,6 @@ const handleDeleteSale = async ( e, saleId) => {
                 <DropdownMenu>
   <DropdownMenuTrigger onClick={(e)=> e.stopPropagation()}><IconDots className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200"/></DropdownMenuTrigger>
   <DropdownMenuContent className="bg-white">
-    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-    <DropdownMenuSeparator />
     <DropdownMenuItem onClick={(e)=>  handleEditDialog(e, sale)}>Edit</DropdownMenuItem>
     <DropdownMenuItem onClick={(e)=> handleDeleteSale(e, sale.id)}>Delete</DropdownMenuItem>
   </DropdownMenuContent>
@@ -174,16 +172,34 @@ const payload = {
     <>
     
 
+<div className="flex w-full items-end justify-end mt-4">
+
+
     <DropdownMenu>
-  <DropdownMenuTrigger onClick={(e)=> e.stopPropagation()}><IconDots className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200"/></DropdownMenuTrigger>
-  <DropdownMenuContent className="bg-white">
-    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem onClick={(e) => e.preventDefault()}><CreateSalesDialog fetchSales={fetchSales}/></DropdownMenuItem>
-    <DropdownMenuItem onClick={(e) => e.preventDefault()}><CreateEventsDialog fetchSales={fetchSales}/></DropdownMenuItem>
+  <DropdownMenuTrigger onClick={(e)=> e.stopPropagation()}><div className="flex py-2 px-10 rounded-md bg-blue-500 text-white align-end">Create</div></DropdownMenuTrigger>
+  <DropdownMenuContent className="bg-white border-gray-300">
+    <DropdownMenuItem
+  onSelect={(e) => {
+    e.preventDefault(); // Prevent default selection behavior
+    e.stopPropagation(); // Stop the dropdown from closing
+    setTimeout(() => {
+      setOpen(true); // Manually open your dialog (needs state handling)
+    }, 0);
+  }}
+><CreateSalesDialog fetchSales={fetchSales}/></DropdownMenuItem>
+<DropdownMenuSeparator className="bg-gray-300"/>
+    <DropdownMenuItem
+  onSelect={(e) => {
+    e.preventDefault(); 
+    e.stopPropagation(); 
+    setTimeout(() => {
+      setOpen(true); 
+    }, 0);
+  }}
+><CreateEventsDialog fetchSales={fetchSales}/></DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>
-
+</div>
 
     <EditSalesDialog
         fetchSales={fetchSales}

@@ -133,7 +133,7 @@ export function CreateEventsDialog({ fetchSales }) {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[625px] bg-white">
           <DialogHeader>
-            <DialogTitle>Create listing</DialogTitle>
+            <DialogTitle>Create Events</DialogTitle>
           </DialogHeader>
           <div className="flex flex-row gap-4">
             <div className="grid gap-3 w-full">
