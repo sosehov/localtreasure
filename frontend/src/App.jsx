@@ -9,8 +9,13 @@ import EventsRoute from './routes/events/index.jsx';
 import './App.css';
 import './index.css';
 
+import EventCalendar from './components/EventCalendar.jsx';
+import MapView from './components/MapView.jsx';
+
+
 
 import MessagePage from './components/MessagePage.jsx';
+
 
 
 export default function App() {
