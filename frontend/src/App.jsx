@@ -35,8 +35,14 @@ export default function App() {
             <EventsRoute />
           </ProtectedRoute>
         } />
+
+        <Route path="/messages" element={
+          <ProtectedRoute>
+            < MessageRooms />
+          </ProtectedRoute>
+        } />
       </Route> 
-      <Route path="/messages" element={< MessageRooms />} />
+      {/* <Route path="/messages" element={< MessageRooms />} /> */}
       <Route path="/message" element={< MessageRoom />} />
 
     </Routes>
