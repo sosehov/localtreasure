@@ -1,7 +1,7 @@
 import { Link } from "react-router";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import { useState, useEffect } from 'react';
-
+import DeleteButton from './DeleteButton';
 
 const ConversationCard = (props) => {
 
@@ -50,7 +50,7 @@ const ConversationCard = (props) => {
         ) : (
           <p>Loading conversation...</p>
         )}
-        <button>Close</button>
+        < DeleteButton room={room}/>
       </li>
     </div>
   )

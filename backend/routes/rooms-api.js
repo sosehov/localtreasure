@@ -27,5 +27,15 @@ router.post('/', authenticateUser, (req, res) => {
   }
 }); 
 
+router.post('/delete/:rid', authenticateUser, (req, res) => {
+  roomQueries.deleteRoom(req.params.rid)
+    .then(() =>
+      res.status()
+    )
+    .catch(err => {
+      console.log('error deleting room:', err);
+    });
+}); 
+
 module.exports = router;
 
