@@ -170,14 +170,14 @@ export function CreateEventsDialog({ fetchSales }) {
           </div>
 
           <div className="flex flex-row gap-4">
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 w-full">
               <Label htmlFor="start-time-picker" className="px-1">
                 Start Time
               </Label>
               <Input
                 type="time"
                 id="start-time-picker"
-                step="1"
+                step="60"
                 defaultValue="10:30"
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
@@ -185,14 +185,14 @@ export function CreateEventsDialog({ fetchSales }) {
               />
             </div>
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 w-full">
               <Label htmlFor="end-time-picker" className="px-1">
                 End Time
               </Label>
               <Input
                 type="time"
                 id="end-time-picker"
-                step="1"
+                step="60"
                 defaultValue="10:30"
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
