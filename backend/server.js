@@ -47,7 +47,8 @@ const usersRoutes = require('./routes/users');
 const saleRoutes = require('./routes/sales-api.js')
 const locationsRoute = require('./routes/locations-api.js');
 const messagesRoutes = require('./routes/messages-api.js');
-const userEventsRoutes = require('./routes/user-events-api.js')
+const userEventsRoutes = require('./routes/user-events-api.js');
+const roomRoutes = require('./routes/rooms-api.js');
 
 
 
@@ -56,15 +57,12 @@ app.use('/api/auth', authApiRoutes);
 app.use('/api/users', authenticateUser, userApiRoutes); // Protected
 app.use('/api/events', eventsApiRoutes);
 app.use('/api/widgets', authenticateUser, widgetApiRoutes); // Protected
-
 app.use('/api/sales', saleRoutes); // Protected
 app.use('/api/user-events', userEventsRoutes); // Protected
 app.use('/users', usersRoutes);
-
+app.use('/api/messages', messagesRoutes); // Protected
+app.use('/api/messageRooms', roomRoutes); // Protected
 app.use('/api/locations', locationsRoute);
-
-// app.use('/api/sales', saleRoutes);
-app.use('/api/messages', messagesRoutes);
 
 
 
@@ -90,24 +88,33 @@ app.use('*', (req, res) => {
 });
 
 
-// change this to db later
-const users = [];
+// list of users and which socket they connected to
+const userSocketMap = {};
+// helper function
+const getUserFromSocket = (socket_id) => {
+  return Object.keys(userSocketMap).filter((key) => userSocketMap.key === socket_id) 
+};
 
 io.on('connection', (socket) => {
-  const name = socket.id;
-  users.push(name);
 
-  socket.emit('NEW_CONNECTION', { name, users });
-  socket.broadcast.emit('NEW_USER', { name });
-  console.log(name, "someone has connected");
+  socket.on('NEW_USER', (user_id) => {
+    userSocketMap[user_id] = socket.id;
+    console.log('userSocketMap after new user:', userSocketMap);
+  });
 
   socket.on('SEND_MESSAGE', message => {
-    console.log("message has been sent by client", message);
-    io.emit('NEW_MESSAGE', message);
+    console.log("message has been sent by sender client", message);
+    const recieverSocketId = userSocketMap[message.reciever_id];
+    if (recieverSocketId) {
+      io.to(recieverSocketId).emit('RECIEVE_MESSAGE', message);
+    }
+    io.emit('SENT_MESSAGE', message);
   })
 
   socket.on('disconnect', () => {
-    console.log(name, 'someone has disconnected');
+    const [ user ] = getUserFromSocket(socket.id);
+    delete userSocketMap[user];
+    console.log(`${user} has disconnected`);
   });
   
 });

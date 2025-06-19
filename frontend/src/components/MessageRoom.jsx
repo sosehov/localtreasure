@@ -1,29 +1,27 @@
-import { useState, useEffect, useRef } from 'react'
-import { io } from 'socket.io-client'
+import { io } from 'socket.io-client';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from "../contexts/AuthContext";
+import { useSearchParams } from 'react-router-dom';
+
 import MessageBox from './MessageBox';
 import MessageInputForm from './MessageInputForm';
-import { useSearchParams } from 'react-router-dom';
+
 const URL = 'http://localhost:8080';
 
-
-const MessagePage = () => {
+const MessageRoom = () => {
 
   // get user from JWT
   const { token, makeAuthenticatedRequest, user } = useAuth();
-
-  // console.log('user object from jwt inside messagepage:', user);
-
-  // get seller_id
+  // get reciever from url
   const [searchParams] = useSearchParams();
-  const seller_id = searchParams.get('seller_id');
-  console.log('seller_id:', seller_id);
+  const reciever_id = searchParams.get('reciever_id');
+  // console.log('reciever_id:', reciever_id);
 
   const socketRef = useRef(null);
-  // all of this goes into a hook later
-  const [name, setName] = useState(null);
-  const [users, setUsers] = useState([]);
+
+  // state
   const [messages, setMessages] = useState([]);
+  
 
   useEffect(() => {
     // dont run if user or token hasn't loaded in yet
@@ -32,13 +30,13 @@ const MessagePage = () => {
     // get all the messages from db once when the page loads.
     const fetchMessages = async () => {
       try {
-        const fetchURL = `api/messages?senderId=${user.id}&receiverId=${seller_id}`
+        const fetchURL = `api/messages?senderId=${user.id}&receiverId=${reciever_id}`
         const response = await makeAuthenticatedRequest(fetchURL, {
           method: "GET"
         });
         const data = await response.json();
         setMessages(data.messages);
-        console.log('data after fetch:', data);
+        console.log('messages after fetch:', data.messages);
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
@@ -46,24 +44,15 @@ const MessagePage = () => {
     
     fetchMessages();
 
-    // websocket stuff 
-    console.log('MOUNTS <-------');
+    // websocket mounts
     socketRef.current = io(URL);
-    
     const socket = socketRef.current;
-    
-    const newConnection = payload => {
-      console.log(`${payload.name} has connected`);
-      setName(payload.name);
-      setUsers(payload.users);
-    }
-    const newUser = payload => {
-      console.log(`${payload.name} new has joined the chat`);
-      console.log('newuser payload:', payload);
-      setUsers(prev => [...prev, payload.name]);
-    }
 
-    const newMessage = message => {
+    // when new user joins socket, send that info to backend
+    socket.emit("NEW_USER", user.id);
+
+    // new message being sent
+    const sentMessage = message => {
       if (!user || !token) return;
 
       console.log('new message is here:', message);
@@ -80,15 +69,23 @@ const MessagePage = () => {
       .then(res => console.log('message write status:', res))
     };
 
-    socket.on('NEW_CONNECTION', newConnection);
-    socket.on('NEW_USER', newUser);
-    socket.on('NEW_MESSAGE', newMessage);
-    
+    const recieveMessage = message => {
+      setMessages(prev => {
+        // console.log('message prev:', prev);
+        return [ ...prev, message];
+      });
+    }
+
+    socket.on('SENT_MESSAGE', sentMessage);
+    socket.on('RECIEVE_MESSAGE', recieveMessage);
+
+    // cleanup
     return () => {
-      socket.off('NEW_MESSAGE', newMessage);
+      socket.off('NEW_MESSAGE', sentMessage);
     };  
-  }, [token, user, makeAuthenticatedRequest]);
-  
+  },[token, user, makeAuthenticatedRequest]);
+
+
   const handleSubmit = (e, user) => {
     e.preventDefault();
     // add form validation
@@ -96,7 +93,7 @@ const MessagePage = () => {
     // console.log('message from form', messageText);
     const message = {
       sender_id: user.id,
-      reciever_id: seller_id,
+      reciever_id: reciever_id,
       content: messageText,
       sendtime: `${new Date().toISOString()}`
     };
@@ -105,11 +102,11 @@ const MessagePage = () => {
   };
 
   return (
-    <div className = "message-box">
+    <div>
       < MessageBox messages={messages} sender={user}/>
       < MessageInputForm user={user} handleSubmit = {handleSubmit}/>
     </div>
   )
 };
 
-export default MessagePage;
+export default MessageRoom;
