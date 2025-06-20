@@ -17,7 +17,7 @@ const createRoom = (sender_id, receiver_id) => {
   .then(data => {
     return data.rows;
   });
-}
+};
 
 const roomExists = (sender_id, receiver_id) => {
   const query_str = 'SELECT * FROM rooms WHERE (sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1)';
@@ -26,6 +26,12 @@ const roomExists = (sender_id, receiver_id) => {
   .then(data => {
     return data.rows.length > 0;
   });
+};
+
+const deleteRoom = (rid) => {
+  const query_str = 'DELETE FROM rooms WHERE (id = $1)';
+  const query_args = [rid];
+  return db.query(query_str, query_args);
 }
 
-module.exports = { getRooms, createRoom, roomExists };
+module.exports = { getRooms, createRoom, roomExists, deleteRoom };
