@@ -24,7 +24,10 @@ function MapView() {
   useEffect(() => {
     fetch('/api/locations') //temporary route
       .then(res => res.json())
-      .then(setLocations)
+      .then(data => {
+        console.log('Fetched locations:', data); // testing log
+        setLocations(data);
+      })
       .catch(err => console.error('error, did not fetch', err));
   }, []);
 
@@ -44,11 +47,14 @@ function MapView() {
         />
 
         {locations.map((location) => {
+          // testing code --REMOVE ONCE IT WORKS
+          console.log('Rendering marker for:', location)
           if (!location || !location.coordinates || !Array.isArray(location.coordinates) || location.coordinates.length < 2)
             return null;
           
           const coordinates = location.coordinates;
           const position = [coordinates[1], coordinates[0]];
+          console.log('marker position:', position);
 
           return (
             <Marker key={location.id} position={position}>
