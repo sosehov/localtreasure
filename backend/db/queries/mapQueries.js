@@ -6,8 +6,7 @@ const getAllLocations = () => {
     id,
     sale_id,
     event_id,
-    ST_X(location::geometry) as longitude,
-    ST_Y(location::geometry) as latitude,
+    ST_AsGeoJSON(location) as location,
     address
   FROM map
   ORDER BY id;
