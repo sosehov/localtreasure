@@ -12,7 +12,7 @@ VALUES (
   TRUE,
   1,
   ST_MakePoint(-80.3200, 43.0250)::GEOGRAPHY
-);
+),
 (
   2,
   'Outdoor Gear Trade!',
@@ -24,7 +24,7 @@ VALUES (
   TRUE,
   2,
   ST_MakePoint(-123.1359, 49.2702)::GEOGRAPHY -- granville island
-);
+),
 (
   3,
   'Book Lovers Bazaar',
@@ -36,4 +36,4 @@ VALUES (
   TRUE,
   2,
   ST_MakePoint(-123.1109, 49.2847)::GEOGRAPHY
-)
+);
