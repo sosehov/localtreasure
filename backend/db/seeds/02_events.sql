@@ -10,7 +10,7 @@ VALUES (
   '14:00:00',
   '2025-06-15',
   TRUE,
-  1
+  1,
   ST_MakePoint(-80.3200, 43.0250)::GEOGRAPHY
 );
 
@@ -26,6 +26,6 @@ VALUES (
   '13:00:00',
   '2025-06-16',
   TRUE,
-  2
+  2,
   ST_MakePoint(-123.1359, 49.2702)::GEOGRAPHY -- granville island
 );

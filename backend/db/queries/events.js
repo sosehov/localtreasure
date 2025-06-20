@@ -35,4 +35,13 @@ const getAllEvents = () => {
     .then(res => res.rows);
 };
 
-module.exports = { getUserEvents, createUserEvent, getAllEvents};
+const deleteUserEvent = ( {eventId, user_id} ) => {
+    const query = {
+        text: 'DELETE FROM events WHERE event_id = $1 AND user_id = $2',
+        values: [eventId, user_id]
+    }
+
+  return db.query(query);
+};
+
+module.exports = { getUserEvents, createUserEvent, getAllEvents, deleteUserEvent};

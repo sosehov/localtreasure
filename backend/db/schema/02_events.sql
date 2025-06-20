@@ -9,7 +9,7 @@ CREATE TABLE events (
   start_time TIME,
   end_time TIME,
   date DATE NOT NULL DEFAULT CURRENT_DATE,
-  location GEOGRAPHY(POINT),
+  location GEOGRAPHY(POINT, 4326),
   is_active BOOLEAN DEFAULT TRUE,
   category_id INTEGER REFERENCES categories(id)
 );
