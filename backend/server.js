@@ -93,15 +93,18 @@ io.on('connection', (socket) => {
   socket.on('NEW_USER', (user_id) => {
     userSocketMap[user_id] = socket.id;
     console.log('userSocketMap after new user:', userSocketMap);
+    // socket.on join room => triggers when you go to the message room component, so here
   });
 
   socket.on('SEND_MESSAGE', message => {
     console.log("message has been sent by sender client", message);
+    // it should be sent with the room id
     const receiverSocketId = userSocketMap[message.receiver_id];
     if (receiverSocketId) {
+      // hen broadcasted to the room id
       io.to(receiverSocketId).emit('RECEIVE_MESSAGE', message);
     }
-    io.emit('SENT_MESSAGE', message);
+    io.emit('SENT_MESSAGE', message); // this should go away
   })
 
   socket.on('disconnect', () => {
