@@ -3,17 +3,19 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import L from 'leaflet';
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+// import icon from 'leaflet/dist/images/marker-icon.png';
+// import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
-let DefaultIcon = L.icon({ // custom icon
-  iconUrl: icon,  // path to marker image file
-  shadowUrl: iconShadow, // path to shadow image
+let RedIcon = L.icon({ // custom icon
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',  // path to marker image file
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png', // path to shadow image
   iconSize: [25, 41], // size of the icons
-  iconAnchor: [12, 41] // actual map location
+  iconAnchor: [12, 41], // actual map location
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
 });
 
-L.Marker.prototype.options.icon = DefaultIcon;
+L.Marker.prototype.options.icon = RedIcon;
 
 function MapView() {
   const [locations, setLocations] = useState([]); // will contain the coorindate numbers
@@ -24,14 +26,17 @@ function MapView() {
   useEffect(() => {
     fetch('/api/locations') //temporary route
       .then(res => res.json())
-      .then(setLocations)
+      .then(data => {
+        console.log('Fetched locations:', data); // testing log
+        setLocations(data);
+      })
       .catch(err => console.error('error, did not fetch', err));
   }, []);
 
   // add error handling once tested
 
   return (
-    <div style={{ height: '500px', width: '100%' }}>
+    <div style={{ height: '600px', width: '100%' }}>
       <MapContainer
         center={[43.65, -79.38]} // this should be Toronto,currently hardcoded coordinates
         zoom={12}
@@ -43,19 +48,25 @@ function MapView() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {locations.map((location) => {
-          if (!location || !location.coordinates || !Array.isArray(location.coordinates) || location.coordinates.length < 2)
+        {locations.map((place) => {
+          // testing code --REMOVE ONCE IT WORKS
+          console.log('Rendering marker for:', place)
+          if (!place || !place.location || !place.location.coordinates || !Array.isArray(place.location.coordinates) || 
+              place.location.coordinates.length < 2) {
+            console.log('Invalid location:', place);
             return null;
+          }
           
-          const coordinates = location.coordinates;
-          const position = [coordinates[1], coordinates[0]];
+          const coordinates = place.location.coordinates; // [lng, lat]
+          const position = [coordinates[1], coordinates[0]]; // [lat, lng] for Leaflet
+          console.log('marker position:', position);
 
           return (
-            <Marker key={location.id} position={position}>
+            <Marker key={place.id} position={position}>
               <Popup>
                 <div>
                   <strong>Address:</strong><br />
-                  {location.address}
+                  {place.address}
                 </div>
               </Popup>
             </Marker>
