@@ -2,12 +2,12 @@ INSERT INTO users (name, email, address, password, bio, is_admin, contact_info, 
 VALUES (
   'Alice Henderson',
   'AliceH@gmail.com',
-  'Stanley Park Causeway, Vancouver, BC V6G 1Z4',
+  '750 Hornby St, Vancouver, BC V6Z 2H7',
   'ilovetogarden123',
   'I am an avid gardener, tending to my flowerbeds and growing different kinds of vegatables! I also enjoy watching soap operas, Days of Our Lives is my favourite!',
   true,
   '123-654-7890',
-  ST_MakePoint(-123.1400, 49.3000)::GEOGRAPHY -- Oakland, ON approx
+  ST_MakePoint(-123.120464, 49.282875)::GEOGRAPHY -- Art gallery BC
 ),
 (
   'Michael Lee',
