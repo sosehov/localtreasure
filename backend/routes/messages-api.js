@@ -18,7 +18,7 @@ router.post('/', authenticateUser, (req, res) => {
   console.log('req.body.message:', req.body.message);
   messageQueries.addMessage(req.body.message)
     .then(() =>
-      res.status()
+      res.status(200).send('ok')
     )
     .catch(err => {
       console.log('error writing message:', err);

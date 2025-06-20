@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select";
 import { useAuth } from "../contexts/AuthContext";
 
-import { format,isBefore, startOfDay } from "date-fns";
+import { format, isBefore, startOfDay } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -33,7 +33,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function CreateEventsDialog({ fetchEvents,  open, onOpenChange }) {
+export function EditEventsDialog({
+  open,
+  onOpenChange,
+  defaultValues,
+  fetchEvents,
+}) {
   const { user, makeAuthenticatedRequest } = useAuth();
 
   const [categories, setCategories] = useState([]);
@@ -48,10 +53,24 @@ export function CreateEventsDialog({ fetchEvents,  open, onOpenChange }) {
   const [date, setDate] = useState("");
 
   useEffect(() => {
+    if (defaultValues) {
+      setTitle(defaultValues.title || "");
+      setAddress(defaultValues.address || "");
+      setDescription(defaultValues.description || "");
+      setSelectedCategory(defaultValues.category_id || "");
+      setStartTime(defaultValues.start_time || null);
+      setEndTime(defaultValues.end_time || null);
+      setDate(defaultValues.date || null);
+    }
+  }, [defaultValues]);
+
+  useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await makeAuthenticatedRequest(`/api/users/categories`);
-        
+        const response = await makeAuthenticatedRequest(
+          `/api/users/categories`,
+        );
+
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
         }
@@ -75,23 +94,26 @@ export function CreateEventsDialog({ fetchEvents,  open, onOpenChange }) {
       return;
     }
 
-
     const payload = {
       user_id: user.id,
       title,
       description,
       address,
-      start_time:startTime,
-      end_time:endTime,
+      start_time: startTime,
+      end_time: endTime,
       date,
       category_id: selectedCategory,
+      event_id: defaultValues.event_id,
     };
 
     try {
-      const res = await makeAuthenticatedRequest(`/api/user-events/createEvent`, {
-        method: "POST",
-        body: JSON.stringify(payload),
-      });
+      const res = await makeAuthenticatedRequest(
+        `/api/user-events/updateEvent`,
+        {
+          method: "POST",
+          body: JSON.stringify(payload),
+        },
+      );
 
       if (!res.ok) throw new Error("Failed to create event");
       console.log("Event created!");
@@ -115,10 +137,9 @@ export function CreateEventsDialog({ fetchEvents,  open, onOpenChange }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <form>
-       
         <DialogContent className="sm:max-w-[625px] bg-white">
           <DialogHeader>
-            <DialogTitle>Create Event</DialogTitle>
+            <DialogTitle>Edit Event</DialogTitle>
           </DialogHeader>
           <div className="flex flex-row gap-4">
             <div className="grid gap-3 w-full">
@@ -133,23 +154,28 @@ export function CreateEventsDialog({ fetchEvents,  open, onOpenChange }) {
             <div className="grid gap-3 w-full">
               <Label htmlFor="price-1">Date</Label>
               <Popover>
-  <PopoverTrigger asChild>
-    <Button
-      variant="outline"
-      data-empty={!date}
-      className="data-[empty=true]:text-muted-foreground w-[280px] justify-start text-left font-normal"
-    >
-      <CalendarIcon />
-      {date ? format(date, "PPP") : <span>Pick a date</span>}
-    </Button>
-  </PopoverTrigger>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    data-empty={!date}
+                    className="data-[empty=true]:text-muted-foreground w-[280px] justify-start text-left font-normal"
+                  >
+                    <CalendarIcon />
+                    {date ? format(date, "PPP") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
 
-  <PopoverContent
-    className="w-auto p-0 bg-white"
-  >
-    <Calendar mode="single" selected={date} onSelect={setDate}  disabled={(date) => isBefore(startOfDay(date), startOfDay(new Date()))}/>
-  </PopoverContent>
-</Popover>
+                <PopoverContent className="w-auto p-0 bg-white">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    disabled={(date) =>
+                      isBefore(startOfDay(date), startOfDay(new Date()))
+                    }
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
 
@@ -186,7 +212,10 @@ export function CreateEventsDialog({ fetchEvents,  open, onOpenChange }) {
           <div className="flex flex-row gap-4">
             <div className="grid gap-3 w-full">
               <Label htmlFor="category-1">Category</Label>
-              <Select onValueChange={setSelectedCategory}>
+              <Select
+                value={selectedCategory}
+                onValueChange={setSelectedCategory}
+              >
                 <SelectTrigger id="category-select" className="w-full">
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
@@ -199,7 +228,6 @@ export function CreateEventsDialog({ fetchEvents,  open, onOpenChange }) {
                 </SelectContent>
               </Select>
             </div>
-            
           </div>
 
           <div className="flex flex-row gap-4">
@@ -212,7 +240,6 @@ export function CreateEventsDialog({ fetchEvents,  open, onOpenChange }) {
                 onChange={(e) => setAddress(e.target.value)}
               />
             </div>
-            
           </div>
 
           <div className="grid gap-3 w-full">
@@ -230,7 +257,7 @@ export function CreateEventsDialog({ fetchEvents,  open, onOpenChange }) {
               <Button variant="outline">Cancel</Button>
             </DialogClose>
             <Button type="submit" disabled={submitting} onClick={handleSubmit}>
-              { submitting ? "Saving..." : "Create"}
+              {submitting ? "Saving..." : "Edit"}
             </Button>
           </DialogFooter>
         </DialogContent>

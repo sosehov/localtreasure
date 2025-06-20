@@ -97,9 +97,9 @@ io.on('connection', (socket) => {
 
   socket.on('SEND_MESSAGE', message => {
     console.log("message has been sent by sender client", message);
-    const recieverSocketId = userSocketMap[message.reciever_id];
-    if (recieverSocketId) {
-      io.to(recieverSocketId).emit('RECIEVE_MESSAGE', message);
+    const receiverSocketId = userSocketMap[message.receiver_id];
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit('RECEIVE_MESSAGE', message);
     }
     io.emit('SENT_MESSAGE', message);
   })
