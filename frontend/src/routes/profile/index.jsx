@@ -63,7 +63,7 @@ const ProfileRoute = ({}) => {
 
     return (
          <div className="w-full">
-            <ExpandableCardDemo fetchSales={fetchSales} fetchEvents={fetchEvents} sales={sales} events={events} />
+            <ExpandableCardDemo isProfile={true} fetchSales={fetchSales} fetchEvents={fetchEvents} sales={sales} events={events} />
     </div>
     )
 }
