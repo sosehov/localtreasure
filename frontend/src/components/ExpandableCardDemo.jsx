@@ -18,10 +18,12 @@ import { CreateEventsDialog } from "./CreateEventsDialog";
 import { useAuth } from "../contexts/AuthContext";
 import { EditEventsDialog } from "./EditEventDialog";
 
-export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
+export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events, isProfile }) {
   const [active, setActive] = useState(null);
   const [sale, setSale] = useState(null);
   const [event, setEvent] = useState(null);
+  const listingTitle = isProfile ? 'My Listings' : 'Listings';
+  const eventTitle = isProfile ? 'My Events' : 'Events';
   const id = useId();
   const ref = useRef(null);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -477,14 +479,14 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
       </AnimatePresence>
 
       <div>
-        <p className="ml-4 text-lg font-bold">Listings</p>
+        <p className="ml-4 text-lg font-bold">{listingTitle}</p>
         <ul className="max-w-[100%] mx-auto w-full grid grid-cols-1 md:grid-cols-4 items-start gap-4">
           {renderSales()}
         </ul>
       </div>
 
       <div className="mt-6">
-        <p className="ml-4 text-lg font-bold">Events</p>
+        <p className="ml-4 text-lg font-bold">{eventTitle}</p>
         <ul className="max-w-[100%] mx-auto w-full grid grid-cols-1 md:grid-cols-4 items-start gap-4">
           {renderEvents()}
         </ul>
