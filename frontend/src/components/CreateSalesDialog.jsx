@@ -147,7 +147,7 @@ onOpenChange(false);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <form >
-        <DialogContent className="sm:max-w-[625px] bg-white">
+        <DialogContent className="sm:max-w-[625px] bg-white"  aria-describedby={undefined}>
           <DialogHeader>
             <DialogTitle>Create listing</DialogTitle>
           </DialogHeader>

@@ -6,7 +6,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -135,9 +135,9 @@ export function EditEventsDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange} >
       <form>
-        <DialogContent className="sm:max-w-[625px] bg-white">
+        <DialogContent className="sm:max-w-[625px] bg-white" aria-describedby={undefined}>
           <DialogHeader>
             <DialogTitle>Edit Event</DialogTitle>
           </DialogHeader>

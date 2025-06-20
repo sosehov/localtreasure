@@ -116,7 +116,7 @@ export function CreateEventsDialog({ fetchEvents,  open, onOpenChange }) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <form>
        
-        <DialogContent className="sm:max-w-[625px] bg-white">
+        <DialogContent className="sm:max-w-[625px] bg-white"  aria-describedby={undefined}>
           <DialogHeader>
             <DialogTitle>Create Event</DialogTitle>
           </DialogHeader>
