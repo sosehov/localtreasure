@@ -38,7 +38,7 @@ function MapView() {
   return (
     <div style={{ height: '600px', width: '100%' }}>
       <MapContainer
-        center={[43.65, -79.38]} // this should be Toronto,currently hardcoded coordinates
+        center={[49.2827, -123.1207]} // this should be Toronto,currently hardcoded coordinates
         zoom={12}
         scrollWheelZoom={true}
         style={{ height: '100%', width: '100%' }}
