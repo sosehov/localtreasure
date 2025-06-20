@@ -46,22 +46,25 @@ function MapView() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {locations.map((location) => {
+        {locations.map((place) => {
           // testing code --REMOVE ONCE IT WORKS
-          console.log('Rendering marker for:', location)
-          if (!location || !location.coordinates || !Array.isArray(location.coordinates) || location.coordinates.length < 2)
+          console.log('Rendering marker for:', place)
+          if (!place || !place.location || !place.location.coordinates || !Array.isArray(place.location.coordinates) || 
+              place.location.coordinates.length < 2) {
+            console.log('Invalid location:', place);
             return null;
+          }
           
-          const coordinates = location.coordinates;
-          const position = [coordinates[1], coordinates[0]];
+          const coordinates = place.location.coordinates; // [lng, lat]
+          const position = [coordinates[1], coordinates[0]]; // [lat, lng] for Leaflet
           console.log('marker position:', position);
 
           return (
-            <Marker key={location.id} position={position}>
+            <Marker key={place.id} position={position}>
               <Popup>
                 <div>
                   <strong>Address:</strong><br />
-                  {location.address}
+                  {place.address}
                 </div>
               </Popup>
             </Marker>
