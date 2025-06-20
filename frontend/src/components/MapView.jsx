@@ -3,17 +3,19 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import L from 'leaflet';
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+// import icon from 'leaflet/dist/images/marker-icon.png';
+// import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
-let DefaultIcon = L.icon({ // custom icon
-  iconUrl: icon,  // path to marker image file
-  shadowUrl: iconShadow, // path to shadow image
+let RedIcon = L.icon({ // custom icon
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',  // path to marker image file
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png', // path to shadow image
   iconSize: [25, 41], // size of the icons
-  iconAnchor: [12, 41] // actual map location
+  iconAnchor: [12, 41], // actual map location
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
 });
 
-L.Marker.prototype.options.icon = DefaultIcon;
+L.Marker.prototype.options.icon = RedIcon;
 
 function MapView() {
   const [locations, setLocations] = useState([]); // will contain the coorindate numbers
