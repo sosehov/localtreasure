@@ -75,6 +75,26 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
     }
   };
 
+    const handleDeleteEvent = async (e, eventId) => {
+    e.stopPropagation();
+    try {
+      const res = await makeAuthenticatedRequest("/api/user-events/deleteEvent", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ eventId, user_id: user.id }),
+      });
+
+      if (!res.ok) throw new Error("Failed to delete event");
+      console.log("event deleted!");
+      // Refresh page or state
+      fetchEvents();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const renderSales = () => {
     if (sales === undefined || sales.length == 0 || sales === null) {
       return <div>No sales created yet</div>;
@@ -162,14 +182,14 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
                   >
                     {event.title}
                   </h3>
-                  {/* to be implemented */}
-                  {/* <DropdownMenu>
+                  
+                  <DropdownMenu>
   <DropdownMenuTrigger onClick={(e)=> e.stopPropagation()}><IconDots className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200"/></DropdownMenuTrigger>
   <DropdownMenuContent className="bg-white">
     <DropdownMenuItem onClick={(e)=>  handleEditDialog(e, event)}>Edit</DropdownMenuItem>
-    <DropdownMenuItem onClick={(e)=> handleDeleteSale(e, event.id)}>Delete</DropdownMenuItem>
+    <DropdownMenuItem onClick={(e)=> handleDeleteEvent(e, event.event_id)}>Delete</DropdownMenuItem>
   </DropdownMenuContent>
-</DropdownMenu> */}
+</DropdownMenu>
                 </div>
               </div>
             </div>

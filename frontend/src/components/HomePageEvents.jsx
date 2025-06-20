@@ -34,14 +34,7 @@ export function HomePageEvents({ events, setActive}) {
                   >
                     {event.title}
                   </h3>
-                  {/* to be implemented */}
-                  {/* <DropdownMenu>
-  <DropdownMenuTrigger onClick={(e)=> e.stopPropagation()}><IconDots className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200"/></DropdownMenuTrigger>
-  <DropdownMenuContent className="bg-white">
-    <DropdownMenuItem onClick={(e)=>  handleEditDialog(e, event)}>Edit</DropdownMenuItem>
-    <DropdownMenuItem onClick={(e)=> handleDeleteSale(e, event.id)}>Delete</DropdownMenuItem>
-  </DropdownMenuContent>
-</DropdownMenu> */}
+                 
                 </div>
               </div>
             </div>
