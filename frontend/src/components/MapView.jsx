@@ -34,7 +34,7 @@ function MapView() {
   // add error handling once tested
 
   return (
-    <div style={{ height: '500px', width: '100%' }}>
+    <div style={{ height: '600px', width: '100%' }}>
       <MapContainer
         center={[43.65, -79.38]} // this should be Toronto,currently hardcoded coordinates
         zoom={12}
