@@ -1,6 +1,6 @@
 import  { useId } from "react";
 
-export function HomePageEvents({ events, setActive}) {
+export function HomePageEvents({ events, setActive, isCalander}) {
 
    const id = useId();
 
@@ -32,7 +32,7 @@ export function HomePageEvents({ events, setActive}) {
                   <h3
                     className="font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left text-base"
                   >
-                    {event.title}
+                    {event.title} {isCalander ? <> - {new Date(event.date).toDateString()} </> : <></>}
                   </h3>
                  
                 </div>
