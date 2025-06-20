@@ -7,7 +7,7 @@ VALUES (
   'I am an avid gardener, tending to my flowerbeds and growing different kinds of vegatables! I also enjoy watching soap operas, Days of Our Lives is my favourite!',
   true,
   '123-654-7890',
-  ST_MakePoint(-123.120464, 49.282875)::GEOGRAPHY -- Art gallery BC
+  ST_MakePoint(-123.120464, 49.2828)::GEOGRAPHY -- Art gallery BC
 ),
 (
   'Michael Lee',
