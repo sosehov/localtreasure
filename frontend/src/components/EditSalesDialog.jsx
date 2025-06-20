@@ -137,7 +137,7 @@ export function EditSalesDialog({ open, onOpenChange, defaultValues, fetchSales 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[625px] bg-white">
+      <DialogContent className="sm:max-w-[625px] bg-white"  aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle>Edit Listing</DialogTitle>
         </DialogHeader>
