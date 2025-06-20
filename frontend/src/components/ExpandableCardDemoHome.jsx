@@ -64,7 +64,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
     
         {active && typeof active === "object" ? (
                   <div className="fixed inset-0  grid place-items-center z-[100]">
-                    <button
+                    <motion.button
                       key={`button-${active.title}-${id}`}
                       layout
                       initial={{
@@ -83,7 +83,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
                       onClick={() => setActive(null)}
                     >
                       <CloseIcon />
-                    </button>
+                    </motion.button>
                     <div
                       ref={ref}
                       className="w-full max-w-[500px]  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
@@ -175,20 +175,20 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
                           </div>
         
                           {active.price_cents ? (
-                         <button
+                         <motion.button
                     layout
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white">
                     Available
-                  </button>
+                  </motion.button>
                           ) : (
                             <></>
                           )}
                         </div>
                         <div className="pt-4 relative px-4">
-                          <div
+                          <motion.div
                             layout
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -198,18 +198,18 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
                             {typeof active.content === "function"
                               ? active.content()
                               : active.content}
-                          </div>
+                          </motion.div>
 {/* To get the user id to message use active.user_id */}
                   <div className="pt-4 relative px-4">
                     <Link to={`/message?receiver_id=${active.user_id}`}>
-                      <button
+                      <motion.button
                         layout
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         className="px-4 py-3 mb-5 text-sm rounded-md font-bold bg-blue-500 text-white">
                         Message {active.name}
-                      </button>
+                      </motion.button>
                     </Link>
                 </div>
                         </div>
