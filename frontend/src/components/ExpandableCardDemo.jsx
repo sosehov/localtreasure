@@ -1,6 +1,5 @@
 import { useEffect, useId, useRef, useState } from "react";
 
-
 import { AnimatePresence } from "motion/react";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { format, setHours, setMinutes, setSeconds } from "date-fns";
@@ -17,10 +16,12 @@ import { EditSalesDialog } from "./EditSalesDialog";
 import { CreateEventsDialog } from "./CreateEventsDialog";
 
 import { useAuth } from "../contexts/AuthContext";
+import { EditEventsDialog } from "./EditEventDialog";
 
 export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
   const [active, setActive] = useState(null);
   const [sale, setSale] = useState(null);
+  const [event, setEvent] = useState(null);
   const id = useId();
   const ref = useRef(null);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -28,6 +29,10 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
 
   const [showSalesDialog, setShowSalesDialog] = useState(false);
   const [showEventsDialog, setShowEventsDialog] = useState(false);
+
+  const [showEventsEditDialog, setShowEventsEditDialog] = useState(false);
+  const [showSalesEditDialog, setShowSalesEditDialog] = useState(false);
+
 
   useEffect(() => {
     function onKeyDown(event) {
@@ -51,12 +56,18 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
   const handleEditDialog = (e, editSale) => {
     e.stopPropagation();
     setSale(editSale);
-    setDialogOpen(true);
+    setShowSalesEditDialog(true);
+  };
+
+  const handleEventEditDialog = (e, editEvent) => {
+    e.stopPropagation();
+    setEvent(editEvent);
+    setShowEventsEditDialog(true);
   };
 
   const handleDeleteSale = async (e, saleId) => {
     e.stopPropagation();
-  
+
     try {
       const res = await makeAuthenticatedRequest("/api/sales/deleteSale", {
         method: "DELETE",
@@ -75,16 +86,19 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
     }
   };
 
-    const handleDeleteEvent = async (e, eventId) => {
+  const handleDeleteEvent = async (e, eventId) => {
     e.stopPropagation();
     try {
-      const res = await makeAuthenticatedRequest("/api/user-events/deleteEvent", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await makeAuthenticatedRequest(
+        "/api/user-events/deleteEvent",
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ eventId, user_id: user.id }),
         },
-        body: JSON.stringify({ eventId, user_id: user.id }),
-      });
+      );
 
       if (!res.ok) throw new Error("Failed to delete event");
       console.log("event deleted!");
@@ -108,7 +122,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
               className="p-4 flex flex-col w-full  hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer"
             >
               <div className="flex gap-4 flex-col  w-full">
-                <div >
+                <div>
                   <img
                     width={100}
                     height={100}
@@ -118,10 +132,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
                   />
                 </div>
                 <div className="flex   flex-row justify-between ">
-                  <h3
-                 
-                    className="font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left text-base"
-                  >
+                  <h3 className="font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left text-base">
                     {sale.title}
                   </h3>
                   <DropdownMenu>
@@ -158,14 +169,12 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
         <div className="grid grid-cols-6 w-[90vw]">
           {events.map((event, index) => (
             <div
-             
               key={`${event.title}-events-${index}`}
               onClick={() => setActive(event)}
               className="p-4 flex flex-col w-full  hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer"
             >
               <div className="flex gap-4 flex-col  w-full">
-
-                <div >
+                <div>
                   <img
                     width={100}
                     height={100}
@@ -177,19 +186,27 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
                   />
                 </div>
                 <div className="flex   flex-row justify-between ">
-                  <h3
-                    className="font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left text-base"
-                  >
+                  <h3 className="font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left text-base">
                     {event.title}
                   </h3>
-                  
+
                   <DropdownMenu>
-  <DropdownMenuTrigger onClick={(e)=> e.stopPropagation()}><IconDots className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200"/></DropdownMenuTrigger>
-  <DropdownMenuContent className="bg-white">
-    <DropdownMenuItem onClick={(e)=>  handleEditDialog(e, event)}>Edit</DropdownMenuItem>
-    <DropdownMenuItem onClick={(e)=> handleDeleteEvent(e, event.event_id)}>Delete</DropdownMenuItem>
-  </DropdownMenuContent>
-</DropdownMenu>
+                    <DropdownMenuTrigger onClick={(e) => e.stopPropagation()}>
+                      <IconDots className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="bg-white">
+                      <DropdownMenuItem
+                        onClick={(e) => handleEventEditDialog(e, event)}
+                      >
+                        Edit
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={(e) => handleDeleteEvent(e, event.event_id)}
+                      >
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               </div>
             </div>
@@ -219,7 +236,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
         },
         body: JSON.stringify(payload),
       });
-  
+
       if (!res.ok) throw new Error("Failed to update sale");
       console.log("Sale updated!");
       fetchSales();
@@ -304,9 +321,16 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
 
       <EditSalesDialog
         fetchSales={fetchSales}
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
+        open={showSalesEditDialog}
+        onOpenChange={setShowSalesEditDialog}
         defaultValues={sale}
+      />
+
+      <EditEventsDialog
+        fetchEvents={fetchEvents}
+        open={showEventsEditDialog}
+        onOpenChange={setShowEventsEditDialog}
+        defaultValues={event}
       />
 
       <AnimatePresence>
@@ -320,7 +344,6 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
         )}
       </AnimatePresence>
       <AnimatePresence>
-
         {active && typeof active === "object" ? (
           <div className="fixed inset-0  grid place-items-center z-[100]">
             <button
@@ -347,7 +370,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
               ref={ref}
               className="w-full max-w-[500px]  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
             >
-              <div >
+              <div>
                 <img
                   width={200}
                   height={200}
@@ -365,16 +388,12 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
                 <div className="flex justify-between items-start p-4">
                   <div className="flex flex-col">
                     <div className="flex flex-row gap-5">
-                      <h3
-                        className="font-medium text-neutral-700 dark:text-neutral-200 text-base"
-                      >
+                      <h3 className="font-medium text-neutral-700 dark:text-neutral-200 text-base">
                         {active.title}
                       </h3>
 
                       {active.price_cents ? (
-                        <p
-                          className="text-neutral-600 dark:text-neutral-400 text-base"
-                        >
+                        <p className="text-neutral-600 dark:text-neutral-400 text-base">
                           ${active.price_cents}
                         </p>
                       ) : (
@@ -384,27 +403,21 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
 
                     <div className="mt-5">
                       {active.date ? (
-                        <span
-                          className="text-neutral-600 dark:text-neutral-400 text-base"
-                        >
+                        <span className="text-neutral-600 dark:text-neutral-400 text-base">
                           On {format(new Date(active.date), "MMMM d, yyyy")}
                         </span>
                       ) : (
                         <></>
                       )}
                       {active.start_time ? (
-                        <span
-                          className="text-neutral-600 dark:text-neutral-400 text-base"
-                        >
+                        <span className="text-neutral-600 dark:text-neutral-400 text-base">
                           &nbsp; From {formatTime(active.start_time)} -
                         </span>
                       ) : (
                         <></>
                       )}
                       {active.end_time ? (
-                        <span
-                          className="text-neutral-600 dark:text-neutral-400 text-base"
-                        >
+                        <span className="text-neutral-600 dark:text-neutral-400 text-base">
                           &nbsp; To {formatTime(active.end_time)}
                         </span>
                       ) : (
@@ -414,9 +427,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
 
                     <div className="flex flex-row gap-5">
                       {active.address ? (
-                        <span
-                          className="text-neutral-600 dark:text-neutral-400 text-base"
-                        >
+                        <span className="text-neutral-600 dark:text-neutral-400 text-base">
                           At {active.address}
                         </span>
                       ) : (
@@ -425,9 +436,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
                     </div>
 
                     <div className="mt-5">
-                      <p
-                        className="text-neutral-600 dark:text-neutral-400 text-base"
-                      >
+                      <p className="text-neutral-600 dark:text-neutral-400 text-base">
                         {active.description}
                       </p>
                     </div>
@@ -467,7 +476,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events }) {
         ) : null}
       </AnimatePresence>
 
-      <div >
+      <div>
         <p className="ml-4 text-lg font-bold">Listings</p>
         <ul className="max-w-[100%] mx-auto w-full grid grid-cols-1 md:grid-cols-4 items-start gap-4">
           {renderSales()}
