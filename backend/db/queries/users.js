@@ -11,7 +11,7 @@ const getCategories = () => {
     const query = {
         text: 'SELECT * FROM categories',
     }
-    
+
     return db.query(query)
     .then(data => {
         return data.rows;
@@ -27,6 +27,35 @@ const getUserById = (user_id) => {
     });
 };
 
+const updateUser = (id, updates) => {
+  const fields = [];
+  const values = [];
 
+  Object.entries(updates).forEach(([key, value], index) => {
+    if (value !== undefined && value !== null) {
+      fields.push(`${key} = $${index + 1}`);
+      values.push(value);
+    }
+  });
 
-module.exports = { getUsers, getCategories, getUserById};
+  if (fields.length === 0) {
+    return Promise.resolve();
+  }
+
+  const queryString = `
+    UPDATE users
+    SET ${fields.join(', ')}
+    WHERE id = $${fields.length + 1}
+  `;
+
+  values.push(id);
+
+  return db.query(queryString, values);
+};
+
+module.exports = {
+  getUsers,
+  getCategories,
+  getUserById,
+  updateUser
+};
