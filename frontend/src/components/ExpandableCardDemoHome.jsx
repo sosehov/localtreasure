@@ -7,7 +7,7 @@ import { Link } from "react-router";
 import HomePageEvents from "./HomePageEvents";
 import HomePageSales from "./HomePageSales";
 
-export function ExpandableCardDemoHome({sales, events}) {
+export function ExpandableCardDemoHome({sales, events, isCalander}) {
   const [active, setActive] = useState(null);
   const id = useId();
   const ref = useRef(null);
@@ -230,9 +230,9 @@ export function ExpandableCardDemoHome({sales, events}) {
       
 { events ? 
        <div>
-        <p className="ml-4 text-lg font-bold">Latest Events</p>
+        {isCalander ? <></> : <p className="ml-4 text-lg font-bold">Latest Events</p>}
         <ul className="max-w-[100%] mx-auto w-full grid grid-cols-1 md:grid-cols-4 items-start gap-4">
-           <HomePageEvents events={events} setActive={setActive}/>
+           <HomePageEvents events={events} setActive={setActive} isCalander={isCalander}/>
         </ul>
       </div>: <></>}
 
