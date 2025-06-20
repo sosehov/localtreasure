@@ -12,7 +12,7 @@ const ConversationCard = (props) => {
   const [receiver, setReceiver] = useState(null);
 
   const getReceiverId = (room) => {
-    // if the reciever id is not equal to user id then it is the reciver id, otherwise the sender_id is
+    // if the receiver id is not equal to user id then it is the reciver id, otherwise the sender_id is
     const receiver_id = user.id === room.sender_id ? room.receiver_id : room.sender_id;
     // console.log('room sender:', user.id, ', room receiver:', receiver_id);
     return receiver_id;
@@ -46,7 +46,7 @@ const ConversationCard = (props) => {
     <div>
       <li key={props.room.id}>
         {receiver ? (
-          <Link to={`/message?reciever_id=${receiverId}`}> {receiver.name} </Link>
+          <Link to={`/message?receiver_id=${receiverId}`}> {receiver.name} </Link>
         ) : (
           <p>Loading conversation...</p>
         )}
