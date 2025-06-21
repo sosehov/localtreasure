@@ -46,9 +46,14 @@ export default function App() {
             < MessageRooms />
           </ProtectedRoute>
         } />
+        <Route path="/map" element={
+          <ProtectedRoute>
+            < MapView />
+          </ProtectedRoute>
+        } />
       </Route> 
+
       <Route path="/messages" element={< MessageRooms />} />
-      <Route path="/map" element={<MapView /> } />
       <Route path="/message" element={< MessageRoom />} />
     </Routes>
   );
