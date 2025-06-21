@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const RegisterForm = () => {
   const [name, setName] = useState('');
@@ -25,12 +35,21 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="register-form">
-      <h2>Register</h2>
+    <div className="flex w-full items-center">
+    <div className="login-form flex flex-col gap-6 w-full max-w-sm m-auto justify-center">
+      <Card >
+        <CardHeader className="text-center">
+                  <CardTitle>Create a new account</CardTitle>
+                  <CardDescription>
+                    It’s quick and easy.
+                  </CardDescription>
+                </CardHeader>
+      <CardContent className="">        
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="name">Name:</label>
-          <input
+        <div className="flex flex-col gap-6">
+        <div className="grid gap-3">
+          <Label htmlFor="name">Name:</Label>
+          <Input
             type="text"
             id="name"
             value={name}
@@ -38,10 +57,9 @@ const RegisterForm = () => {
             required
           />
         </div>
-        
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
-          <input
+        <div className="grid gap-3">
+          <Label htmlFor="email">Email:</Label>
+          <Input
             type="email"
             id="email"
             value={email}
@@ -50,9 +68,9 @@ const RegisterForm = () => {
           />
         </div>
         
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
-          <input
+        <div className="grid gap-3">
+          <Label htmlFor="password">Password:</Label>
+          <Input
             type="password"
             id="password"
             value={password}
@@ -63,10 +81,14 @@ const RegisterForm = () => {
 
         {error && <div className="error-message">{error}</div>}
         
-        <button type="submit" disabled={loading}>
+        <Button type="submit" disabled={loading}>
           {loading ? 'Registering...' : 'Register'}
-        </button>
+        </Button>
+        </div>
       </form>
+      </CardContent>  
+      </Card>
+    </div>
     </div>
   );
 };

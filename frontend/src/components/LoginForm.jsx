@@ -1,18 +1,28 @@
-import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import React, { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const { login } = useAuth();
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
 
     const result = await login(email, password);
 
@@ -22,39 +32,51 @@ const LoginForm = () => {
 
     setLoading(false);
   };
-
   return (
-    <div className="login-form">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-    </div>
+    <div className="flex w-full items-center">
+    <div className="login-form flex flex-col gap-6 w-full max-w-sm m-auto justify-center">
+      <Card >
+        <CardHeader className="text-center">
+          <CardTitle>Login to LocalTreasure</CardTitle>
+          <CardDescription>
+            Explore everything happening in your area
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="">
+          <form onSubmit={handleSubmit}>
+            <div className="flex flex-col gap-6">
+            <div className="grid gap-3">
+              <Label  htmlFor="email">Email:</Label >
+              <Input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
 
-    <div className="form-group">
-      <label htmlFor="password">Password:</label>
-      <input 
-        type="password"
-        id="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-        />
-    </div>
-    
-    {error && <div className="error-message">{error}</div>}
+            <div className="grid gap-3">
+              <Label  htmlFor="password">Password:</Label >
+              <Input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
 
-    <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
-        </button>
-      </form>
+            {error && <div className="error-message">{error}</div>}
+
+            <Button  type="submit" disabled={loading} >
+              {loading ? "Logging in..." : "Login"}
+            </Button >
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+      </div>
     </div>
   );
 };

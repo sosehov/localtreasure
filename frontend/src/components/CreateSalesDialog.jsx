@@ -14,6 +14,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 
+import { cn } from "@/lib/utils";
+import { checkSalesFields } from "@/lib/errorUtil";
+
 import {
   Select,
   SelectContent,
@@ -37,6 +40,8 @@ export function CreateSalesDialog({fetchSales, open, onOpenChange}) {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
+
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -104,12 +109,24 @@ const handleUploadPhoto = async () => {
   if (photoFile && !photoUrl) {
     const uploadedUrl = await handleUploadPhoto();
     photoUrlToUse = uploadedUrl;
+    setPhotoUrl(photoUrlToUse)
   }
 
-if (!selectedCategory) {
-  alert("Please select a category.");
-  return;
-}
+  const newErrors = checkSalesFields(
+      title,
+      description,
+      selectedCategory,
+      price,
+      photoUrlToUse,
+    );
+
+    console.log(newErrors)
+    setErrors(newErrors);
+
+    if (Object.values(newErrors).some((val) => val)) {
+      setSubmitting(false);
+      return;
+    }
 
     const payload = {
     title,
@@ -153,22 +170,45 @@ onOpenChange(false);
           </DialogHeader>
           <div className="flex flex-row gap-4">
             <div className="grid gap-3 w-full">
-              <Label htmlFor="name-1">Name</Label>
+            {errors.title ? (
+                <Label htmlFor="name-1" className=" text-[#cb251f]">
+                  Title is required
+                </Label>
+              ) : (
+                <Label htmlFor="name-1">Title</Label>
+              )}
               <Input id="name-1" name="name"    value={title}
+              className={cn(errors.name ? "border-[#cb251f]" : "")}
                 onChange={(e) => setTitle(e.target.value)}/>
             </div>
+
             <div className="grid gap-3 w-full">
+                {errors.price ? (
+                <Label htmlFor="price-1" className=" text-[#cb251f]">
+                  Price is required
+                </Label>
+              ) : (
               <Label htmlFor="price-1">Price</Label>
+              )}
               <Input id="price-1" name="price" type="number" value={price}
+              className={cn(errors.price ? "border-[#cb251f]" : "")}
                 onChange={(e) => setPrice(e.target.value)} />
             </div>
           </div>
 
           <div className="flex flex-row gap-4">
             <div className="grid gap-3 w-full">
+            {errors.selectedCategory ? (
+                <Label htmlFor="category-1" className=" text-[#cb251f]">
+                  Category is required
+                </Label>
+              ) : (
               <Label htmlFor="category-1">Category</Label>
+              )}
               <Select onValueChange={setSelectedCategory}>
-                <SelectTrigger id="category-select" className="w-full">
+                <SelectTrigger id="category-select" 
+                className={cn("w-full", 
+                 errors.selectedCategory ? "border-[#cb251f]" : "")}>
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
                 <SelectContent className="bg-white">
@@ -181,15 +221,27 @@ onOpenChange(false);
               </Select>
             </div>
             <div className="grid gap-3 w-full z-40">
+            {errors.photoUrl ? (
+                <Label htmlFor="picture" className=" text-[#cb251f]">
+                  Photo is required
+                </Label>
+              ) : (
               <Label htmlFor="picture">Photo</Label>
-              <Input className="z-40" id="picture" name="photo" type="file" accept="image/png, image/gif, image/jpeg" onChange={handlePhotoChange} />
+              )}
+              <Input id="picture" name="photo" type="file" accept="image/png, image/gif, image/jpeg" onChange={handlePhotoChange} className={cn(errors.photoUrl ? "border-[#cb251f]" : "")}/>
             </div>
           </div>
 
           <div className="grid gap-3 w-full">
+            {errors.description ? (
+                <Label htmlFor="description-1" className=" text-[#cb251f]">
+                  Description is required
+                </Label>
+              ) : (
             <Label htmlFor="description-1">Description</Label>
+              )}
             <Textarea id="description-1" name="description"   value={description}
-              onChange={(e) => setDescription(e.target.value)}/>
+              onChange={(e) => setDescription(e.target.value)} className={cn(errors.description ? "border-[#cb251f]" : "")}/>
           </div>
 
           <DialogFooter>

@@ -1,5 +1,5 @@
 import{ useEffect, useId, useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence } from "motion/react";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { format, setHours, setMinutes, setSeconds } from "date-fns";
 import { Link } from "react-router";
@@ -52,7 +52,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
    
       <AnimatePresence>
         {active && typeof active === "object" && (
-          <motion.div
+          <div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -64,9 +64,8 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
     
         {active && typeof active === "object" ? (
                   <div className="fixed inset-0  grid place-items-center z-[100]">
-                    <motion.button
+                    <button
                       key={`button-${active.title}-${id}`}
-                      layout
                       initial={{
                         opacity: 0,
                       }}
@@ -83,7 +82,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
                       onClick={() => setActive(null)}
                     >
                       <CloseIcon />
-                    </motion.button>
+                    </button>
                     <div
                       ref={ref}
                       className="w-full max-w-[500px]  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
@@ -175,21 +174,21 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
                           </div>
         
                           {active.price_cents ? (
-                         <motion.button
-                    layout
+                         <button
+                    
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white">
                     Available
-                  </motion.button>
+                  </button>
                           ) : (
                             <></>
                           )}
                         </div>
                         <div className="pt-4 relative px-4">
-                          <motion.div
-                            layout
+                          <div
+                            
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
@@ -198,20 +197,22 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
                             {typeof active.content === "function"
                               ? active.content()
                               : active.content}
-                          </motion.div>
-{/* To get the user id to message use active.user_id */}
+                          </div>
+
+                          { isCalander ? <></> : 
                   <div className="pt-4 relative px-4">
                     <Link to={`/message?receiver_id=${active.user_id}`}>
-                      <motion.button
-                        layout
+                      <button
+                        
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         className="px-4 py-3 mb-5 text-sm rounded-md font-bold bg-blue-500 text-white">
                         Message {active.name}
-                      </motion.button>
+                      </button>
                     </Link>
                 </div>
+                }
                         </div>
                       </div>
                     </div>
@@ -244,7 +245,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
 
 export const CloseIcon = () => {
   return (
-    <motion.svg
+    <svg
       initial={{
         opacity: 0,
       }}
@@ -270,7 +271,7 @@ export const CloseIcon = () => {
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <path d="M18 6l-12 12" />
       <path d="M6 6l12 12" />
-    </motion.svg>
+    </svg>
   );
 };
 

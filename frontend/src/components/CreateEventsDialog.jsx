@@ -22,10 +22,12 @@ import {
 } from "@/components/ui/select";
 import { useAuth } from "../contexts/AuthContext";
 
-import { format,isBefore, startOfDay } from "date-fns";
+import { format, isBefore, startOfDay } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { checkEventFields } from "@/lib/errorUtil";
+
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -33,7 +35,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function CreateEventsDialog({ fetchEvents,  open, onOpenChange }) {
+export function CreateEventsDialog({ fetchEvents, open, onOpenChange }) {
   const { user, makeAuthenticatedRequest } = useAuth();
 
   const [categories, setCategories] = useState([]);
@@ -47,11 +49,15 @@ export function CreateEventsDialog({ fetchEvents,  open, onOpenChange }) {
   const [endTime, setEndTime] = useState("22:30");
   const [date, setDate] = useState("");
 
+  const [errors, setErrors] = useState({});
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await makeAuthenticatedRequest(`/api/users/categories`);
-        
+        const response = await makeAuthenticatedRequest(
+          `/api/users/categories`,
+        );
+
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
         }
@@ -68,30 +74,45 @@ export function CreateEventsDialog({ fetchEvents,  open, onOpenChange }) {
   const handleSubmit = async () => {
     setSubmitting(true);
 
-    console.log("creating..");
+    const newErrors = checkEventFields(
+      title,
+      startTime,
+      endTime,
+      date,
+      description,
+      address,
+      selectedCategory,
+    );
 
-    if (!selectedCategory) {
-      alert("Please select a category.");
+    console.log(newErrors)
+    setErrors(newErrors);
+
+    if (Object.values(newErrors).some((val) => val)) {
+      setSubmitting(false);
       return;
     }
 
+    console.log("creating..");
 
     const payload = {
       user_id: user.id,
       title,
       description,
       address,
-      start_time:startTime,
-      end_time:endTime,
+      start_time: startTime,
+      end_time: endTime,
       date,
       category_id: selectedCategory,
     };
 
     try {
-      const res = await makeAuthenticatedRequest(`/api/user-events/createEvent`, {
-        method: "POST",
-        body: JSON.stringify(payload),
-      });
+      const res = await makeAuthenticatedRequest(
+        `/api/user-events/createEvent`,
+        {
+          method: "POST",
+          body: JSON.stringify(payload),
+        },
+      );
 
       if (!res.ok) throw new Error("Failed to create event");
       console.log("Event created!");
@@ -115,79 +136,136 @@ export function CreateEventsDialog({ fetchEvents,  open, onOpenChange }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <form>
-       
-        <DialogContent className="sm:max-w-[625px] bg-white"  aria-describedby={undefined}>
+        <DialogContent
+          className="sm:max-w-[625px] bg-white"
+          aria-describedby={undefined}
+        >
           <DialogHeader>
             <DialogTitle>Create Event</DialogTitle>
           </DialogHeader>
           <div className="flex flex-row gap-4">
             <div className="grid gap-3 w-full">
-              <Label htmlFor="name-1">Name</Label>
+              {errors.title ? (
+                <Label htmlFor="name-1" className=" text-[#cb251f]">
+                  Title is required
+                </Label>
+              ) : (
+                <Label htmlFor="name-1">Title</Label>
+              )}
+
               <Input
                 id="name-1"
                 name="name"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                className={cn(errors.title ? "border-[#cb251f]" : "")}
               />
             </div>
             <div className="grid gap-3 w-full">
-              <Label htmlFor="price-1">Date</Label>
-              <Popover>
-  <PopoverTrigger asChild>
-    <Button
-      variant="outline"
-      data-empty={!date}
-      className="data-[empty=true]:text-muted-foreground w-[280px] justify-start text-left font-normal"
-    >
-      <CalendarIcon />
-      {date ? format(date, "PPP") : <span>Pick a date</span>}
-    </Button>
-  </PopoverTrigger>
+              {errors.date ? (
+                <Label htmlFor="date-1" className=" text-[#cb251f]">
+                  Date is required
+                </Label>
+              ) : (
+                <Label htmlFor="date-1">Date</Label>
+              )}
 
-  <PopoverContent
-    className="w-auto p-0 bg-white"
-  >
-    <Calendar mode="single" selected={date} onSelect={setDate}  disabled={(date) => isBefore(startOfDay(date), startOfDay(new Date()))}/>
-  </PopoverContent>
-</Popover>
+              <Popover>
+                <PopoverTrigger
+                  asChild
+                  className={cn(errors.date ? "border-[#cb251f]" : "")}
+                >
+                  <Button
+                    variant="outline"
+                    data-empty={!date}
+                    className="data-[empty=true]:text-muted-foreground w-[280px] justify-start text-left font-normal"
+                  >
+                    <CalendarIcon />
+                    {date ? format(date, "PPP") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+
+                <PopoverContent className="w-auto p-0 bg-white">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    disabled={(date) =>
+                      isBefore(startOfDay(date), startOfDay(new Date()))
+                    }
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
 
           <div className="flex flex-row gap-4">
             <div className="flex flex-col gap-3 w-full">
-              <Label htmlFor="start-time-picker" className="px-1">
-                Start Time
-              </Label>
+              {errors.startTime ? (
+                <Label htmlFor="start-time-picker" className=" text-[#cb251f]">
+                  {" "}
+                  Start Time is required
+                </Label>
+              ) : (
+                <Label htmlFor="start-time-picker"> Start Time</Label>
+              )}
+
               <Input
                 type="time"
                 id="start-time-picker"
                 step="60"
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
-                className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+                className={cn(
+                  "bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none",
+                  errors.startTime ? "border-[#cb251f]" : "",
+                )}
               />
             </div>
 
             <div className="flex flex-col gap-3 w-full">
-              <Label htmlFor="end-time-picker" className="px-1">
-                End Time
-              </Label>
+              {errors.endTime ? (
+                <Label htmlFor="end-time-picker" className=" text-[#cb251f]">
+                  {" "}
+                  End Time is required
+                </Label>
+              ) : (
+                <Label htmlFor="end-time-picker"> End Time</Label>
+              )}
+
               <Input
                 type="time"
                 id="end-time-picker"
                 step="60"
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
-                className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+                className={cn(
+                  "bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none",
+                  errors.endTime ? "border-[#cb251f]" : "",
+                )}
               />
             </div>
           </div>
 
           <div className="flex flex-row gap-4">
             <div className="grid gap-3 w-full">
-              <Label htmlFor="category-1">Category</Label>
+              {errors.selectedCategory ? (
+                <Label htmlFor="category-1" className=" text-[#cb251f]">
+                  {" "}
+                  Category is required
+                </Label>
+              ) : (
+                <Label htmlFor="category-1"> Category</Label>
+              )}
+
               <Select onValueChange={setSelectedCategory}>
-                <SelectTrigger id="category-select" className="w-full">
+                <SelectTrigger
+                  id="category-select"
+                  className={cn(
+                    "w-full",
+                    errors.selectedCategory ? "border-[#cb251f]" : "",
+                  )}
+                >
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
                 <SelectContent className="bg-white">
@@ -199,29 +277,45 @@ export function CreateEventsDialog({ fetchEvents,  open, onOpenChange }) {
                 </SelectContent>
               </Select>
             </div>
-            
           </div>
 
           <div className="flex flex-row gap-4">
             <div className="grid gap-3 w-full">
-              <Label htmlFor="address-1">Address</Label>
+              {errors.address ? (
+                <Label htmlFor="address-1" className=" text-[#cb251f]">
+                  {" "}
+                  Address is required
+                </Label>
+              ) : (
+                <Label htmlFor="address-1"> Address</Label>
+              )}
+
               <Input
                 id="address-1"
                 name="address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
+                className={cn(errors.address ? "border-[#cb251f]" : "")}
               />
             </div>
-            
           </div>
 
           <div className="grid gap-3 w-full">
-            <Label htmlFor="description-1">Description</Label>
+            {errors.description ? (
+              <Label htmlFor="description-1" className=" text-[#cb251f]">
+                {" "}
+                Description is required
+              </Label>
+            ) : (
+              <Label htmlFor="description-1"> Description</Label>
+            )}
+
             <Textarea
               id="description-1"
               name="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              className={cn(errors.description ? "border-[#cb251f]" : "")}
             />
           </div>
 
@@ -230,7 +324,7 @@ export function CreateEventsDialog({ fetchEvents,  open, onOpenChange }) {
               <Button variant="outline">Cancel</Button>
             </DialogClose>
             <Button type="submit" disabled={submitting} onClick={handleSubmit}>
-              { submitting ? "Saving..." : "Create"}
+              {submitting ? "Saving..." : "Create"}
             </Button>
           </DialogFooter>
         </DialogContent>
