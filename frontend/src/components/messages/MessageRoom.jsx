@@ -61,7 +61,8 @@ const MessageRoom = () => {
     const socket = socketRef.current;
 
     // when new user joins socket, send that info to backend
-    socket.emit("NEW_USER", user.id);
+    const user_id = user.id;
+    socket.emit("NEW_USER", { user_id, receiver_id });
 
     const receiveMessage = message => {
       setMessages(prev => {

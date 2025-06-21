@@ -90,17 +90,23 @@ const getUserFromSocket = (socket_id) => {
 
 io.on('connection', (socket) => {
 
-  socket.on('NEW_USER', (user_id) => {
+  socket.on('NEW_USER', ({ user_id, receiver_id }) => {
+    // need message info
+    const room_id = [user_id, receiver_id].sort().join("_");
+    socket.join(room_id);
     userSocketMap[user_id] = socket.id;
     console.log('userSocketMap after new user:', userSocketMap);
+
   });
 
   socket.on('SEND_MESSAGE', message => {
+    const room_id = [message.sender_id, message.sender_id].sort().join("_");
     console.log("message has been sent by sender client", message);
     const receiverSocketId = userSocketMap[message.receiver_id];
     if (receiverSocketId) {
       io.to(receiverSocketId).emit('RECEIVE_MESSAGE', message);
     }
+    // io.to(room_id).emit('SENT_MESSAGE', message);
     io.emit('SENT_MESSAGE', message);
   })
 
