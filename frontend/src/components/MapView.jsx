@@ -37,7 +37,7 @@ function MapView() {
 
   return (
     <div style={{ height: '100vh', width: '100%' }}>
-      <div style={{
+      {/* <div style={{
         display: 'flex',
         alignItems: 'center',
         padding: '10px 20px',
@@ -65,10 +65,10 @@ function MapView() {
         </button>
 
         <h2 style={{ margin: 0, color: '#333' }}> Local Treasure Map</h2>
-      </div>
+      </div> */}
 
 
-      <div style={{ height: '600px', width: '100%' }}>
+      <div style={{ height: '80%', width: '100%' }}>
         <MapContainer
           center={[49.2827, -123.1207]} // default starting view (vancouver)
           zoom={12}

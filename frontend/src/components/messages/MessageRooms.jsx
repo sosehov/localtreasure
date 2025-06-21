@@ -6,7 +6,7 @@ import ConversationCard from './ConversationCard';
 const URL = 'http://localhost:8080';
 
 const MessageRooms = () => {
-  const { rooms, user } = useMessageRooms();
+  const { rooms, user, setRooms } = useMessageRooms();
 
   return (
     <div>

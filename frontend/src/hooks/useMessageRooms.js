@@ -31,7 +31,7 @@ const useMessageRooms = () => {
 
   }, [ user, token, makeAuthenticatedRequest]);
 
-  return { rooms, user }
+  return { rooms, user, setRooms }
 }
 
 export default useMessageRooms;
