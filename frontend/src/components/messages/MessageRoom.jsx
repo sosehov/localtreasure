@@ -97,14 +97,6 @@ const MessageRoom = () => {
       setMessages(prev => {
         return [ ...prev, message];
       });
-
-      // add new message to db, can 
-      // const response = await makeAuthenticatedRequest('/api/messages', {
-      //   method: 'POST',
-      //   body: JSON.stringify({ message })
-      // });
-      // const writeStatus = await response;
-      // console.log(writeStatus);
       
       socketRef.current.off('SENT_MESSAGE', sentMessage); // cleanup
     };
