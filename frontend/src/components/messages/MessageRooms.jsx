@@ -20,7 +20,7 @@ const MessageRooms = () => {
         </ul>
       </>
       ) : (
-        <p>Loading rooms...</p>
+        <p>You have no messages.</p>
       )}
     </div>
   )
