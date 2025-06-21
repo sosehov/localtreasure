@@ -9,9 +9,10 @@ const DeleteButton = (props) => {
     const response = await makeAuthenticatedRequest(fetchURL, {
       method: "POST"
     })
-    .then((res) => {
-      console.log('convo deleted:', res);
+    props.setRooms(prev => {
+      return prev.filter(room => room.id !== props.room.id);
     })
+
   }
 
   return(
