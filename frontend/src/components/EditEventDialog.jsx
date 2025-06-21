@@ -32,6 +32,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { checkEventFields } from "@/lib/errorUtil";
+
 
 export function EditEventsDialog({
   open,
@@ -51,6 +53,9 @@ export function EditEventsDialog({
   const [startTime, setStartTime] = useState("10:30");
   const [endTime, setEndTime] = useState("22:30");
   const [date, setDate] = useState("");
+
+  const [errors, setErrors] = useState({});
+
 
   useEffect(() => {
     if (defaultValues) {
@@ -89,8 +94,21 @@ export function EditEventsDialog({
 
     console.log("creating..");
 
-    if (!selectedCategory) {
-      alert("Please select a category.");
+   const newErrors = checkEventFields(
+      title,
+      startTime,
+      endTime,
+      date,
+      description,
+      address,
+      selectedCategory,
+    );
+
+    console.log(newErrors)
+    setErrors(newErrors);
+
+    if (Object.values(newErrors).some((val) => val)) {
+      setSubmitting(false);
       return;
     }
 
@@ -143,18 +161,31 @@ export function EditEventsDialog({
           </DialogHeader>
           <div className="flex flex-row gap-4">
             <div className="grid gap-3 w-full">
-              <Label htmlFor="name-1">Name</Label>
+              {errors.title ? (
+                <Label htmlFor="name-1" className=" text-[#cb251f]">
+                  Title is required
+                </Label>
+              ) : (
+                <Label htmlFor="name-1">Title</Label>
+              )}
               <Input
                 id="name-1"
                 name="name"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                className={cn(errors.title ? "border-[#cb251f]" : "")}
               />
             </div>
             <div className="grid gap-3 w-full">
-              <Label htmlFor="price-1">Date</Label>
+                 {errors.date ? (
+                <Label htmlFor="date-1" className=" text-[#cb251f]">
+                  Date is required
+                </Label>
+              ) : (
+                <Label htmlFor="date-1">Date</Label>
+              )}
               <Popover>
-                <PopoverTrigger asChild>
+                <PopoverTrigger asChild className={cn(errors.date ? "border-[#cb251f]" : "")}>
                   <Button
                     variant="outline"
                     data-empty={!date}
@@ -181,42 +212,68 @@ export function EditEventsDialog({
 
           <div className="flex flex-row gap-4">
             <div className="flex flex-col gap-3 w-full">
-              <Label htmlFor="start-time-picker" className="px-1">
-                Start Time
-              </Label>
+              {errors.startTime ? (
+                <Label htmlFor="start-time-picker" className=" text-[#cb251f]">
+                  {" "}
+                  Start Time is required
+                </Label>
+              ) : (
+                <Label htmlFor="start-time-picker"> Start Time</Label>
+              )}
               <Input
                 type="time"
                 id="start-time-picker"
                 step="60"
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
-                className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+                className={cn(
+                  "bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none",
+                  errors.startTime ? "border-[#cb251f]" : "",
+                )}
               />
             </div>
 
             <div className="flex flex-col gap-3 w-full">
-              <Label htmlFor="end-time-picker" className="px-1">
-                End Time
-              </Label>
+                {errors.endTime ? (
+                <Label htmlFor="end-time-picker" className=" text-[#cb251f]">
+                  {" "}
+                  End Time is required
+                </Label>
+              ) : (
+                <Label htmlFor="end-time-picker"> End Time</Label>
+              )}
               <Input
                 type="time"
                 id="end-time-picker"
                 step="60"
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
-                className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+                className={cn(
+                  "bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none",
+                  errors.startTime ? "border-[#cb251f]" : "",
+                )}
               />
             </div>
           </div>
 
           <div className="flex flex-row gap-4">
             <div className="grid gap-3 w-full">
-              <Label htmlFor="category-1">Category</Label>
+                {errors.selectedCategory ? (
+                <Label htmlFor="category-1" className=" text-[#cb251f]">
+                  {" "}
+                  Category is required
+                </Label>
+              ) : (
+                <Label htmlFor="category-1"> Category</Label>
+              )}
               <Select
                 value={selectedCategory}
                 onValueChange={setSelectedCategory}
               >
-                <SelectTrigger id="category-select" className="w-full">
+                <SelectTrigger id="category-select"    className={cn(
+                    "w-full",
+                    errors.selectedCategory ? "border-[#cb251f]" : "",
+                  )}>
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
                 <SelectContent className="bg-white">
@@ -232,23 +289,39 @@ export function EditEventsDialog({
 
           <div className="flex flex-row gap-4">
             <div className="grid gap-3 w-full">
-              <Label htmlFor="address-1">Address</Label>
+             {errors.address ? (
+                <Label htmlFor="address-1" className=" text-[#cb251f]">
+                  {" "}
+                  Address is required
+                </Label>
+              ) : (
+                <Label htmlFor="address-1"> Address</Label>
+              )}
               <Input
                 id="address-1"
                 name="address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
+                 className={cn(errors.address ? "border-[#cb251f]" : "")}
               />
             </div>
           </div>
 
           <div className="grid gap-3 w-full">
-            <Label htmlFor="description-1">Description</Label>
+            {errors.description ? (
+              <Label htmlFor="description-1" className=" text-[#cb251f]">
+                {" "}
+                Description is required
+              </Label>
+            ) : (
+              <Label htmlFor="description-1"> Description</Label>
+            )}
             <Textarea
               id="description-1"
               name="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              className={cn(errors.description ? "border-[#cb251f]" : "")}
             />
           </div>
 
