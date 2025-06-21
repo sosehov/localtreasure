@@ -24,7 +24,6 @@ router.post('/', authenticateUser, async (req, res) => {
       await roomQueries.createRoom(sender_id, receiver_id);
       res.status(200).send('ok');
     } else {
-      console.log('room exists: ', existing_room);
       res.send({'room' : 'room already exists'});
     }
   }

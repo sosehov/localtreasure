@@ -1,5 +1,6 @@
 // load .env data into process.env
 require('dotenv').config();
+const messageQueries = require('./db/queries/messages');
 
 // Web server config
 const express = require('express');
@@ -94,20 +95,23 @@ io.on('connection', (socket) => {
     // need message info
     const room_id = [user_id, receiver_id].sort().join("_");
     socket.join(room_id);
+    console.log('rooms after new user:', io.sockets.adapter.rooms);
     userSocketMap[user_id] = socket.id;
     console.log('userSocketMap after new user:', userSocketMap);
-
   });
 
   socket.on('SEND_MESSAGE', message => {
-    const room_id = [message.sender_id, message.sender_id].sort().join("_");
+    const room_id = [message.sender_id, message.receiver_id].sort().join("_");
     console.log("message has been sent by sender client", message);
+    console.log('rooms after new message:', io.sockets.adapter.rooms);
+    const room = io.sockets.adapter.rooms.get(room_id);
     const receiverSocketId = userSocketMap[message.receiver_id];
-    if (receiverSocketId) {
+    if (room.has(receiverSocketId)) {
       io.to(receiverSocketId).emit('RECEIVE_MESSAGE', message);
     }
     // io.to(room_id).emit('SENT_MESSAGE', message);
     io.emit('SENT_MESSAGE', message);
+    messageQueries.addMessage(message);
   })
 
   socket.on('disconnect', () => {

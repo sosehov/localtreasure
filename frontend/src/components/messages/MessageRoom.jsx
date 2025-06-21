@@ -83,7 +83,7 @@ const MessageRoom = () => {
     // console.log('message from form', messageText);
     const message = {
       sender_id: user.id,
-      receiver_id: receiver_id,
+      receiver_id: Number(receiver_id),
       content: messageText,
       sendtime: `${new Date().toISOString()}`
     };
@@ -99,12 +99,12 @@ const MessageRoom = () => {
       });
 
       // add new message to db, can 
-      const response = await makeAuthenticatedRequest('/api/messages', {
-        method: 'POST',
-        body: JSON.stringify({ message })
-      });
-      const writeStatus = await response;
-      console.log(writeStatus);
+      // const response = await makeAuthenticatedRequest('/api/messages', {
+      //   method: 'POST',
+      //   body: JSON.stringify({ message })
+      // });
+      // const writeStatus = await response;
+      // console.log(writeStatus);
       
       socketRef.current.off('SENT_MESSAGE', sentMessage); // cleanup
     };
