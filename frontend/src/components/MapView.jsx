@@ -17,7 +17,7 @@ let RedIcon = L.icon({ // custom icon
 L.Marker.prototype.options.icon = RedIcon;
 
 function MapView() {
-  const [locations, setLocations] = useState([]); // will contain the coorindate numbers
+  const [locations, setLocations] = useState([]); // will contain the coordinate numbers
   const navigate = useNavigate();
   // const [loading, setLoading] = useState(true);
   // const [error, setError] = useState(null);
@@ -27,7 +27,6 @@ function MapView() {
     fetch('/api/locations') //temporary route
       .then(res => res.json())
       .then(data => {
-        console.log('Fetched locations:', data); // testing log
         setLocations(data);
       })
       .catch(err => console.error('error, did not fetch', err));
@@ -52,7 +51,8 @@ function MapView() {
       </div>
 
       <div style={{ 
-        height: '90%', width: 'calc(100vw - 150px)',  // Full width minus sidebar width
+        height: '90%', 
+        width: 'calc(100vw - 150px)',  // Full width minus sidebar width
         marginLeft: '-150px'           // Pull the map back to touch the sidebar
       }}>
         <MapContainer
@@ -68,7 +68,6 @@ function MapView() {
 
           {locations.map((place) => {
             // testing code --REMOVE ONCE IT WORKS
-            console.log('Rendering marker for:', place);
             if (!place || !place.location || !place.location.coordinates || !Array.isArray(place.location.coordinates) ||
               place.location.coordinates.length < 2) {
               console.log('Invalid location:', place);
@@ -77,7 +76,6 @@ function MapView() {
 
             const coordinates = place.location.coordinates;
             const position = [coordinates[1], coordinates[0]]; 
-            console.log('marker position:', position);
 
             return (
               <Marker key={place.id} position={position}>
