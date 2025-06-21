@@ -17,7 +17,7 @@ const UpcomingEvents = () => {
   }, [makeAuthenticatedRequest]);
 
   return (
-    <div className="bg-white shadow-md rounded-md p-6 ">
+    <div className="bg-white shadow-md rounded-md p-6 overflow-hidden max-w-7xl">
       <h2 className="text-xl font-bold mb-4">Upcoming Events</h2>
       {upcomingEvents.length === 0 ? (
         <p className="text-muted-foreground">No upcoming events.</p>

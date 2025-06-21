@@ -199,7 +199,8 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
                               ? active.content()
                               : active.content}
                           </motion.div>
-{/* To get the user id to message use active.user_id */}
+
+                          { isCalander ? <></> : 
                   <div className="pt-4 relative px-4">
                     <Link to={`/message?receiver_id=${active.user_id}`}>
                       <motion.button
@@ -212,6 +213,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
                       </motion.button>
                     </Link>
                 </div>
+                }
                         </div>
                       </div>
                     </div>
