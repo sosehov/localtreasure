@@ -37,36 +37,6 @@ function MapView() {
 
   return (
     <div style={{ height: '100vh', width: '100%' }}>
-      {/* <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        padding: '10px 20px',
-        backgroundColor: '#f8f9fa',
-        borderBottom: '1px solid #dee2e6',
-        gap: '15px'
-      }}>
-        <button onClick={() => navigate('/')}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '5px',
-            padding: '8px 16px',
-            backgroundColor: '#007bff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            fontSize: '14px'
-          }}
-          onMouseOver={(e) => e.target.style.backgroundColor = '#0056b3'}
-          onMouseOut={(e) => e.target.style.backgroundColor = '007bff'}
-        >
-          Back to Home
-        </button>
-
-        <h2 style={{ margin: 0, color: '#333' }}> Local Treasure Map</h2>
-      </div> */}
-
 
       <div style={{ height: '80%', width: '100%' }}>
         <MapContainer
