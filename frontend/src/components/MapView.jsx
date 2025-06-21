@@ -36,7 +36,11 @@ function MapView() {
   // add error handling once tested
 
   return (
-    <div style={{ height: '100vh', width: '100%' }}>
+    <div style={{ 
+      height: '100vh', 
+      width: 'calc(100vw - 150px)',  // Take full screen width minus sidebar space
+      marginLeft: '150px'            // Push away from sidebar
+    }}>
       <div style={{
         display: 'flex',
         alignItems: 'center',
@@ -59,7 +63,7 @@ function MapView() {
             fontSize: '14px'
           }}
           onMouseOver={(e) => e.target.style.backgroundColor = '#0056b3'}
-          onMouseOut={(e) => e.target.style.backgroundColor = '007bff'}
+          onMouseOut={(e) => e.target.style.backgroundColor = '#007bff'}
         >
           Back to Home
         </button>
@@ -67,8 +71,10 @@ function MapView() {
         <h2 style={{ margin: 0, color: '#333' }}> Local Treasure Map</h2>
       </div>
 
-
-      <div style={{ height: '600px', width: '100%' }}>
+      <div style={{ 
+        height: '90%', width: 'calc(100vw - 150px)',  // Full width minus sidebar width
+        marginLeft: '-150px'           // Pull the map back to touch the sidebar
+      }}>
         <MapContainer
           center={[49.2827, -123.1207]} // default starting view (vancouver)
           zoom={12}
