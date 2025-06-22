@@ -16,6 +16,13 @@ let RedIcon = L.icon({ // custom icon
 
 L.Marker.prototype.options.icon = RedIcon;
 
+
+//Helper functions
+//-----------------------------------------------------------
+
+
+
+
 function MapView() {
   const [locations, setLocations] = useState([]); // will contain the coordinate numbers
   const [events, setEvents] = useState([]); // contain event details 
@@ -32,22 +39,29 @@ function MapView() {
         const locationsResponse = await fetch('/api/locations');
         const locationsData = await locationsResponse.json // parse data into json 
         
-        
+        // Grab all event details to show in popup
+        const eventResponse = await fetch('/api/users-event/allEvents');
+        const eventsData = await eventResponse.json();
+
+
+        //test logs 
+        console.log('Fetched map location successfully:', locationsData);
+        console.log('Fetched events successfully:', eventsData);
+
+
+        setLocations(locationsData);
+        setEvents(eventsData.events || []); // ?? 
+
       } catch (err) {
         console.error('Error occured when fetching map data:', err);
       } finally {
         setLoading(false);
       }
-    }
-    fetch('/api/locations') //temporary route
-      .then(res => res.json())
-      .then(data => {
-        setLocations(data);
-      })
-      .catch(err => console.error('error, did not fetch', err));
+    };
+
+    fetchMapData();
   }, []);
 
-  // add error handling once tested
 
   return (
     <div style={{ 
