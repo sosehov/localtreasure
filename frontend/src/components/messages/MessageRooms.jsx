@@ -5,17 +5,17 @@ import ConversationCard from './ConversationCard';
 
 const URL = 'http://localhost:8080';
 
-const MessageRooms = () => {
+const MessageRooms = (props) => {
   const { rooms, user, setRooms } = useMessageRooms();
 
   return (
     <div>
-    {rooms.length > 0 && user.name ? (
+      {rooms.length > 0 && user.name ? (
       <>
         <p>{user.name}'s Messages</p>
         <ul>
           {rooms.map((room) => (
-            <ConversationCard room={room} setRooms={setRooms}/>
+            <ConversationCard room={room} setRooms={setRooms} setReceiver={setReceiver}/>
           ))}
         </ul>
       </>

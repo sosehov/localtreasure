@@ -3,8 +3,9 @@ import { useChat } from '../../hooks/useChat';
 import MessageBox from './MessageBox';
 import MessageInputForm from './MessageInputForm';
 
-const MessageRoom = () => {
-  const { user, receiver_id, messages, setMessages, socketRef } = useChat();
+const MessageRoom = (props) => {
+  const { user, messages, setMessages, socketRef } = useChat();
+  const receiver_id = props.receiverId;
 
   const handleSubmit = (e, user) => {
     e.preventDefault();

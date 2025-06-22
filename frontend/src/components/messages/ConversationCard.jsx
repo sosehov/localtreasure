@@ -6,11 +6,16 @@ const ConversationCard = (props) => {
 
   const { receiver, receiverId } = useReceiver(props.room);
 
+  const handleChatClick = () => {
+    props.setReceiver(receiverId);
+  } 
+
   return (
     <div>
       <li key={props.room.id}>
         {receiver ? (
-          <Link to={`/message?receiver_id=${receiverId}`}> {receiver.name} </Link>
+          // <Link to={`/message?receiver_id=${receiverId}`}> {receiver.name} </Link>
+          <button onClick={handleChatClick}> {receiver.name} </button>
         ) : (
           <p>Loading conversation...</p>
         )}
