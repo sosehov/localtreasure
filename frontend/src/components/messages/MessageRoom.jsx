@@ -9,6 +9,7 @@ const MessageRoom = (props) => {
   const handleSubmit = (e, user) => {
     e.preventDefault();
     const messageText = e.target[0].value;
+    if (messageText.trim() === '') return;
 
     const message = {
       sender_id: user.id,
