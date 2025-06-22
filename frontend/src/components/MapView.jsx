@@ -19,8 +19,30 @@ L.Marker.prototype.options.icon = RedIcon;
 
 //Helper functions
 //-----------------------------------------------------------
+const findEventById = (eventId) => {
+  return events.find(event => event.event_id === eventId); 
+}
 
+//-----------------------------------------------------------
+const findSaleById = (saleId) => {
+  return sales.find(sale => sale.id === saleId);
+};
 
+//-----------------------------------------------------------
+// This will format to properly fit the popup
+const formatTime = (timeString) => {
+  if (!timeString) return '';
+  const [hours, minutes] = timeString.split(':');
+  const hour = parseInt(hours);
+  const ampm = hour >= 12 ? 'PM' : 'AM';
+  const displayHour = hour % 12 || 12;
+  return `${displayHour}: ${minutes} ${ampm}`;
+};
+//-----------------------------------------------------------
+const formateDate = (dateString) => {
+  if (!dateString) return '';
+    return new Date(dateString).toLocaleDateString();
+}
 
 
 function MapView() {
