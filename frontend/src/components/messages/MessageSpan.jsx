@@ -9,7 +9,7 @@ const MessageSpan = (props) => {
 
   return (
     <li className={`flex flex-col w-[60%] ${chatRole === 'sender' ? 'self-end' : 'self-start'}`}>
-      <span className={`${chatRole === 'sender' ? 'self-end' : 'self-start'}`}>{props.message.sender_name}</span>
+      <span className={`text-xs text-gray-500 m-0.5 ${chatRole === 'sender' ? 'self-end' : 'self-start'}`}>{props.message.sender_name}</span>
       <div className={`${baseStyle} ${chatRole === 'sender' ? senderStyle : receiverStyle}`}>
         {props.message.content}
       </div>
