@@ -15,15 +15,15 @@ module.exports = (io) => {
       // need message info
       const room_id = [user_id, receiver_id].sort().join("_");
       socket.join(room_id);
-      // console.log('rooms after new user:', io.sockets.adapter.rooms);
+      console.log('rooms after new user:', io.sockets.adapter.rooms);
       userSocketMap[user_id] = socket.id;
-      // console.log('userSocketMap after new user:', userSocketMap);
+      console.log('userSocketMap after new user:', userSocketMap);
     });
 
     socket.on('SEND_MESSAGE', message => {
       const room_id = [message.sender_id, message.receiver_id].sort().join("_");
       // console.log("message has been sent by sender client", message);
-      // console.log('rooms after new message:', io.sockets.adapter.rooms);
+      console.log('rooms after new message:', io.sockets.adapter.rooms);
       const room = io.sockets.adapter.rooms.get(room_id);
       const receiverSocketId = userSocketMap[message.receiver_id];
       if (room.has(receiverSocketId)) {

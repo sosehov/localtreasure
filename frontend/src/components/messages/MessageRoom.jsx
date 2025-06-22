@@ -4,8 +4,7 @@ import MessageBox from './MessageBox';
 import MessageInputForm from './MessageInputForm';
 
 const MessageRoom = (props) => {
-  const { user, messages, setMessages, socketRef } = useChat();
-  const receiver_id = props.receiverId;
+  const { user, messages, setMessages, socketRef } = useChat(props.receiver_id);
 
   const handleSubmit = (e, user) => {
     e.preventDefault();
@@ -13,7 +12,7 @@ const MessageRoom = (props) => {
 
     const message = {
       sender_id: user.id,
-      receiver_id: Number(receiver_id),
+      receiver_id: Number(props.receiver_id),
       content: messageText,
       sendtime: `${new Date().toISOString()}`
     };

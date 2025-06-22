@@ -1,17 +1,20 @@
 // hooks/useMessageRoom.js
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { useSearchParams } from 'react-router-dom';
+// import { useSearchParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
 
 const URL = 'http://localhost:8080';
 
-export const useChat = () => {
+export const useChat = (receiver_id) => {
   const { token, makeAuthenticatedRequest, user } = useAuth();
-  const [searchParams] = useSearchParams();
-  const receiver_id = searchParams.get('receiver_id');
+  // const [searchParams] = useSearchParams();
+  // const receiver_id = searchParams.get('receiver_id');
   const socketRef = useRef(null);
+
+
   const [messages, setMessages] = useState([]);
+  // const [receiverId, setReceiver] = useState(null);
 
   useEffect(() => {
     if (!user || !token) return;
@@ -58,5 +61,5 @@ export const useChat = () => {
 
   }, [makeAuthenticatedRequest]);
 
-  return { token, makeAuthenticatedRequest, user, receiver_id, messages, setMessages, socketRef };
+  return { token, makeAuthenticatedRequest, user, messages, setMessages, socketRef };
 };
