@@ -6,6 +6,8 @@ import MainLayout from './MainLayout.jsx';
 import AuthPage from './components/AuthPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import EventsRoute from './routes/events/index.jsx';
+// import FavouriteRoute from './routes/favourites/index.jsx';
+import Favourites from './components/Favourites.jsx';
 import './App.css';
 import './index.css';
 
@@ -40,7 +42,7 @@ export default function App() {
             <EventsRoute />
           </ProtectedRoute>
         } />
-
+          
         <Route path="/messages" element={
           <ProtectedRoute>
             < MessageRooms />
@@ -59,6 +61,8 @@ export default function App() {
           </ProtectedRoute>
         } />
       </Route> 
+      </Route>
+      <Route path="/favourites" element={<Favourites />} />
     </Routes>
   );
 }

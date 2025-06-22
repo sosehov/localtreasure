@@ -6,6 +6,8 @@ DROP TABLE IF EXISTS sales CASCADE;
 DROP TABLE IF EXISTS messaging CASCADE;
 DROP TABLE IF EXISTS map CASCADE;
 DROP TABLE IF EXISTS rooms CASCADE;
+DROP TABLE IF EXISTS favourites CASCADE;
+
 
 
 CREATE TABLE categories (
@@ -67,9 +69,16 @@ CREATE TABLE map (
   address TEXT
 );
 
+
 CREATE TABLE rooms (
   id SERIAL PRIMARY KEY NOT NULL,
   sender_id INTEGER REFERENCES users(id),
   receiver_id INTEGER REFERENCES users(id),
   create_time TIMESTAMP
+);
+
+CREATE TABLE favourites  (
+  id SERIAL PRIMARY KEY NOT NULL,
+  consumer_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  sale_id INTEGER REFERENCES sales(id) ON DELETE CASCADE
 );

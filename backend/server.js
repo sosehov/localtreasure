@@ -48,10 +48,12 @@ const authApiRoutes = require('./routes/auth-api');
 const eventsApiRoutes = require('./routes/events-api.js');
 //const usersRoutes = require('./routes/users');
 const saleRoutes = require('./routes/sales-api.js')
+
 const locationsRoute = require('./routes/locations-api.js');
 const messagesRoutes = require('./routes/messages-api.js');
 const userEventsRoutes = require('./routes/user-events-api.js');
 const roomRoutes = require('./routes/rooms-api.js');
+const favouritesRoutes = require('./routes/favourites-api.js')
 
 // Mount all resource routes
 app.use('/api/auth', authApiRoutes); // Protected
@@ -63,6 +65,8 @@ app.use('/api/user-events', userEventsRoutes); // Protected
 app.use('/api/messages', messagesRoutes); // Protected
 app.use('/api/messageRooms', roomRoutes); // Protected
 app.use('/api/locations', locationsRoute);
+app.use('/api/favourites', favouritesRoutes);
+
 
 // Home page
 app.get('/', (req, res) => {
