@@ -85,14 +85,14 @@ function MapView() {
     fetchMapData();
   }, []);
 
-    if (loading) {
+  if (loading) {
     return (
       <div style={{
         height: '100vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
-        }}>
+      }}>
         <p>Loading map...</p>
       </div>
     );
