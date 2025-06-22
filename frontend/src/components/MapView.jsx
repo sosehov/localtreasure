@@ -20,12 +20,25 @@ function MapView() {
   const [locations, setLocations] = useState([]); // will contain the coordinate numbers
   const [events, setEvents] = useState([]); // contain event details 
   const [sales, setSales] = useState([]); //contain details on individual sales
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  // const [loading, setLoading] = useState(true);
   // const [error, setError] = useState(null);
   // IMPLEMENT AFTER
 
   useEffect(() => {
+    const fetchMapData = async () => {
+      try {
+        // These will grab coordinates from map table in DB
+        const locationsResponse = await fetch('/api/locations');
+        const locationsData = await locationsResponse.json // parse data into json 
+        
+        
+      } catch (err) {
+        console.error('Error occured when fetching map data:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
     fetch('/api/locations') //temporary route
       .then(res => res.json())
       .then(data => {
