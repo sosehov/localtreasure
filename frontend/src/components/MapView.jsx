@@ -20,8 +20,8 @@ L.Marker.prototype.options.icon = RedIcon;
 //Helper functions
 //-----------------------------------------------------------
 const findEventById = (eventId) => {
-  return events.find(event => event.event_id === eventId); 
-}
+  return events.find(event => event.event_id === eventId);
+};
 
 //-----------------------------------------------------------
 const findSaleById = (saleId) => {
@@ -41,10 +41,11 @@ const formatTime = (timeString) => {
 //-----------------------------------------------------------
 const formateDate = (dateString) => {
   if (!dateString) return '';
-    return new Date(dateString).toLocaleDateString();
-}
+  return new Date(dateString).toLocaleDateString();
+};
 
 
+//----------------------------------------------------------------------
 function MapView() {
   const [locations, setLocations] = useState([]); // will contain the coordinate numbers
   const [events, setEvents] = useState([]); // contain event details 
@@ -59,8 +60,8 @@ function MapView() {
       try {
         // These will grab coordinates from map table in DB
         const locationsResponse = await fetch('/api/locations');
-        const locationsData = await locationsResponse.json // parse data into json 
-        
+        const locationsData = await locationsResponse.json(); // parse data into json 
+
         // Grab all event details to show in popup
         const eventResponse = await fetch('/api/users-event/allEvents');
         const eventsData = await eventResponse.json();
@@ -84,12 +85,25 @@ function MapView() {
     fetchMapData();
   }, []);
 
+    if (loading) {
+    return (
+      <div style={{
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+        }}>
+        <p>Loading map...</p>
+      </div>
+    );
+  }
 
   return (
-    <div style={{ 
-      height: '100vh', 
-      width: 'calc(100vw - 150px)',  // Take full screen width minus sidebar space
-      marginLeft: '150px'            // Push away from sidebar
+    <div style={{
+      height: '100vh',
+      width: '100%',
+      marginLeft: '150px',            // Push away from sidebar
+      marginTop: '15px'
     }}>
       <div style={{
         display: 'flex',
@@ -101,8 +115,8 @@ function MapView() {
       }}>
       </div>
 
-      <div style={{ 
-        height: '90%', 
+      <div style={{
+        height: '90%',
         width: 'calc(100vw - 150px)',  // Full width minus sidebar width
         marginLeft: '-150px'           // Pull the map back to touch the sidebar
       }}>
@@ -126,7 +140,7 @@ function MapView() {
             }
 
             const coordinates = place.location.coordinates;
-            const position = [coordinates[1], coordinates[0]]; 
+            const position = [coordinates[1], coordinates[0]];
 
             return (
               <Marker key={place.id} position={position}>
