@@ -18,6 +18,8 @@ L.Marker.prototype.options.icon = RedIcon;
 
 function MapView() {
   const [locations, setLocations] = useState([]); // will contain the coordinate numbers
+  const [events, setEvents] = useState([]); // contain event details 
+  const [sales, setSales] = useState([]); //contain details on individual sales
   const navigate = useNavigate();
   // const [loading, setLoading] = useState(true);
   // const [error, setError] = useState(null);
