@@ -3,6 +3,7 @@ import { AnimatePresence } from "motion/react";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { format, setHours, setMinutes, setSeconds } from "date-fns";
 import { Link } from "react-router";
+import { encodeId } from '../util/hashFuncs';
 
 import HomePageEvents from "./HomePageEvents";
 import HomePageSales from "./HomePageSales";
@@ -11,6 +12,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
   const [active, setActive] = useState(null);
   const id = useId();
   const ref = useRef(null);
+
 
   useEffect(() => {
     function onKeyDown(event) {
@@ -201,7 +203,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
 
                           { isCalander ? <></> : 
                   <div className="pt-4 relative px-4">
-                    <Link to={`/messages?receiver_id=${active.user_id}`}>
+                    <Link to={`/messages?receiver_id=${encodeId(active.user_id)}`}>
                       <button
                         
                         initial={{ opacity: 0 }}
