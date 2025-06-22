@@ -31,7 +31,7 @@ const MessageRoom = (props) => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col flex-1 h-full">
       <MessageBox messages={messages} sender={user} />
       <MessageInputForm user={user} handleSubmit={handleSubmit} />
     </div>

@@ -17,7 +17,7 @@ const MessagePage = () => {
   return (
     <div className="flex h-screen">
       <MessageRooms setReceiver={setReceiver}/>
-      <div style={{"border":"solid"}}>
+      <div className="flex flex-col flex-1 h-full">
         {receiver_id ? (
           <MessageRoom key={receiver_id} receiver_id={receiver_id} />
         ) : (

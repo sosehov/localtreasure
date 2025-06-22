@@ -12,9 +12,8 @@ const ConversationCard = (props) => {
 
   return (
     <div>
-      <li key={props.room.id} className="flex items-center justify-between px-4 py-2 rounded-md hover:bg-muted transition-colors">
+      <li key={props.room.id} className="group flex items-center justify-between px-4 py-2 rounded-md transition-colors hover:bg-[#fda738]/80">
         {receiver ? (
-          // <Link to={`/message?receiver_id=${receiverId}`}> {receiver.name} </Link>
           <button onClick={handleChatClick} className="truncate"> {receiver.name} </button>
         ) : (
           <p>Loading conversation...</p>
