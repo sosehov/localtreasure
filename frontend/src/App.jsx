@@ -59,7 +59,6 @@ export default function App() {
           </ProtectedRoute>
         } />
       </Route> 
-      {/* <Route path="/map" element={<MapView /> } /> */}
     </Routes>
   );
 }
