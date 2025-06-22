@@ -60,7 +60,6 @@ export default function App() {
             <MapView />
           </ProtectedRoute>
         } />
-      </Route> 
       </Route>
       <Route path="/favourites" element={<Favourites />} />
     </Routes>
