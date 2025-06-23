@@ -9,8 +9,8 @@ import L from 'leaflet';
 let RedMarkerIcon = L.icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-  iconSize: [28, 45],
-  iconAnchor: [14, 45],
+  iconSize: [28, 45], //size of the icons
+  iconAnchor: [14, 45], // actual map location point
   popupAnchor: [1, -38],
   shadowSize: [45, 45]
 });
