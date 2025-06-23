@@ -5,78 +5,42 @@ import { useNavigate } from "react-router-dom";
 
 import L from 'leaflet';
 
-let RedIcon = L.icon({ // custom icon
-  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',  // path to marker image file
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png', // path to shadow image
-  iconSize: [25, 41], // size of the icons
-  iconAnchor: [12, 41], // actual map location
+let RedIcon = L.icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconSize: [25, 41],  //size of the icons
+  iconAnchor: [12, 41], // actual map location point
   popupAnchor: [1, -34],
   shadowSize: [41, 41]
 });
 
 L.Marker.prototype.options.icon = RedIcon;
 
-
-//Helper functions
-//-----------------------------------------------------------
-const findEventById = (eventId) => {
-  return events.find(event => event.event_id === eventId);
-};
-
-//-----------------------------------------------------------
-const findSaleById = (saleId) => {
-  return sales.find(sale => sale.id === saleId);
-};
-
-//-----------------------------------------------------------
-// This will format to properly fit the popup
-const formatTime = (timeString) => {
-  if (!timeString) return '';
-  const [hours, minutes] = timeString.split(':');
-  const hour = parseInt(hours);
-  const ampm = hour >= 12 ? 'PM' : 'AM';
-  const displayHour = hour % 12 || 12;
-  return `${displayHour}: ${minutes} ${ampm}`;
-};
-//-----------------------------------------------------------
-const formateDate = (dateString) => {
-  if (!dateString) return '';
-  return new Date(dateString).toLocaleDateString();
-};
-
-
-//----------------------------------------------------------------------
 function MapView() {
-  const [locations, setLocations] = useState([]); // will contain the coordinate numbers
-  const [events, setEvents] = useState([]); // contain event details 
-  const [sales, setSales] = useState([]); //contain details on individual sales
+  const [locations, setLocations] = useState([]);
+  const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  // const [error, setError] = useState(null);
-  // IMPLEMENT AFTER
 
   useEffect(() => {
     const fetchMapData = async () => {
       try {
-        // These will grab coordinates from map table in DB
+        // Get map locations (coordinates from map table)
         const locationsResponse = await fetch('/api/locations');
-        const locationsData = await locationsResponse.json(); // parse data into json 
+        const locationsData = await locationsResponse.json();
+        
+        // Get all events (for details to show in popups)
+        const eventsResponse = await fetch('/api/user-events/allEvents');
+        const eventsData = await eventsResponse.json();
 
-        // Grab all event details to show in popup
-        const eventResponse = await fetch('/api/users-event/allEvents');
-        const eventsData = await eventResponse.json();
-
-
-        //test logs 
-        console.log('Fetched map location successfully:', locationsData);
-        console.log('Fetched events successfully:', eventsData);
-
+        console.log('✅ Fetched map locations:', locationsData);
+        console.log('✅ Fetched events:', eventsData);
 
         setLocations(locationsData);
-        setEvents(eventsData.events || []); // ?? 
-
+        setEvents(eventsData.events || []);
+        
       } catch (err) {
-        console.error('Error occured when fetching map data:', err);
+        console.error('❌ Error fetching map data:', err);
       } finally {
         setLoading(false);
       }
@@ -85,6 +49,32 @@ function MapView() {
     fetchMapData();
   }, []);
 
+  // -----------------------Helper functions----------------------------------
+  //  function to find event details by event_id
+  const findEventById = (eventId) => {
+    if (!Array.isArray(events)) return null;
+    return events.find(event => event.event_id === eventId);
+  };
+//--------------------------------------------------------
+  // function to format time for display
+  const formatTime = (timeString) => {
+    if (!timeString) return '';
+    const [hours, minutes] = timeString.split(':');
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const displayHour = hour % 12 || 12;
+    return `${displayHour}:${minutes} ${ampm}`;
+  };
+//--------------------------------------------------------
+  // function to format date for display
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    return new Date(dateString).toLocaleDateString();
+  };
+
+
+
+  // loading map text
   if (loading) {
     return (
       <div style={{
@@ -102,26 +92,18 @@ function MapView() {
     <div style={{
       height: '100vh',
       width: '100%',
-      marginLeft: '150px',            // Push away from sidebar
+      marginLeft: '150px',
       marginTop: '15px'
     }}>
       <div style={{
         display: 'flex',
-        alignItems: 'center',
-        padding: '10px 20px',
-        backgroundColor: '#f8f9fa',
-        borderBottom: '1px solid #dee2e6',
-        gap: '15px'
-      }}>
-      </div>
-
-      <div style={{
         height: '90%',
-        width: 'calc(100vw - 150px)',  // Full width minus sidebar width
-        marginLeft: '-150px'           // Pull the map back to touch the sidebar
+        width: 'calc(100vw - 150px)',
+        marginLeft: '-150px'
       }}>
-        <MapContainer
-          center={[49.2827, -123.1207]} // default starting view (vancouver)
+
+        <MapContainer // The container that has marker, popup and details
+          center={[49.2827, -123.1207]}
           zoom={12}
           scrollWheelZoom={true}
           style={{ height: '100%', width: '100%' }}
@@ -132,10 +114,10 @@ function MapView() {
           />
 
           {locations.map((place) => {
-            // testing code --REMOVE ONCE IT WORKS
-            if (!place || !place.location || !place.location.coordinates || !Array.isArray(place.location.coordinates) ||
-              place.location.coordinates.length < 2) {
-              console.log('Invalid location:', place);
+            if (!place || !place.location || !place.location.coordinates || 
+                !Array.isArray(place.location.coordinates) ||
+                place.location.coordinates.length < 2) {
+              console.log('❌ Invalid location data:', place);
               return null;
             }
 
@@ -144,10 +126,51 @@ function MapView() {
 
             return (
               <Marker key={place.id} position={position}>
-                <Popup>
-                  <div>
-                    <strong>Address:</strong><br />
-                    {place.address}
+                <Popup maxWidth={300}>
+                  <div style={{ minWidth: '250px' }}>
+                    {(() => {
+                      // Find the event associated with this location
+                      const eventDetails = findEventById(place.event_id);
+
+                      if (eventDetails) {
+                        return (
+                          <div>
+                            <strong style={{ color: '#007bff', fontSize: '16px' }}>
+                              📅 {eventDetails.title}
+                            </strong>
+                            <br />
+                            <div style={{ marginTop: '8px' }}>
+                              <strong>When:</strong> {formatDate(eventDetails.date)}
+                              {eventDetails.start_time && (
+                                <span> at {formatTime(eventDetails.start_time)}</span>
+                              )}
+                              {eventDetails.end_time && (
+                                <span> - {formatTime(eventDetails.end_time)}</span>
+                              )}
+                            </div>
+                            <div style={{ marginTop: '5px' }}>
+                              <strong>Where:</strong> {place.address}
+                            </div>
+                            {eventDetails.description && (
+                              <div style={{ marginTop: '5px' }}>
+                                <strong>About:</strong> {eventDetails.description}
+                              </div>
+                            )}
+                            <div style={{ marginTop: '5px', fontSize: '12px', color: '#666' }}>
+                              Organized by: {eventDetails.name}
+                            </div>
+                          </div>
+                        );
+                      } else {
+                        return (
+                          <div>
+                            <strong>📍 Location</strong>
+                            <br />
+                            {place.address}
+                          </div>
+                        );
+                      }
+                    })()}
                   </div>
                 </Popup>
               </Marker>
