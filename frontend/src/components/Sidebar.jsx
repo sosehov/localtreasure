@@ -1,10 +1,10 @@
 import React from 'react'
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import {
-  IconArrowLeft,
-  IconSettings,
-  IconUserBolt,
-  IconList
+  IconMap,
+  IconCalendarWeek,
+  IconMessages,
+  IconUserCircle
 } from "@tabler/icons-react";
 import { useState } from 'react'
 
@@ -15,28 +15,28 @@ const SidebarComponent = ({}) => {
       label: "Messages",
       href: "/messages",
       icon: (
-        <IconList className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <IconMessages className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
       label: "Calendar",
       href: "/events",
       icon: (
-        <IconUserBolt className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <IconCalendarWeek className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
       label: "Map",
       href: "/map",
       icon: (
-        <IconSettings className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <IconMap className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
       label: "Edit Profile",
       href: "#",
       icon: (
-        <IconArrowLeft className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <IconUserCircle className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
   ];

@@ -14,8 +14,7 @@ import MapView from './components/MapView.jsx';
 
 
 
-import MessageRooms from './components/messages/MessageRooms.jsx';
-import MessageRoom from './components/messages/MessageRoom.jsx';
+import MessagePage from './components/messages/MessagePage.jsx';
 
 
 
@@ -43,7 +42,13 @@ export default function App() {
 
         <Route path="/messages" element={
           <ProtectedRoute>
-            < MessageRooms />
+            < MessagePage />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/map" element={
+          <ProtectedRoute>
+            <MapView />
           </ProtectedRoute>
         } />
         <Route path="/map" element={
@@ -52,9 +57,6 @@ export default function App() {
           </ProtectedRoute>
         } />
       </Route> 
-
-      <Route path="/messages" element={< MessageRooms />} />
-      <Route path="/message" element={< MessageRoom />} />
     </Routes>
   );
 }

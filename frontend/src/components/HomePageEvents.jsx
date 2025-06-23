@@ -1,4 +1,5 @@
 import  { useId } from "react";
+import { cn } from "@/lib/utils"
 
 export function HomePageEvents({ events, setActive, isCalander}) {
 
@@ -9,7 +10,8 @@ export function HomePageEvents({ events, setActive, isCalander}) {
       return <div>No events created yet</div>;
     } else {
       return (
-        <div className="grid grid-cols-6 w-[90vw]">
+
+        <div className={cn("grid  ", isCalander ? "grid-cols-4 w-[60vw]" : "grid-cols-6 w-[90vw]")}>
           {events.map((event, index) => (
             <div
               key={`${event.title}-events-${index}`}

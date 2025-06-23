@@ -19,7 +19,7 @@ export function DialogDemo() {
         <DialogTrigger asChild>
           <Button variant="outline">edit</Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px]"  aria-describedby={undefined}>
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
             <DialogDescription>

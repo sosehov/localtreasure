@@ -22,6 +22,9 @@ import {
 
 import { useAuth } from "../contexts/AuthContext";
 
+import { cn } from "@/lib/utils";
+import { checkSalesFields } from "@/lib/errorUtil";
+
 export function EditSalesDialog({ open, onOpenChange, defaultValues, fetchSales }) {
   const { user, makeAuthenticatedRequest } = useAuth();
 
@@ -35,6 +38,8 @@ export function EditSalesDialog({ open, onOpenChange, defaultValues, fetchSales 
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+
+  const [errors, setErrors] = useState({});
 
   // Sync internal state when defaultValues change
   useEffect(() => {
@@ -98,10 +103,22 @@ export function EditSalesDialog({ open, onOpenChange, defaultValues, fetchSales 
     if (photoFile) {
       const uploadedUrl = await handleUploadPhoto();
       if (uploadedUrl) photoUrlToUse = uploadedUrl;
+      setPhotoUrl(photoUrlToUse)
     }
 
-    if (!selectedCategory) {
-      alert("Please select a category.");
+
+      const newErrors = checkSalesFields(
+      title,
+      description,
+      selectedCategory,
+      price,
+      photoUrlToUse,
+    );
+
+    console.log(newErrors)
+    setErrors(newErrors);
+
+    if (Object.values(newErrors).some((val) => val)) {
       setSubmitting(false);
       return;
     }
@@ -137,27 +154,46 @@ export function EditSalesDialog({ open, onOpenChange, defaultValues, fetchSales 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[625px] bg-white">
+      <DialogContent className="sm:max-w-[625px] bg-white"  aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle>Edit Listing</DialogTitle>
         </DialogHeader>
 
         <div className="flex flex-row gap-4">
           <div className="grid gap-3 w-full">
-            <Label htmlFor="name">Name</Label>
+             {errors.title ? (
+                <Label htmlFor="name-1" className=" text-[#cb251f]">
+                  Title is required
+                </Label>
+              ) : (
+                <Label htmlFor="name-1">Title</Label>
+              )}
             <Input id="name" value={title} onChange={(e) => setTitle(e.target.value)} />
           </div>
           <div className="grid gap-3 w-full">
-            <Label htmlFor="price">Price</Label>
+            {errors.price ? (
+                <Label htmlFor="price-1" className=" text-[#cb251f]">
+                  Price is required
+                </Label>
+              ) : (
+              <Label htmlFor="price-1">Price</Label>
+              )}
             <Input id="price" type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
           </div>
         </div>
 
         <div className="flex flex-row gap-4">
           <div className="grid gap-3 w-full">
+            {errors.selectedCategory ? (
+                <Label htmlFor="category" className=" text-[#cb251f]">
+                  Category is required
+                </Label>
+              ) : (
             <Label htmlFor="category">Category</Label>
+              )}
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-full">
+              <SelectTrigger className={cn("w-full", 
+                 errors.selectedCategory ? "border-[#cb251f]" : "")}>
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
               <SelectContent className="bg-white">
@@ -170,17 +206,29 @@ export function EditSalesDialog({ open, onOpenChange, defaultValues, fetchSales 
             </Select>
           </div>
           <div className="grid gap-3 w-full">
+            {errors.photoUrl ? (
+                <Label htmlFor="photo" className=" text-[#cb251f]">
+                  Photo is required
+                </Label>
+              ) : (
             <Label htmlFor="photo">Photo</Label>
+              )}
             <Input id="photo" type="file" accept="image/*" onChange={handlePhotoChange} />
           </div>
         </div>
 
         <div className="grid gap-3 w-full">
+            {errors.description ? (
+                <Label htmlFor="description" className=" text-[#cb251f]">
+                  Description is required
+                </Label>
+              ) : (
           <Label htmlFor="description">Description</Label>
+              )}
           <Textarea
             id="description"
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)} className={cn(errors.description ? "border-[#cb251f]" : "")}
           />
         </div>
 

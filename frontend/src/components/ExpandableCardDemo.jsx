@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 
-import { AnimatePresence } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { format, setHours, setMinutes, setSeconds } from "date-fns";
 import {
@@ -26,7 +26,6 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events, isP
   const eventTitle = isProfile ? 'My Events' : 'Events';
   const id = useId();
   const ref = useRef(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
   const { user, makeAuthenticatedRequest } = useAuth();
 
   const [showSalesDialog, setShowSalesDialog] = useState(false);
@@ -350,7 +349,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events, isP
           <div className="fixed inset-0  grid place-items-center z-[100]">
             <button
               key={`button-${active.title}-${id}`}
-              layout
+              
               initial={{
                 opacity: 0,
               }}
@@ -446,7 +445,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events, isP
 
                   {active.price_cents ? (
                     <button
-                      layout
+                      
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
@@ -461,7 +460,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events, isP
                 </div>
                 <div className="pt-4 relative px-4">
                   <div
-                    layout
+                    
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}

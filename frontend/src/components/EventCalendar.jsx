@@ -45,9 +45,9 @@ const EventCalendar = () => {
   }, [selectedDate, makeAuthenticatedRequest]);
   
   return (
-    <div className="flex flex-col md:flex-row gap-6 max-w-4xl mx-auto">
+    <div className="flex flex-col md:flex-row gap-6 max-w-4xl justify-start items-start align-start">
       {/* Calendar */}
-      <div className="bg-white shadow-md rounded-md p-6 max-w-md mx-auto">
+      <div className="bg-white shadow-md rounded-md p-6 max-w-md">
         <Calendar
           mode="single"
           selected={selectedDate}

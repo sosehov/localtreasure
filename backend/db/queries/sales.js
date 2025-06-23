@@ -25,13 +25,15 @@ const deleteUserSale = ( {saleId, user_id} ) => {
 const createUserSale = ({ title, description, price, category_id, image_url, user_id }) => {
     
     const query = {
-        text: `INSERT INTO sales ( title, description, price_cents, category_id, is_sold, image_url, user_id)
-               VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-        values: [title, description, price, category_id, false, image_url, user_id]
-    }
+    text: `INSERT INTO sales (title, description, price_cents, category_id, is_sold, image_url, user_id)
+           VALUES ($1, $2, $3, $4, $5, $6, $7)
+           RETURNING id`, 
+    values: [title, description, price, category_id, false, image_url, user_id]
+  };
 
- return db.query(query)
-    .then(() => {
+  return db.query(query)
+    .then((result) => {
+      const saleId = result.rows[0].id;
       return { success: true, saleId };
     })
     .catch((err) => {

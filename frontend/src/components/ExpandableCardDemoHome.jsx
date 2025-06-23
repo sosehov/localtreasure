@@ -1,8 +1,9 @@
 import{ useEffect, useId, useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence } from "motion/react";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { format, setHours, setMinutes, setSeconds } from "date-fns";
 import { Link } from "react-router";
+import { encodeId } from '../util/hashFuncs';
 
 import HomePageEvents from "./HomePageEvents";
 import HomePageSales from "./HomePageSales";
@@ -11,6 +12,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
   const [active, setActive] = useState(null);
   const id = useId();
   const ref = useRef(null);
+
 
   useEffect(() => {
     function onKeyDown(event) {
@@ -52,7 +54,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
    
       <AnimatePresence>
         {active && typeof active === "object" && (
-          <motion.div
+          <div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -66,7 +68,6 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
                   <div className="fixed inset-0  grid place-items-center z-[100]">
                     <button
                       key={`button-${active.title}-${id}`}
-                      layout
                       initial={{
                         opacity: 0,
                       }}
@@ -176,7 +177,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
         
                           {active.price_cents ? (
                          <button
-                    layout
+                    
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -189,7 +190,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
                         </div>
                         <div className="pt-4 relative px-4">
                           <div
-                            layout
+                            
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
@@ -199,11 +200,12 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
                               ? active.content()
                               : active.content}
                           </div>
-{/* To get the user id to message use active.user_id */}
+
+                          { isCalander ? <></> : 
                   <div className="pt-4 relative px-4">
-                    <Link to={`/message?receiver_id=${active.user_id}`}>
+                    <Link to={`/messages?receiver_id=${encodeId(active.user_id)}`}>
                       <button
-                        layout
+                        
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -212,6 +214,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
                       </button>
                     </Link>
                 </div>
+                }
                         </div>
                       </div>
                     </div>
@@ -244,7 +247,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
 
 export const CloseIcon = () => {
   return (
-    <motion.svg
+    <svg
       initial={{
         opacity: 0,
       }}
@@ -270,7 +273,7 @@ export const CloseIcon = () => {
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <path d="M18 6l-12 12" />
       <path d="M6 6l12 12" />
-    </motion.svg>
+    </svg>
   );
 };
 
