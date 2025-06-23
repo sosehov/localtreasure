@@ -201,7 +201,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
 
                           { isCalander ? <></> : 
                   <div className="pt-4 relative px-4">
-                    <Link to={`/message?receiver_id=${active.user_id}`}>
+                    <Link to={`/messages?receiver_id=${active.user_id}`}>
                       <button
                         
                         initial={{ opacity: 0 }}

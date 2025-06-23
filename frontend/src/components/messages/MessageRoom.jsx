@@ -3,16 +3,17 @@ import { useChat } from '../../hooks/useChat';
 import MessageBox from './MessageBox';
 import MessageInputForm from './MessageInputForm';
 
-const MessageRoom = () => {
-  const { user, receiver_id, messages, setMessages, socketRef } = useChat();
+const MessageRoom = (props) => {
+  const { user, messages, setMessages, socketRef } = useChat(props.receiver_id);
 
   const handleSubmit = (e, user) => {
     e.preventDefault();
     const messageText = e.target[0].value;
+    if (messageText.trim() === '') return;
 
     const message = {
       sender_id: user.id,
-      receiver_id: Number(receiver_id),
+      receiver_id: Number(props.receiver_id),
       content: messageText,
       sendtime: `${new Date().toISOString()}`
     };
@@ -31,7 +32,7 @@ const MessageRoom = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col flex-1 h-full">
       <MessageBox messages={messages} sender={user} />
       <MessageInputForm user={user} handleSubmit={handleSubmit} />
     </div>

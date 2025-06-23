@@ -6,11 +6,15 @@ const ConversationCard = (props) => {
 
   const { receiver, receiverId } = useReceiver(props.room);
 
+  const handleChatClick = () => {
+    props.setReceiver(receiverId);
+  };
+
   return (
     <div>
-      <li key={props.room.id}>
+      <li key={props.room.id} className="group flex items-center justify-between px-4 py-2 rounded-md transition-colors hover:bg-[#fda738]/80">
         {receiver ? (
-          <Link to={`/message?receiver_id=${receiverId}`}> {receiver.name} </Link>
+          <button onClick={handleChatClick} className="truncate"> {receiver.name} </button>
         ) : (
           <p>Loading conversation...</p>
         )}
