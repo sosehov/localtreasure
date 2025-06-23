@@ -51,6 +51,11 @@ export default function App() {
             <MapView />
           </ProtectedRoute>
         } />
+        <Route path="/map" element={
+          <ProtectedRoute>
+            < MapView />
+          </ProtectedRoute>
+        } />
       </Route> 
     </Routes>
   );
