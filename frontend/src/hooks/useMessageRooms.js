@@ -29,7 +29,7 @@ const useMessageRooms = () => {
     
     fetchRooms();
 
-  }, [ user, token, makeAuthenticatedRequest]);
+  }, [token]);
 
   return { rooms, user, setRooms }
 }

@@ -8,26 +8,28 @@ const URL = 'http://localhost:8080';
 
 export const useChat = (receiver_id) => {
   const { token, makeAuthenticatedRequest, user } = useAuth();
-  // const [searchParams] = useSearchParams();
-  // const receiver_id = searchParams.get('receiver_id');
   const socketRef = useRef(null);
 
 
   const [messages, setMessages] = useState([]);
-  // const [receiverId, setReceiver] = useState(null);
+  let reqSent = false;
 
   useEffect(() => {
     if (!user || !token) return;
 
     const createRoomConditional = async () => {
-      try {
-        const fetchURL = `api/messageRooms?senderId=${user.id}&receiverId=${receiver_id}`;
-        const response = await makeAuthenticatedRequest(fetchURL, {
-          method: "POST"
-        });
-        console.log('create room status:', response);
-      } catch (error) {
-        console.error("Error creating room:", error);
+      if (!reqSent) {
+        try {
+          reqSent = true;
+          const fetchURL = `api/messageRooms?senderId=${user.id}&receiverId=${receiver_id}`;
+          const response = await makeAuthenticatedRequest(fetchURL, {
+            method: "POST"
+          });
+          console.log('create room status:', response);
+        } catch (error) {
+          console.error("Error creating room:", error);
+          reqSent = false;
+        }
       }
     };
     createRoomConditional();
@@ -59,7 +61,7 @@ export const useChat = (receiver_id) => {
 
     socket.on('RECEIVE_MESSAGE', receiveMessage);
 
-  }, [makeAuthenticatedRequest]);
+  }, [token]);
 
   return { token, makeAuthenticatedRequest, user, messages, setMessages, socketRef };
 };
