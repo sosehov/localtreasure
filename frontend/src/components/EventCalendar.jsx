@@ -64,10 +64,12 @@ const EventCalendar = () => {
           month={month}
           onMonthChange={setMonth}
           modifiers={{
-            hasEvent: highlightedDates
+            hasEvent: highlightedDates,
+            today: new Date(),
           }}
           modifiersClassNames={{
-            hasEvent: "bg-yellow-200"
+            hasEvent: "bg-yellow-200",
+            today: "bg-blue-300 text-white font-bold",
           }}
         />
 
