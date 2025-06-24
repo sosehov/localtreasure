@@ -50,6 +50,8 @@ export function CreateEventsDialog({ fetchEvents, open, onOpenChange }) {
   const [date, setDate] = useState("");
 
   const [errors, setErrors] = useState({});
+  const [submissionError, setSubmissionError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -73,6 +75,7 @@ export function CreateEventsDialog({ fetchEvents, open, onOpenChange }) {
 
   const handleSubmit = async () => {
     setSubmitting(true);
+    setSubmissionError("");
 
     const newErrors = checkEventFields(
       title,
@@ -84,7 +87,6 @@ export function CreateEventsDialog({ fetchEvents, open, onOpenChange }) {
       selectedCategory,
     );
 
-    console.log(newErrors)
     setErrors(newErrors);
 
     if (Object.values(newErrors).some((val) => val)) {
@@ -92,10 +94,7 @@ export function CreateEventsDialog({ fetchEvents, open, onOpenChange }) {
       return;
     }
 
-    console.log("creating..");
-
     const payload = {
-      user_id: user.id,
       title,
       description,
       address,
@@ -106,30 +105,37 @@ export function CreateEventsDialog({ fetchEvents, open, onOpenChange }) {
     };
 
     try {
-      const res = await makeAuthenticatedRequest(
-        `/api/user-events/createEvent`,
-        {
-          method: "POST",
-          body: JSON.stringify(payload),
-        },
-      );
+      const res = await makeAuthenticatedRequest(`/api/events`, {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
 
-      if (!res.ok) throw new Error("Failed to create event");
-      console.log("Event created!");
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setSubmitting(false);
+      const data = await res.json();
 
-      fetchEvents();
+      if (!res.ok) {
+        setSubmissionError(data.error || "Failed to create event");
+        setSubmitting(false);
+        return;
+      }
+
+      // Success
+      fetchEvents(); // Refresh event list
+      onOpenChange(false); // Close dialog
+
+      // Reset form
       setTitle("");
       setDescription("");
-      setStartTime(null);
-      setEndTime(null);
-      setDate(null);
-      setSelectedCategory(null);
-
-      onOpenChange(false);
+      setAddress("");
+      setStartTime("10:30");
+      setEndTime("22:30");
+      setDate("");
+      setSelectedCategory("");
+      setErrors({});
+    } catch (err) {
+      console.error("Submit error:", err);
+      setSubmissionError("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -319,6 +325,9 @@ export function CreateEventsDialog({ fetchEvents, open, onOpenChange }) {
             />
           </div>
 
+          {submissionError && (
+            <p className="text-red-600 text-sm font-medium mb-2">{submissionError}</p>
+          )}
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>

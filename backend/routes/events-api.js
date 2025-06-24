@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db/connection');
 const { authenticateUser } = require('../middleware/auth');
+const { geocodeAddress } = require('../utils/geocode');
 
 // GET /api/events?date=YYYY-MM-DD
 router.get('/', async (req, res) => {
@@ -58,22 +59,39 @@ router.post('/', authenticateUser, async (req, res) => {
   const { title, description, date, start_time, end_time, address } = req.body;
   const user_id = req.user.user_id;
 
-  if (!title || !date) {
-    return res.status(400).json({ error: 'Title and date are required' });
+  if (!title || !date || !address) {
+    return res.status(400).json({ error: 'Title, date, and address are required' });
   }
 
-  try {
-    const result = await db.query(
-      `INSERT INTO events (user_id, title, description, date, start_time, end_time, address)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)
-       RETURNING *`,
-      [user_id, title, description, date, start_time, end_time, address]
-    );
-    res.status(201).json(result.rows[0]);
-  } catch (err) {
-    console.error('Error creating event:', err);
-    res.status(500).json({ error: 'Failed to create event' });
+  console.log("📍 Geocoding address:", address);
+  const geo = await geocodeAddress(address);
+  console.log("📌 Geocode result:", geo);
+
+  if (!geo) {
+    return res.status(400).json({ error: 'Incorrect address' });
   }
-});
+    try {
+      const result = await db.query(`
+      INSERT INTO events (user_id, title, description, date, start_time, end_time, address)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING event_id`,
+        [user_id, title, description, date, start_time, end_time, address]
+      );
+
+      const event_id = result.rows[0].event_id;
+      const point = `POINT(${geo.lon} ${geo.lat})`;
+
+      await db.query(`
+      INSERT INTO map (event_id, location, address)
+      VALUES ($1, ST_GeogFromText($2), $3)`,
+        [event_id, point, address]
+      );
+
+      res.status(201).json({ message: 'Event and location created', event_id });
+    } catch (err) {
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Database insert failed' });
+    }
+  });
 
 module.exports = router;
