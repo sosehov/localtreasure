@@ -224,7 +224,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
     
 { sales ? 
       <div>
-        <p className="ml-4 text-lg font-bold">Latest Listings</p>
+        <p className="ml-4 text-lg font-bold">Listings</p>
         <ul className="max-w-[100%] mx-auto w-full grid grid-cols-1 md:grid-cols-4 items-start gap-4">
           <HomePageSales sales={sales} setActive={setActive} isProfilePage={false}/>
         </ul>
@@ -233,7 +233,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
       
 { events ? 
        <div>
-        {isCalander ? <></> : <p className="ml-4 text-lg font-bold">Latest Events</p>}
+        {isCalander ? <></> : <p className="ml-4 text-lg font-bold">Upcoming Events</p>}
         <ul className="max-w-[100%] mx-auto w-full grid grid-cols-1 md:grid-cols-4 items-start gap-4">
            <HomePageEvents events={events} setActive={setActive} isCalander={isCalander}/>
         </ul>

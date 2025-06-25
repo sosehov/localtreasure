@@ -22,7 +22,7 @@ export function HomePageSales({ sales, setActive}) {
               key={sale.title}
               
               onClick={() => setActive(sale)}
-              className="p-4 flex flex-col w-full  hover:bg-neutral-50  rounded-xl cursor-pointer">
+              className="p-4 flex flex-col w-full  hover:bg-neutral-100  rounded-xl cursor-pointer">
               <div className="flex gap-4 flex-col  w-full">
                 <div >
                   <img
