@@ -22,7 +22,7 @@ export function HomePageSales({ sales, setActive}) {
               key={sale.title}
               
               onClick={() => setActive(sale)}
-              className="p-4 flex flex-col w-full  hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer">
+              className="p-4 flex flex-col w-full  hover:bg-neutral-50  rounded-xl cursor-pointer">
               <div className="flex gap-4 flex-col  w-full">
                 <div >
                   <img
@@ -34,7 +34,7 @@ export function HomePageSales({ sales, setActive}) {
                 </div>
                 <div className="flex   flex-row justify-between ">
                   <h3
-                    className="font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left text-base">
+                    className="font-medium text-neutral-800  text-center md:text-left text-base">
                     {sale.title}
                   </h3>
                 </div>

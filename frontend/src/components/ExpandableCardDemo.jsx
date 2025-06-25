@@ -120,7 +120,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events, isP
             <div
               key={`${sale.title}-sales`}
               onClick={() => setActive(sale)}
-              className="p-4 flex flex-col w-full  hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer"
+              className="p-4 flex flex-col w-full  hover:bg-neutral-50  rounded-xl cursor-pointer"
             >
               <div className="flex gap-4 flex-col  w-full">
                 <div>
@@ -133,12 +133,12 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events, isP
                   />
                 </div>
                 <div className="flex   flex-row justify-between ">
-                  <h3 className="font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left text-base">
+                  <h3 className="font-medium text-neutral-800  text-center md:text-left text-base">
                     {sale.title}
                   </h3>
                   <DropdownMenu>
                     <DropdownMenuTrigger onClick={(e) => e.stopPropagation()}>
-                      <IconDots className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+                      <IconDots className="h-5 w-5 shrink-0 text-neutral-700 " />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="bg-white">
                       <DropdownMenuItem
@@ -172,7 +172,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events, isP
             <div
               key={`${event.title}-events-${index}`}
               onClick={() => setActive(event)}
-              className="p-4 flex flex-col w-full  hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer"
+              className="p-4 flex flex-col w-full  hover:bg-neutral-50  rounded-xl cursor-pointer"
             >
               <div className="flex gap-4 flex-col  w-full">
                 <div>
@@ -187,13 +187,13 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events, isP
                   />
                 </div>
                 <div className="flex   flex-row justify-between ">
-                  <h3 className="font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left text-base">
+                  <h3 className="font-medium text-neutral-800  text-center md:text-left text-base">
                     {event.title}
                   </h3>
 
                   <DropdownMenu>
                     <DropdownMenuTrigger onClick={(e) => e.stopPropagation()}>
-                      <IconDots className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+                      <IconDots className="h-5 w-5 shrink-0 text-neutral-700 " />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="bg-white">
                       <DropdownMenuItem
@@ -369,7 +369,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events, isP
             </button>
             <div
               ref={ref}
-              className="w-full max-w-[500px]  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
+              className="w-full max-w-[500px]  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-white  sm:rounded-3xl overflow-hidden"
             >
               <div>
                 <img
@@ -389,12 +389,12 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events, isP
                 <div className="flex justify-between items-start p-4">
                   <div className="flex flex-col">
                     <div className="flex flex-row gap-5">
-                      <h3 className="font-medium text-neutral-700 dark:text-neutral-200 text-base">
+                      <h3 className="font-medium text-neutral-700  text-base">
                         {active.title}
                       </h3>
 
                       {active.price_cents ? (
-                        <p className="text-neutral-600 dark:text-neutral-400 text-base">
+                        <p className="text-neutral-600  text-base">
                           ${active.price_cents}
                         </p>
                       ) : (
@@ -404,21 +404,21 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events, isP
 
                     <div className="mt-5">
                       {active.date ? (
-                        <span className="text-neutral-600 dark:text-neutral-400 text-base">
+                        <span className="text-neutral-600  text-base">
                           On {format(new Date(active.date), "MMMM d, yyyy")}
                         </span>
                       ) : (
                         <></>
                       )}
                       {active.start_time ? (
-                        <span className="text-neutral-600 dark:text-neutral-400 text-base">
+                        <span className="text-neutral-600  text-base">
                           &nbsp; From {formatTime(active.start_time)} -
                         </span>
                       ) : (
                         <></>
                       )}
                       {active.end_time ? (
-                        <span className="text-neutral-600 dark:text-neutral-400 text-base">
+                        <span className="text-neutral-600  text-base">
                           &nbsp; To {formatTime(active.end_time)}
                         </span>
                       ) : (
@@ -428,7 +428,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events, isP
 
                     <div className="flex flex-row gap-5">
                       {active.address ? (
-                        <span className="text-neutral-600 dark:text-neutral-400 text-base">
+                        <span className="text-neutral-600  text-base">
                           At {active.address}
                         </span>
                       ) : (
@@ -437,7 +437,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events, isP
                     </div>
 
                     <div className="mt-5">
-                      <p className="text-neutral-600 dark:text-neutral-400 text-base">
+                      <p className="text-neutral-600  text-base">
                         {active.description}
                       </p>
                     </div>
@@ -464,7 +464,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events, isP
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="text-neutral-600 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto dark:text-neutral-400 [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
+                    className="text-neutral-600 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto  [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
                   >
                     {typeof active.content === "function"
                       ? active.content()

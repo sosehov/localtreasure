@@ -12,7 +12,7 @@ export const useChat = (receiver_id) => {
   // const receiver_id = searchParams.get('receiver_id');
   const socketRef = useRef(null);
 
-
+let reqSent = false;
   const [messages, setMessages] = useState([]);
   // const [receiverId, setReceiver] = useState(null);
 
@@ -20,7 +20,9 @@ export const useChat = (receiver_id) => {
     if (!user || !token) return;
 
     const createRoomConditional = async () => {
+        if (!reqSent) {
       try {
+        reqSent = true;
         const fetchURL = `api/messageRooms?senderId=${user.id}&receiverId=${receiver_id}`;
         const response = await makeAuthenticatedRequest(fetchURL, {
           method: "POST"
@@ -28,8 +30,9 @@ export const useChat = (receiver_id) => {
         console.log('create room status:', response);
       } catch (error) {
         console.error("Error creating room:", error);
+        reqSent = false;
       }
-    };
+    }};
     createRoomConditional();
 
     const fetchMessages = async () => {
