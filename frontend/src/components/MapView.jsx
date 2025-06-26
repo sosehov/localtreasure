@@ -34,9 +34,6 @@ function MapView() {
         const eventsResponse = await fetch('/api/user-events/allEvents');
         const eventsData = await eventsResponse.json();
 
-        console.log('✅ Fetched map locations:', locationsData);
-        console.log('✅ Fetched events:', eventsData);
-
         setLocations(locationsData);
         setEvents(eventsData.events || []);
 
@@ -123,7 +120,6 @@ function MapView() {
             if (!place || !place.location || !place.location.coordinates ||
               !Array.isArray(place.location.coordinates) ||
               place.location.coordinates.length < 2) {
-              console.log('❌ Invalid location data:', place);
               return null;
             }
 
@@ -189,7 +185,6 @@ function MapView() {
                     position: 'relative',
                     overflow: 'hidden'
                   }}>
-                    {/* Decorative background pattern */}
                     <div style={{
                       position: 'absolute',
                       top: 0,
