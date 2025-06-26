@@ -4,7 +4,6 @@ const DeleteButton = (props) => {
   const { makeAuthenticatedRequest } = useAuth();
 
   const handleDelete = async () => {
-    console.log('click registered');
     const fetchURL = `api/messageRooms/delete/${props.room.id}`;
     const response = await makeAuthenticatedRequest(fetchURL, {
       method: "POST"

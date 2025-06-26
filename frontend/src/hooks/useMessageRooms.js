@@ -21,7 +21,6 @@ const useMessageRooms = () => {
         });
         const data = await response.json();
         setRooms(data.rooms);
-        console.log('rooms after fetch:', rooms);
       } catch (error) {
         console.error("Error fetching rooms:", error);
       }

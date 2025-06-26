@@ -25,7 +25,6 @@ export const useChat = (receiver_id) => {
           const response = await makeAuthenticatedRequest(fetchURL, {
             method: "POST"
           });
-          console.log('create room status:', response);
         } catch (error) {
           console.error("Error creating room:", error);
           reqSent = false;
@@ -42,7 +41,6 @@ export const useChat = (receiver_id) => {
         });
         const data = await response.json();
         setMessages(data.messages);
-        console.log('messages after fetch:', data.messages);
       } catch (error) {
         console.error("Error fetching messages:", error);
       }

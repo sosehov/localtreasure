@@ -23,7 +23,6 @@ const useReceiver = (room) => {
     };
 
     if (receiverId) {
-      console.log('props receiverid:', receiverId);
       fetchReceiver();
     }
   }, [receiverId, token, makeAuthenticatedRequest]);

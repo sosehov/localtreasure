@@ -6,7 +6,8 @@ import MessageInputForm from './MessageInputForm';
 const MessageRoom = (props) => {
   const { user, messages, setMessages, socketRef } = useChat(props.receiver_id);
 
-  const handleSubmit = (e, user) => {
+  const handleSubmit = (e, user) => {cd frameElement
+
     e.preventDefault();
     const messageText = e.target[0].value;
     if (messageText.trim() === '') return;
@@ -22,7 +23,6 @@ const MessageRoom = (props) => {
     socketRef.current.off('SEND_MESSAGE', message);
 
     const sentMessage = async (message) => {
-      console.log('new message is here:', message);
       setMessages(prev => [...prev, message]);
       socketRef.current.off('SENT_MESSAGE', sentMessage); // cleanup
     };
