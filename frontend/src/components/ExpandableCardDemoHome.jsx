@@ -87,7 +87,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
                     </button>
                     <div
                       ref={ref}
-                      className="w-full max-w-[500px]  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
+                      className="w-full max-w-[500px]  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-white  sm:rounded-3xl overflow-hidden"
                     >
                       <div >
                         <img
@@ -108,14 +108,14 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
                           <div className="flex flex-col">
                             <div className="flex flex-row gap-5">
                               <h3
-                                className="font-medium text-neutral-700 dark:text-neutral-200 text-base"
+                                className="font-medium text-neutral-700  text-base"
                               >
                                 {active.title}
                               </h3>
         
                               {active.price_cents ? (
                                 <p
-                                  className="text-neutral-600 dark:text-neutral-400 text-base"
+                                  className="text-neutral-600  text-base"
                                 >
                                   ${active.price_cents}
                                 </p>
@@ -127,7 +127,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
                             <div className="mt-5">
                               {active.date ? (
                                 <span
-                                  className="text-neutral-600 dark:text-neutral-400 text-base"
+                                  className="text-neutral-600  text-base"
                                 >
                                   On {format(new Date(active.date), "MMMM d, yyyy")}
                                 </span>
@@ -136,7 +136,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
                               )}
                               {active.start_time ? (
                                 <span
-                                  className="text-neutral-600 dark:text-neutral-400 text-base"
+                                  className="text-neutral-600  text-base"
                                 >
                                   &nbsp; From {formatTime(active.start_time)} -
                                 </span>
@@ -145,7 +145,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
                               )}
                               {active.end_time ? (
                                 <span
-                                  className="text-neutral-600 dark:text-neutral-400 text-base"
+                                  className="text-neutral-600  text-base"
                                 >
                                   &nbsp; To {formatTime(active.end_time)}
                                 </span>
@@ -157,7 +157,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
                             <div className="flex flex-row gap-5">
                               {active.address ? (
                                 <span
-                                  className="text-neutral-600 dark:text-neutral-400 text-base"
+                                  className="text-neutral-600  text-base"
                                 >
                                   At {active.address}
                                 </span>
@@ -168,7 +168,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
         
                             <div className="mt-5">
                               <p
-                                className="text-neutral-600 dark:text-neutral-400 text-base"
+                                className="text-neutral-600  text-base"
                               >
                                 {active.description}
                               </p>
@@ -194,7 +194,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="text-neutral-600 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto dark:text-neutral-400 [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
+                            className="text-neutral-600 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto  [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
                           >
                             {typeof active.content === "function"
                               ? active.content()
@@ -224,7 +224,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
     
 { sales ? 
       <div>
-        <p className="ml-4 text-lg font-bold">Latest Listings</p>
+        <p className="ml-4 text-lg font-bold">Listings</p>
         <ul className="max-w-[100%] mx-auto w-full grid grid-cols-1 md:grid-cols-4 items-start gap-4">
           <HomePageSales sales={sales} setActive={setActive} isProfilePage={false}/>
         </ul>
@@ -233,7 +233,7 @@ export function ExpandableCardDemoHome({sales, events, isCalander}) {
       
 { events ? 
        <div>
-        {isCalander ? <></> : <p className="ml-4 text-lg font-bold">Latest Events</p>}
+        {isCalander ? <></> : <p className="ml-4 text-lg font-bold">Upcoming Events</p>}
         <ul className="max-w-[100%] mx-auto w-full grid grid-cols-1 md:grid-cols-4 items-start gap-4">
            <HomePageEvents events={events} setActive={setActive} isCalander={isCalander}/>
         </ul>

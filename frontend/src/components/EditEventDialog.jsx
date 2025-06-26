@@ -63,8 +63,8 @@ export function EditEventsDialog({
       setAddress(defaultValues.address || "");
       setDescription(defaultValues.description || "");
       setSelectedCategory(defaultValues.category_id || "");
-      setStartTime(defaultValues.start_time || null);
-      setEndTime(defaultValues.end_time || null);
+      setStartTime(defaultValues.start_time || "");
+      setEndTime(defaultValues.end_time || "");
       setDate(defaultValues.date || null);
     }
   }, [defaultValues]);
@@ -143,10 +143,10 @@ export function EditEventsDialog({
       fetchEvents();
       setTitle("");
       setDescription("");
-      setStartTime(null);
-      setEndTime(null);
+      setStartTime("");
+      setEndTime("");
       setDate(null);
-      setSelectedCategory(null);
+      setSelectedCategory("");
 
       onOpenChange(false);
     }

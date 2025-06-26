@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
 const EditProfile = () => {
   const { user, token } = useAuth();
@@ -101,7 +101,7 @@ const EditProfile = () => {
         </div>
 
         <div>
-          <label className="block mb-1 font-medium">Contact Info</label>
+          <label className="block mb-1 font-medium">Phone Number</label>
           <input
             type="text"
             name="contact_info"

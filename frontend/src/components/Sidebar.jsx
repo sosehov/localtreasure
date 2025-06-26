@@ -15,28 +15,28 @@ const SidebarComponent = ({}) => {
       label: "Messages",
       href: "/messages",
       icon: (
-        <IconMessages className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <IconMessages className="h-5 w-5 shrink-0 text-neutral-700 " />
       ),
     },
     {
       label: "Calendar",
       href: "/events",
       icon: (
-        <IconCalendarWeek className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <IconCalendarWeek className="h-5 w-5 shrink-0 text-neutral-700 " />
       ),
     },
     {
       label: "Map",
       href: "/map",
       icon: (
-        <IconMap className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <IconMap className="h-5 w-5 shrink-0 text-neutral-700 " />
       ),
     },
     {
       label: "Edit Profile",
-      href: "#",
+      href: "/edit-profile",
       icon: (
-        <IconUserCircle className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <IconUserCircle className="h-5 w-5 shrink-0 text-neutral-700 " />
       ),
     },
   ];

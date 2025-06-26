@@ -10,7 +10,7 @@ export const useChat = (receiver_id) => {
   const { token, makeAuthenticatedRequest, user } = useAuth();
   const socketRef = useRef(null);
 
-
+let reqSent = false;
   const [messages, setMessages] = useState([]);
   let reqSent = false;
 

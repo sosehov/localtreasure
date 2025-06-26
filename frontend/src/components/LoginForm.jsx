@@ -67,7 +67,7 @@ const LoginForm = () => {
               />
             </div>
 
-            {error && <div className="error-message">{error}</div>}
+            {error && <div className="text-red-500 text-sm font-medium">{error}</div>}
 
             <Button  type="submit" disabled={loading} >
               {loading ? "Logging in..." : "Login"}

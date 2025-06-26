@@ -9,7 +9,7 @@ import logo from "@/assets/logo.png"
   const { user, logout, isAuthenticated } = useAuth();
 
   return(
-    <div className="main-layout">
+    <div className="main-layout ">
       <nav className="navbar">
         <div className="nav-brand">
           <Link to="/">
@@ -26,7 +26,7 @@ import logo from "@/assets/logo.png"
             
           {isAuthenticated ? (
               <>
-              <Link to="/profile">Profile</Link>
+              <Link to="/profile">Post</Link>
               <div className="user-info">
                 <span>Welcome, {user?.name}!</span>
                 <button onClick={logout} className="logout-btn">
