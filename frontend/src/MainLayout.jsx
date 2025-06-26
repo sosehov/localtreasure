@@ -9,7 +9,7 @@ import logo from "@/assets/logo.png"
   const { user, logout, isAuthenticated } = useAuth();
 
   return(
-    <div className="main-layout ">
+    <div className="main-layout bg-stone-200">
       <nav className="navbar">
         <div className="nav-brand">
           <Link to="/">
