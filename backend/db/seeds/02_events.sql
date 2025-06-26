@@ -32,7 +32,7 @@ VALUES (
   '318 Homer St (Suite 210), Vancouver',
   '08:00:00',
   '11:00:00',
-  '2025-06-26',
+  '2025-06-30',
   TRUE,
   2,
   ST_MakePoint(-123.1109, 49.2847)::GEOGRAPHY
