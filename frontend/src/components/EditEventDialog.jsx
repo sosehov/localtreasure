@@ -94,7 +94,7 @@ export function EditEventsDialog({
 
     console.log("creating..");
 
-   const newErrors = checkEventFields(
+    const newErrors = checkEventFields(
       title,
       startTime,
       endTime,
@@ -104,7 +104,7 @@ export function EditEventsDialog({
       selectedCategory,
     );
 
-    console.log(newErrors)
+    console.log(newErrors);
     setErrors(newErrors);
 
     if (Object.values(newErrors).some((val) => val)) {
@@ -177,7 +177,7 @@ export function EditEventsDialog({
               />
             </div>
             <div className="grid gap-3 w-full">
-                 {errors.date ? (
+              {errors.date ? (
                 <Label htmlFor="date-1" className=" text-[#cb251f]">
                   Date is required
                 </Label>
@@ -234,7 +234,7 @@ export function EditEventsDialog({
             </div>
 
             <div className="flex flex-col gap-3 w-full">
-                {errors.endTime ? (
+              {errors.endTime ? (
                 <Label htmlFor="end-time-picker" className=" text-[#cb251f]">
                   {" "}
                   End Time is required
@@ -258,7 +258,7 @@ export function EditEventsDialog({
 
           <div className="flex flex-row gap-4">
             <div className="grid gap-3 w-full">
-                {errors.selectedCategory ? (
+              {errors.selectedCategory ? (
                 <Label htmlFor="category-1" className=" text-[#cb251f]">
                   {" "}
                   Category is required
@@ -270,10 +270,10 @@ export function EditEventsDialog({
                 value={selectedCategory}
                 onValueChange={setSelectedCategory}
               >
-                <SelectTrigger id="category-select"    className={cn(
-                    "w-full",
-                    errors.selectedCategory ? "border-[#cb251f]" : "",
-                  )}>
+                <SelectTrigger id="category-select" className={cn(
+                  "w-full",
+                  errors.selectedCategory ? "border-[#cb251f]" : "",
+                )}>
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
                 <SelectContent className="bg-white">
@@ -289,7 +289,7 @@ export function EditEventsDialog({
 
           <div className="flex flex-row gap-4">
             <div className="grid gap-3 w-full">
-             {errors.address ? (
+              {errors.address ? (
                 <Label htmlFor="address-1" className=" text-[#cb251f]">
                   {" "}
                   Address is required
@@ -302,7 +302,7 @@ export function EditEventsDialog({
                 name="address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                 className={cn(errors.address ? "border-[#cb251f]" : "")}
+                className={cn(errors.address ? "border-[#cb251f]" : "")}
               />
             </div>
           </div>

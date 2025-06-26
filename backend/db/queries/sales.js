@@ -1,10 +1,10 @@
 const db = require('../connection');
 
 const getUserSales = (userId) => {
-    const query = {
-        text: 'SELECT * FROM sales where user_id = $1;',
-        values: [userId]
-    }
+  const query = {
+    text: 'SELECT * FROM sales where user_id = $1;',
+    values: [userId]
+  };
 
   return db.query(query)
     .then(data => {
@@ -12,22 +12,22 @@ const getUserSales = (userId) => {
     });
 };
 
-const deleteUserSale = ( {saleId, user_id} ) => {
-    const query = {
-        text: 'DELETE FROM sales WHERE id = $1 AND user_id = $2',
-        values: [saleId, user_id]
-    }
+const deleteUserSale = ({ saleId, user_id }) => {
+  const query = {
+    text: 'DELETE FROM sales WHERE id = $1 AND user_id = $2',
+    values: [saleId, user_id]
+  };
 
   return db.query(query);
 };
 
 
 const createUserSale = ({ title, description, price, category_id, image_url, user_id }) => {
-    
-    const query = {
+
+  const query = {
     text: `INSERT INTO sales (title, description, price_cents, category_id, is_sold, image_url, user_id)
            VALUES ($1, $2, $3, $4, $5, $6, $7)
-           RETURNING id`, 
+           RETURNING id`,
     values: [title, description, price, category_id, false, image_url, user_id]
   };
 

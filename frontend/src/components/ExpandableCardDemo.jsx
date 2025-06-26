@@ -349,7 +349,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events, isP
           <div className="fixed inset-0  grid place-items-center z-[100]">
             <button
               key={`button-${active.title}-${id}`}
-              
+
               initial={{
                 opacity: 0,
               }}
@@ -445,7 +445,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events, isP
 
                   {active.price_cents ? (
                     <button
-                      
+
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
@@ -460,7 +460,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events, isP
                 </div>
                 <div className="pt-4 relative px-4">
                   <div
-                    
+
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
