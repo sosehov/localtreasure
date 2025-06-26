@@ -34,7 +34,7 @@ const SidebarComponent = ({}) => {
     },
     {
       label: "Edit Profile",
-      href: "#",
+      href: "/edit-profile",
       icon: (
         <IconUserCircle className="h-5 w-5 shrink-0 text-neutral-700 " />
       ),

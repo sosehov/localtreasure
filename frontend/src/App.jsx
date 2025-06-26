@@ -6,17 +6,12 @@ import MainLayout from './MainLayout.jsx';
 import AuthPage from './components/AuthPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import EventsRoute from './routes/events/index.jsx';
+import EditProfileRoute from './routes/edit-profile/index.jsx';
 import './App.css';
 import './index.css';
-
-import EventCalendar from './components/EventCalendar.jsx';
 import MapView from './components/MapView.jsx';
 
-
-
 import MessagePage from './components/messages/MessagePage.jsx';
-
-
 
 export default function App() {
   return (
@@ -34,6 +29,12 @@ export default function App() {
           </ProtectedRoute>
         } />
 
+        <Route path="/edit-profile" element={
+          <ProtectedRoute>
+            <EditProfileRoute />
+          </ProtectedRoute>
+        } />
+
         <Route path="/events" element={
           <ProtectedRoute>
             <EventsRoute />
@@ -46,11 +47,6 @@ export default function App() {
           </ProtectedRoute>
         } />
 
-        <Route path="/map" element={
-          <ProtectedRoute>
-            <MapView />
-          </ProtectedRoute>
-        } />
         <Route path="/map" element={
           <ProtectedRoute>
             < MapView />
