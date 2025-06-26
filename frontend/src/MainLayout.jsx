@@ -26,7 +26,7 @@ import logo from "@/assets/logo.png"
             
           {isAuthenticated ? (
               <>
-              <Link to="/profile">Post</Link>
+              <Link to="/profile"> My Post</Link>
               <div className="user-info">
                 <span>Welcome, {user?.name}!</span>
                 <button onClick={logout} className="logout-btn">
