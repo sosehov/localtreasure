@@ -14,6 +14,6 @@ const getAllLocations = () => {
   `;
 
   return db.query(query);
-}
+};
 
-module.exports = { getAllLocations }
+module.exports = { getAllLocations };

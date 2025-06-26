@@ -10,7 +10,7 @@ async function geocodeAddress(address) {
 
     const data = await res.json();
     if (!data || data.length === 0) {
-      return null; // ✅ this line is critical
+      return null;
     }
 
     return {
