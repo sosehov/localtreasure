@@ -271,7 +271,7 @@ export function ExpandableCardDemo({ fetchSales, fetchEvents, sales, events, isP
           <DropdownMenuTrigger asChild>
             <div
               onClick={(e) => e.stopPropagation()}
-              className="flex py-2 px-10 rounded-md bg-blue-500 text-white align-end"
+              className="flex py-2 px-10 rounded-md bg-blue-800 text-white align-end"
             >
               Create
             </div>
