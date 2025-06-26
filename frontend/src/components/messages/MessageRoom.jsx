@@ -6,7 +6,7 @@ import MessageInputForm from './MessageInputForm';
 const MessageRoom = (props) => {
   const { user, messages, setMessages, socketRef } = useChat(props.receiver_id);
 
-  const handleSubmit = (e, user) => {cd frameElement
+  const handleSubmit = (e, user) => {
 
     e.preventDefault();
     const messageText = e.target[0].value;
