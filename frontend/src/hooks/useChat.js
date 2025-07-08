@@ -4,12 +4,14 @@ import { useAuth } from '../contexts/AuthContext';
 // import { useSearchParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
 
-const URL = 'http://localhost:8080';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+if (!API_BASE_URL) {
+  throw new Error("VITE_API_BASE_URL is not defined in your .env file.");
+}
 
 export const useChat = (receiver_id) => {
   const { token, makeAuthenticatedRequest, user } = useAuth();
   const socketRef = useRef(null);
-
 
   const [messages, setMessages] = useState([]);
   let reqSent = false;
@@ -47,7 +49,7 @@ export const useChat = (receiver_id) => {
     };
     fetchMessages();
 
-    socketRef.current = io(URL);
+    socketRef.current = io(API_BASE_URL);
     const socket = socketRef.current;
 
     const user_id = user.id;

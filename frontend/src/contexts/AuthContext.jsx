@@ -17,7 +17,10 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  if (!API_BASE_URL) {
+    throw new Error("VITE_API_BASE_URL is not defined in your .env file.");
+  }
 
   // Verify token with server
   const verifyToken = async (savedToken) => {
@@ -52,7 +55,6 @@ export const AuthProvider = ({ children }) => {
       }
       
       if (savedToken) {
-        // Verify token with server
         const verification = await verifyToken(savedToken);
         
         if (verification.valid) {
@@ -175,7 +177,7 @@ export const AuthProvider = ({ children }) => {
     logout,
     loading,
     isAuthenticated: !!token,
-    makeAuthenticatedRequest, // Helper for making authenticated API calls
+    makeAuthenticatedRequest,
   };
 
   return (

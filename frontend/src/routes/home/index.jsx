@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import ExpandableCardDemoHome from "../../components/ExpandableCardDemoHome";
 import { useAuth } from "../../contexts/AuthContext";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+if (!API_BASE_URL) {
+  throw new Error("VITE_API_BASE_URL is not defined in your .env file.");
+}
+
 const HomeRoute = () => {
   const [sales, setSales] = useState([]);
   const [events, setEvents] = useState([]);
@@ -10,7 +15,7 @@ const HomeRoute = () => {
   const { token } = useAuth();
 
   const fetchSales = () => {
-    fetch("http://localhost:8080/api/sales/allSales", {
+    fetch(`${API_BASE_URL}/sales/allSales`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -34,7 +39,7 @@ const HomeRoute = () => {
   }
 
   const fetchEvents = () => {
-    fetch("http://localhost:8080/api/user-events/allEvents", {
+    fetch(`${API_BASE_URL}/user-events/allEvents`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -61,8 +66,6 @@ const HomeRoute = () => {
     fetchSales()
     fetchEvents()
   }, [token]);
-
-  console.log("📦 sales state:", sales);
 
   return (
     <div className="home-page pt-6">
