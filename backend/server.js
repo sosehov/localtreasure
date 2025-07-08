@@ -7,11 +7,12 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 const PORT = process.env.PORT || 8080;
+const CLIENT_URL = process.env.CLIENT_URL;
 const app = express();
 
 // CORS configuration
 app.use(cors({
-  origin: 'http://localhost:5173', // Frontend URL
+  origin: CLIENT_URL, // Frontend URL
   credentials: true
 }));
 
@@ -22,7 +23,7 @@ const { Server } = require('socket.io');
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: CLIENT_URL,
     methods: ['GET', 'POST']
   }
 });
